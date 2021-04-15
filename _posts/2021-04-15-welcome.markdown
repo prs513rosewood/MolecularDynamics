@@ -3,6 +3,7 @@ layout: post
 title:  "Welcome to the molecular dynamics course!"
 date:   2021-04-15 16:06:23 +0200 
 categories: update
+author : Wolfram Nöhring
 ---
 
 This website contains material for a Molecular Dynamics course by the [Simulation][simulation] group at the
