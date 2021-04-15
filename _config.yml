@@ -26,7 +26,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://imtek-simulation.github.io/molecular_dynamics_course.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
-theme: jekyll-theme-minimal
+theme: minima
 plugins:
   - jekyll-feed
 
@@ -58,3 +58,14 @@ gist:
 kramdown:
   math_engine: mathjax
   syntax_highlighter: rouge
+include:
+  - _posts
+  - _includes
+exclude:
+  - Gemfile
+  - LICENSE
+  - README
+keep_files:
+  - .git
+  - .svn
+encoding: "utf-8"
