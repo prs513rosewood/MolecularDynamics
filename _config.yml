@@ -22,9 +22,9 @@ title: Molecular Dynamics
 email: lars.pastewka@imtek.uni-freiburg.de
 description: >- # this means to ignore newlines until "baseurl:"
   Course on molecular dynamics with C++
-#baseurl: "" # the subpath of your site, e.g. /blog
-BASE_PATH : "https://imtek-simulation.github.io/molecular_dynamics_course.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 production_url: "https://imtek-simulation.github.io/molecular_dynamics_course.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
+JB : 
+  BASE_PATH : "https://imtek-simulation.github.io/molecular_dynamics_course.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
 remote_theme: jekyll/minima
