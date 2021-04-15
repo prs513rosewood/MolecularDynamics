@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "Welcome to the molecular dynamics course!"
+date:   2021-04-15 16:06:23 +0200 
+categories: update
+---
+
+This website contains material for a Molecular Dynamics course by the [Simulation][simulation] group at the
+[Department of Microsystems Engineering][imtek] of the [University of Freiburg][unifreiburg]. 
+
+[simulation]: https://www.imtek.de/laboratories/simulation/simulation
+[imtek]: https://www.imtek.de/
+[unifreiburg]: https://uni-freiburg.de/
