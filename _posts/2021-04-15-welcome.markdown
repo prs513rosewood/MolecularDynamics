@@ -1,13 +1,14 @@
 ---
 layout: post
-title:  "Welcome to the molecular dynamics course!"
-date:   2021-04-15 16:06:23 +0200 
+title:  "Welcome to the molecular dynamics class!"
+date:   2021-04-21 16:06:23 +0200 
 categories: update
 author : Wolfram Nöhring
 ---
 
 This website contains material for a Molecular Dynamics course by the [Simulation][simulation] group at the
-[Department of Microsystems Engineering][imtek] of the [University of Freiburg][unifreiburg]. 
+[Department of Microsystems Engineering][imtek] of the [University of Freiburg][unifreiburg]. We will update
+this material as the class progresses throughout the summer term of 2021.
 
 [simulation]: https://www.imtek.de/laboratories/simulation/simulation
 [imtek]: https://www.imtek.de/
