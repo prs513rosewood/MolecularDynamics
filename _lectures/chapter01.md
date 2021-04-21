@@ -1,11 +1,10 @@
 ---
 layout: default
-title:  "Lecture 2"
+title:  "Chapter 1"
 parent: Lectures
 date:   2021-04-21
 categories: lecture
-author : Wolfram Nöhring
-nav_order: 2
+author: Lars Pastewka
+nav_order: 1
 ---
-
-This is lecture 2
+{% include mdch1.html %}

@@ -1,9 +1,8 @@
 ---
 layout: default
-title:  "Exercise 1"
-parent: Exercises
-date:   2021-04-21
-categories: exercise
+title:  "Milestone 1"
+parent: Project
+categories: project
 author : Wolfram Nöhring
 nav_order: 1
 ---

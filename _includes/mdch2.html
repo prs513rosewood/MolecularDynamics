@@ -1,0 +1,2852 @@
+   <h2 class="chapterHead"><span class="titlemark">Chapter 2</span><br /><a 
+ id="x3-40002"></a>Molecular dynamics</h2>
+<!--l. 3--><p class="noindent" ><span class="underline"><span 
+class="cmbx-12">Context:</span></span> Molecular <span 
+class="cmti-12">dynamics </span>follows the motion of individual atoms through a
+solution of Newton’s equations of motion. We need integration algorithms to be
+able to solve this set of coupled differential equations on a computer.
+   <h3 class="sectionHead"><span class="titlemark">2.1   </span> <a 
+ id="x3-50002.1"></a>Newton’s equations of motion</h3>
+<!--l. 14--><p class="noindent" >We have now (almost) all the ingredients to carry out a molecular
+dynamics simulation. From our or potential energy expression
+<!--l. 14--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >pot</mtext></mstyle></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">}</mo></mrow></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>
+discussed in the previous chapter, we obtain the force <table class="equation"><tr><td> <a 
+ id="x3-5001r1"></a>
+<!--l. 15--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation"><msub><mrow 
+>
+                            <mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mi 
+>∂</mi><msub><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >pot</mtext></mstyle></mrow></msub 
+><mo 
+class="MathClass-bin">∕</mo><mi 
+>∂</mi><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+>
+</math></td><td class="eq-no">(2.1)</td></tr></table>
+<!--l. 18--><p class="indent" >   on each of the <!--l. 18--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>N</mi></math>
+atoms. Once we know the forces, we can obtain the accelerations
+<!--l. 18--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>a</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math>
+through Newton’s third law, <table class="equation"><tr><td> <a 
+ id="x3-5002r2"></a>
+<!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation"><msub><mrow 
+>
+                               <mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>a</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mo 
+class="MathClass-punc">.</mo>
+</math></td><td class="eq-no">(2.2)</td></tr></table>
+                                                                          
+
+                                                                          
+<!--l. 22--><p class="indent" >   We are therefore assuming that atom
+<!--l. 22--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>i</mi></math> can be described
+as a point of mass <!--l. 22--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math>!
+The mass can be obtained from the periodic table of elements. Note that the mass
+listed in the periodic table is usually the average over all isotopes weighted by
+their occurrence on earth, and this mass is used for most practical purposes. For
+some application, in particular to understand the different behavior of Hydrogen
+and Deuterium, it can be necessary to actually model the individual isotopes by
+using their respective mass.
+<!--l. 24--><p class="indent" >   We further have <!--l. 24--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>a</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math>,
+where <!--l. 24--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math> is the
+velocity of atom <!--l. 24--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>i</mi></math>,
+and <!--l. 24--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math>.
+The dot superscript indicates derivative with respect to time. The set of linear
+differential equations to solve is therefore <table class="equation"><tr><td> <a 
+ id="x3-5003r3"></a>
+<!--l. 25--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation"><msub><mrow 
+>
+                  <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">̇</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mo 
+class="MathClass-bin">∕</mo><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mspace width="0.33em" class="nbsp" /><mstyle 
+class="text"><mtext  > and</mtext></mstyle><mspace width="0.33em" class="nbsp" /><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow>
+</math></td><td class="eq-no">(2.3)</td></tr></table>
+<!--l. 29--><p class="indent" >   with the initial (boundary) conditions
+<!--l. 29--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mn>0</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mn>0</mn></mrow></msub 
+></math> and
+<!--l. 29--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mn>0</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mn>0</mn></mrow></msub 
+></math>. Note
+that the boundary condition is an integral part of the differential Eq. (<a 
+href="#x3-5003r3">2.3<!--tex4ht:ref: eq:Newton --></a>). The
+state of the system is therefore fully and uniquely determined by the positions
+<!--l. 29--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math> and the velocities
+<!--l. 29--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math> of all atoms. This
+set of positions <!--l. 29--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math> and
+momenta <!--l. 29--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>p</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mo 
+class="MathClass-bin">∕</mo><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math> defines a
+point in <span 
+class="cmti-12">phase-space </span><!--l. 29--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mover 
+accent="true"><mrow 
+><mi 
+>Γ</mi></mrow><mo accent="true">→</mo></mover> <mo 
+class="MathClass-rel">=</mo> <mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mo 
+class="MathClass-punc">,</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>p</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">}</mo></mrow></math>.
+The evolution of position and velocities given by Eq. (<a 
+href="#x3-5003r3">2.3<!--tex4ht:ref: eq:Newton --></a>)
+can therefore be thought of as a single point moving in the
+<!--l. 29--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>6</mn><mi 
+>N</mi></math>
+dimensional phase-space. The concept of a phase-space will become important in
+the next chapter when we talk about statistical mechanics.
+                                                                          
+
+                                                                          
+<!--l. 31--><p class="noindent" ><span class="underline"><span 
+class="cmbx-12">Code example:</span></span> For a molecular dynamics code, it is useful to have a data
+structure that represents the state of the simulation and stores at least positions
+and velocities. This data structure could also store element names (or atomic
+numbers), masses and forces. An example that uses <a 
+href="https://eigen.tuxfamily.org/" >Eigen</a> arrays as the basic
+array container is shown below. <!--l. 33-->
+<div class="lstlisting" id="listing-1"><span class="label"><a 
+ id="x3-5004r1"></a><span 
+class="cmr-6">1</span></span><span 
+class="cmtt-10">using</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Positions_t</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">=</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Eigen</span><span 
+class="cmtt-10">::</span><span 
+class="cmtt-10">Array3Xd</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5005r2"></a><span 
+class="cmr-6">2</span></span><span 
+class="cmtt-10">using</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Velocities_t</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">=</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Eigen</span><span 
+class="cmtt-10">::</span><span 
+class="cmtt-10">Array3Xd</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5006r3"></a><span 
+class="cmr-6">3</span></span><span 
+class="cmtt-10">using</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Forces_t</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">=</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Eigen</span><span 
+class="cmtt-10">::</span><span 
+class="cmtt-10">Array3Xd</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5007r4"></a><span 
+class="cmr-6">4</span></span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5008r5"></a><span 
+class="cmr-6">5</span></span><span 
+class="cmtt-10">class</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Atoms</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">{</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5009r6"></a><span 
+class="cmr-6">6</span></span><span 
+class="cmtt-10">public</span><span 
+class="cmtt-10">:</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5010r7"></a><span 
+class="cmr-6">7</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Positions_t</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">positions</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5011r8"></a><span 
+class="cmr-6">8</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Velocities_t</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">velocities</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5012r9"></a><span 
+class="cmr-6">9</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Forces_t</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">forces</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5013r10"></a><span 
+class="cmr-6">10</span></span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5014r11"></a><span 
+class="cmr-6">11</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">Atoms</span><span 
+class="cmtt-10">(</span><span 
+class="cmtt-10">Positions_t</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">&#x0026;</span><span 
+class="cmtt-10">p</span><span 
+class="cmtt-10">)</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">:</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5015r12"></a><span 
+class="cmr-6">12</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">positions</span><span 
+class="cmtt-10">{</span><span 
+class="cmtt-10">p</span><span 
+class="cmtt-10">},</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">velocities</span><span 
+class="cmtt-10">{3,</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">p</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">cols</span><span 
+class="cmtt-10">()</span><span 
+class="cmtt-10">},</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">forces</span><span 
+class="cmtt-10">{3,</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">p</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">cols</span><span 
+class="cmtt-10">()</span><span 
+class="cmtt-10">}</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">{</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5016r13"></a><span 
+class="cmr-6">13</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">velocities</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">setZero</span><span 
+class="cmtt-10">()</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5017r14"></a><span 
+class="cmr-6">14</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">forces</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">setZero</span><span 
+class="cmtt-10">()</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5018r15"></a><span 
+class="cmr-6">15</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">}</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5019r16"></a><span 
+class="cmr-6">16</span></span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5020r17"></a><span 
+class="cmr-6">17</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">size_t</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">nb_atoms</span><span 
+class="cmtt-10">()</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">{</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5021r18"></a><span 
+class="cmr-6">18</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">return</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">positions</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">cols</span><span 
+class="cmtt-10">()</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5022r19"></a><span 
+class="cmr-6">19</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">}</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-5023r20"></a><span 
+class="cmr-6">20</span></span><span 
+class="cmtt-10">};</span>
+   </div>
+<!--l. 55--><p class="indent" >   As a general rule, the data structure should be designed in a way that data
+that is processed consecutively is also stored in memory in a continuous manner.
+This ensures <a 
+href="https://en.wikipedia.org/wiki/Cache_coherence" >cache coherenece</a>. For example, we could be tempted to create a class
+<span class="obeylines-h"><span class="verb"><span 
+class="cmtt-12">Atom</span></span></span> that contains the positions, velocities, etc. of a single atom and than use an
+array (e.g. <span class="obeylines-h"><span class="verb"><span 
+class="cmtt-12">std::vector&#x003C;Atom&#x003E;</span><span 
+class="cmtt-12"> atoms</span></span></span>) of that class as the basic data
+structure. However, positions are then no longer consecutive in memory. A
+function (e.g. computing forces) does not need the velocities would still
+load them into the cache, as the <a 
+href="https://en.wikipedia.org/wiki/CPU_cache" >cache line size</a> for all modern CPUs is
+<!--l. 55--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>6</mn><mn>4</mn></math>
+bytes. For high-performance numerical code, it is therefore <span 
+class="cmti-12">always </span>preferable to
+use structures of arrays rather than arrays of structure.
+<!--l. 58--><p class="noindent" >
+   <h3 class="sectionHead"><span class="titlemark">2.2   </span> <a 
+ id="x3-60002.2"></a>Kinetic energy and energy conservation</h3>
+<!--l. 60--><p class="noindent" >In addition to the potential energy <!--l. 60--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >pot</mtext></mstyle></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">}</mo></mrow></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>,
+the dynamical state of a system is characterized by its kinetic energy, <table class="equation"><tr><td>
+<a 
+ id="x3-6001r4"></a>
+<!--l. 61--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation">
+                         <msub><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >kin</mtext></mstyle></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>p</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">}</mo></mrow></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo><munder class="msub"><mrow 
+><mo  
+> ∑</mo>
+   </mrow><mrow 
+><mi 
+>i</mi></mrow></munder 
+><mfrac><mrow 
+><mn>1</mn></mrow> 
+<mrow 
+><mn>2</mn></mrow></mfrac> <mfrac><mrow 
+><msubsup><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mi 
+>i</mi></mrow><mrow 
+><mn>2</mn></mrow></msubsup 
+></mrow> 
+<mrow 
+><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac><mo 
+class="MathClass-punc">.</mo>
+</math></td><td class="eq-no">(2.4)</td></tr></table>
+<!--l. 64--><p class="indent" >   Note that the total energy <table class="equation"><tr><td> <a 
+ id="x3-6002r5"></a>
+                                                                          
+
+                                                                          
+<!--l. 65--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation">
+              <mi 
+>H</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">}</mo></mrow><mo 
+class="MathClass-punc">,</mo><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>p</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">}</mo></mrow></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >kin</mtext></mstyle></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>p</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">}</mo></mrow></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >pot</mtext></mstyle></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">}</mo></mrow></mrow><mo 
+class="MathClass-close">)</mo></mrow>
+</math></td><td class="eq-no">(2.5)</td></tr></table>
+<!--l. 69--><p class="indent" >   is a conserved quantity during the motion of the atoms. This can be seen by
+showing that the derivative of the total energy with respect to time vanishes, <table class="equation"><tr><td>
+<a 
+ id="x3-6003r6"></a>
+<!--l. 71--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation">
+<mi 
+>Ḣ</mi> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mi 
+>Ė</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >kin</mtext></mstyle></mrow></msub 
+><mo 
+class="MathClass-bin">+</mo><msub><mrow 
+><mi 
+>Ė</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >pot</mtext></mstyle></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo><munder class="msub"><mrow 
+><mo  
+> ∑</mo>
+   </mrow><mrow 
+><mi 
+>i</mi></mrow></munder 
+><mfrac><mrow 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>p</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>p</mi></mrow><mo accent="true">→</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow> 
+    <mrow 
+><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac>    <mo 
+class="MathClass-bin">+</mo><munder class="msub"><mrow 
+><mo  
+>∑</mo>
+  </mrow><mrow 
+><mi 
+>i</mi></mrow></munder 
+><mfrac><mrow 
+><mi 
+>∂</mi><msub><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >pot</mtext></mstyle></mrow></msub 
+></mrow> 
+ <mrow 
+><mi 
+>∂</mi><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac>  <mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><msub><mrow 
+><mi 
+>r</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow><mo accent="true">→</mo></mover></mrow><mo accent="true">̇</mo></mover> <mo 
+class="MathClass-rel">=</mo><munder class="msub"><mrow 
+><mo  
+> ∑</mo>
+   </mrow><mrow 
+><mi 
+>i</mi></mrow></munder 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mo 
+class="MathClass-bin">−</mo><munder class="msub"><mrow 
+><mo  
+>∑</mo>
+  </mrow><mrow 
+><mi 
+>i</mi></mrow></munder 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo>
+</math></td><td class="eq-no">(2.6)</td></tr></table>
+<!--l. 74--><p class="indent" >   <!--l. 74--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>H</mi></math> is
+also called the <span 
+class="cmti-12">Hamiltonian </span>of the system.
+<!--l. 76--><p class="noindent" ><span class="underline"><span 
+class="cmbx-12">Note:</span></span> Measuring the total energy (or any other conserved quantity!) and checking
+whether it is constant in a molecular dynamics simulation is a way of testing if the
+time step <!--l. 77--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>Δ</mi><mi 
+>t</mi></math>
+used in the numerical integration is small enough. We will discuss numerical
+integration in detail below.
+<!--l. 80--><p class="indent" >   A generalization of Newton’s equations of motion are <span 
+class="cmti-12">Hamilton’s equation of</span>
+<span 
+class="cmti-12">motion</span>,
+                                                                          
+
+                                                                          
+<!--tex4ht:inline--><!--l. 84--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mtable 
+columnalign="left" class="align">
+                                <mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mtd>                                <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo>  <mfrac><mrow 
+><mi 
+>∂</mi><mi 
+>H</mi></mrow> 
+<mrow 
+><mi 
+>∂</mi><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>p</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac><mspace width="2em"/></mtd>                                                                  <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-6004r7"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.7)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+                                </mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>p</mi></mrow><mo accent="true">→</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mtd>                                <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <mo 
+class="MathClass-bin">−</mo><mfrac><mrow 
+><mi 
+>∂</mi><mi 
+>H</mi></mrow>
+<mrow 
+><mi 
+>∂</mi><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac><mo 
+class="MathClass-punc">,</mo><mspace width="2em"/></mtd>                                                                <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-6005r8"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.8)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+   </mtd></mtr></mtable></math>
+<!--l. 85--><p class="noindent" >and it is straightforward to show that this reduces to Newton’s equations of motions for
+the Hamiltonian given by Eq. (<a 
+href="#x3-6002r5">2.5<!--tex4ht:ref: eq:hamil --></a>). Hamilton’s equation of motion remain valid when
+positions <!--l. 85--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math> and
+momenta <!--l. 85--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>p</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math>
+are replaced by generalized coordinates that consider constraints, such as for
+example the angle of a (rigid) pendulum. These equations will become
+important when we discuss statistical mechanics and temperature control in
+molecular dynamics simulations using <span 
+class="cmti-12">thermostats</span>, where a generalized
+degree of freedom is the internal state of the heat bath that controls the
+temperature. A full derivation of Hamilton’s equations of motion is given in
+Chap. <span 
+class="cmbx-12">??</span>.
+<!--l. 87--><p class="noindent" ><span class="underline"><span 
+class="cmbx-12">Note:</span></span> The <span 
+class="cmti-12">temperature </span>is simply a measure of the kinetic energy of the system,
+<!--l. 88--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mfrac><mrow 
+><mn>3</mn></mrow>
+<mrow 
+><mn>2</mn></mrow></mfrac><mi 
+>N</mi><msub><mrow 
+><mi 
+>k</mi></mrow><mrow 
+><mi 
+>B</mi></mrow></msub 
+><mi 
+>T</mi> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >kin</mtext></mstyle></mrow></msub 
+></math> where
+<!--l. 88--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>N</mi></math> is the number of
+atoms. In other words, <!--l. 88--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mstyle 
+class="text"><mtext  >kin</mtext></mstyle></mrow></msub 
+></math>
+measures the variance of the velocity distribution, which is Gaussian. We will
+learn more about this when discussing the basics of statistical mechanics.
+<!--l. 91--><p class="noindent" >
+   <h3 class="sectionHead"><span class="titlemark">2.3   </span> <a 
+ id="x3-70002.3"></a>Integration algorithms</h3>
+<!--l. 94--><p class="noindent" >The main ingredient in any molecular dynamics simulation, regardless of the
+underlying model, is the numerical solution of Eqs. (<a 
+href="#x3-5003r3">2.3<!--tex4ht:ref: eq:Newton --></a>). A plethora of
+algorithms have been developed over the years, but for most practical purposes
+the Velocity-Verlet algorithm is used nowadays. For instructive purposes we will
+start out with a simple integration method, the Euler integration, before
+discussing Velocity-Verlet.
+                                                                          
+
+                                                                          
+<!--l. 96--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">2.3.1   </span> <a 
+ id="x3-80002.3.1"></a>Euler integration</h4>
+<!--l. 97--><p class="noindent" >In order to follow the trajectories of all atoms we need to integrate the above
+differential equation. On a computer, a continuous differential equation needs to
+be replaced by a discrete equation. Equations (<a 
+href="#x3-5003r3">2.3<!--tex4ht:ref: eq:Newton --></a>) are continuous in
+time and hence need to be discretized. (Note that our system is already
+discrete spatially since we are dealing with mass points, but each of these
+points corresponds to a physical object so this is not the result of a
+discretization procedure.) The simplest integration is the Euler algorithm in
+which forces and velocities are assumed to be constant over time intervals
+<!--l. 98--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>Δ</mi><mi 
+>t</mi></math>.
+<!--l. 100--><p class="indent" >   To see this, we write the above differential equation as <table class="equation"><tr><td> <a 
+ id="x3-8001r9"></a>
+<!--l. 101--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation">
+                    <mi 
+>d</mi><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mfrac><mrow 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow> 
+  <mrow 
+><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac>   <mspace width="0.33em" class="nbsp" /><mstyle 
+class="text"><mtext  > and</mtext></mstyle><mspace width="0.33em" class="nbsp" /><mi 
+>d</mi><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mspace width="0.3em" class="thinspace"/><mi 
+>d</mi><mi 
+>t</mi>
+</math></td><td class="eq-no">(2.9)</td></tr></table>
+<!--l. 104--><p class="indent" >   i.e., we move the differential <!--l. 104--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>d</mi><mi 
+>t</mi></math>
+of <!--l. 104--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mi 
+>d</mi><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover><mo 
+class="MathClass-bin">∕</mo><mi 
+>d</mi><mi 
+>t</mi></math> to the
+right hand side of the equation. We can now straightforwardly integrate the equation
+from time <!--l. 104--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>t</mi></math> to
+time <!--l. 104--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math> while
+assuming that <!--l. 104--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math>
+and <!--l. 104--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math>
+remain constant. This yields
+                                                                          
+
+                                                                          
+<!--tex4ht:inline--><!--l. 108--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mtable 
+columnalign="left" class="align">
+                        <mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>                        <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <mfrac><mrow 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow> 
+  <mrow 
+><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac>   <mi 
+>Δ</mi><mi 
+>t</mi><mspace width="2em"/></mtd>                                                <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-8002r10"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.10)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+                        </mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>                        <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi><mspace width="2em"/></mtd>                                                <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-8003r11"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.11)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+   </mtd></mtr></mtable></math>
+<!--l. 109--><p class="noindent" >which is obviously only a good approximation for small
+<!--l. 109--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>Δ</mi><mi 
+>t</mi></math>! This
+algorithm is called Euler integration.
+<!--l. 111--><p class="indent" >   Same equation can be derived by Taylor-expanding
+<!--l. 111--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></math> up to first order
+in <!--l. 111--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>Δ</mi><mi 
+>t</mi></math>. The algorithm
+is hence <!--l. 111--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>O</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>.
+The Euler algorithm is not reversible, i.e. starting from time
+<!--l. 112--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math>
+and integrating backwards one ends up with a different result at time
+<!--l. 113--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>t</mi></math>. Applying the Euler
+algorithm with timestep <!--l. 113--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin">−</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math>
+gives
+<!--tex4ht:inline--><!--l. 118--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mtable 
+columnalign="left" class="align">
+                    <mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>                    <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <mo 
+class="MathClass-bin">−</mo><mfrac><mrow 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow>
+      <mrow 
+><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac>       <mi 
+>Δ</mi><mi 
+>t</mi><mspace width="2em"/></mtd>                                        <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-8004r12"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.12)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+                    </mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>                    <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi><mspace width="2em"/></mtd>                                         <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-8005r13"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.13)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+   </mtd></mtr></mtable></math>
+<!--l. 119--><p class="noindent" >These equations cannot be re-arranged to give Eqs. (<a 
+href="#x3-8002r10">2.10<!--tex4ht:ref: eq:eulerexplicita --></a>) and (<a 
+href="#x3-8003r11">2.11<!--tex4ht:ref: eq:eulerexplicitb --></a>). Euler
+integration is generally not a good algorithm and requires very small time
+steps.
+                                                                          
+
+                                                                          
+<!--l. 124--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">2.3.2   </span> <a 
+ id="x3-90002.3.2"></a>Leap-frog integration</h4>
+<!--l. 125--><p class="noindent" >Leap-frog stores position at times <!--l. 125--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></math>
+and velocities at times <!--l. 125--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></math>
+and can be derived from a argument similar to the one given
+above. Specifically, we combine the results of a Taylor expansion
+<!--l. 125--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin">±</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></math>,
+yielding
+<!--tex4ht:inline--><!--l. 131--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mtable 
+columnalign="left" class="align">
+               <mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">−</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>               <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <mfrac><mrow 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow> 
+  <mrow 
+><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac>   <mi 
+>Δ</mi><mi 
+>t</mi><mspace width="2em"/></mtd>                                     <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-9001r14"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.14)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+               </mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>                         <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-punc">.</mo><mspace width="2em"/></mtd>                              <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-9002r15"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.15)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+   </mtd></mtr></mtable></math>
+<!--l. 132--><p class="noindent" >Note that Eq. (<a 
+href="#x3-9001r14">2.14<!--tex4ht:ref: eq:leapfrog1 --></a>) is similar to Eq. (<a 
+href="#x3-8002r10">2.10<!--tex4ht:ref: eq:eulerexplicita --></a>), except the force is evaluated at the
+mid-point. The resulting algorithm is reversible. Applying the Leap-frog algorithm with
+timestep <!--l. 133--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin">−</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math>
+gives
+                                                                          
+
+                                                                          
+<!--tex4ht:inline--><!--l. 137--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mtable 
+columnalign="left" class="align">
+              <mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">−</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>              <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <mo 
+class="MathClass-bin">−</mo><mfrac><mrow 
+><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow>
+  <mrow 
+><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac>   <mi 
+>Δ</mi><mi 
+>t</mi><mspace width="2em"/></mtd>                                   <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-9003r16"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.16)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+              </mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>                        <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi><mspace width="2em"/></mtd>                            <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-9004r17"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.17)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+   </mtd></mtr></mtable></math>
+<!--l. 138--><p class="noindent" >Bring the terms on the left hand side to the right and vice-versa, and you arrive
+at the original equations for forward integration. Leap-frog is therefore
+<span 
+class="cmti-12">reversible</span>.
+<!--l. 140--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">2.3.3   </span> <a 
+ id="x3-100002.3.3"></a>Verlet integration</h4>
+<!--l. 142--><p class="noindent" >Let us now Taylor expand <!--l. 142--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">±</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>
+up to third order in <!--l. 142--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin">±</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math>,
+<table class="equation"><tr><td> <a 
+ id="x3-10001r18"></a>
+<!--l. 143--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation"><msub><mrow 
+>
+<mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">±</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">±</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo>   <mfrac><mrow 
+><mn>1</mn></mrow> 
+<mrow 
+><mn>2</mn><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+> <mo 
+class="MathClass-bin">±</mo><mfrac><mrow 
+><mn>1</mn></mrow> 
+<mrow 
+><mn>6</mn></mrow></mfrac><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>3</mn></mrow></msup 
+> <mo 
+class="MathClass-bin">+</mo> <mi 
+>O</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>4</mn></mrow></msup 
+></mrow><mo 
+class="MathClass-close">)</mo></mrow><mo 
+class="MathClass-punc">.</mo>
+</math></td><td class="eq-no">(2.18)</td></tr></table>
+<!--l. 147--><p class="indent" >   Note that only the odd exponents see the sign of
+<!--l. 147--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin">±</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math>. The sum of this
+equation for expansion in <!--l. 148--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math>
+and <!--l. 148--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin">−</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math>
+gives the positions update, <table class="equation"><tr><td> <a 
+ id="x3-10002r19"></a>
+                                                                          
+
+                                                                          
+<!--l. 149--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation"><msub><mrow 
+>
+       <mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">+</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">−</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo> <mn>2</mn><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">+</mo>  <mfrac><mrow 
+><mn>1</mn></mrow> 
+<mrow 
+><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+> <mo 
+class="MathClass-bin">+</mo> <mi 
+>O</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>4</mn></mrow></msup 
+></mrow><mo 
+class="MathClass-close">)</mo></mrow><mo 
+class="MathClass-punc">.</mo>
+</math></td><td class="eq-no">(2.19)</td></tr></table>
+<!--l. 153--><p class="indent" >   Eq. (<a 
+href="#x3-10002r19">2.19<!--tex4ht:ref: eqn: verlet --></a>) is called the Verlet algorithm. Instead of requiring the positions
+<!--l. 153--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mo 
+class="MathClass-close">}</mo></mrow></math> and velocities
+<!--l. 153--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mo 
+class="MathClass-close">}</mo></mrow></math> it requires the
+positions of the current <!--l. 153--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mo 
+class="MathClass-close">}</mo></mrow></math>
+and past <!--l. 153--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow ><mo 
+class="MathClass-open">{</mo><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">−</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mo 
+class="MathClass-close">}</mo></mrow></math>
+times for the integration.
+<!--l. 155--><p class="indent" >   The difference between the expansion for
+<!--l. 155--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math> and
+<!--l. 155--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" > <mo 
+class="MathClass-bin">−</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math> yields
+the velocities, <table class="equation"><tr><td> <a 
+ id="x3-10003r20"></a>
+<!--l. 156--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation"><msub><mrow 
+>
+             <mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">−</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo> <mn>2</mn><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>O</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>3</mn></mrow></msup 
+></mrow><mo 
+class="MathClass-close">)</mo></mrow><mo 
+class="MathClass-punc">.</mo>
+</math></td><td class="eq-no">(2.20)</td></tr></table>
+<!--l. 159--><p class="indent" >   Note that in order to compute the velocities at time t in the
+regular Verlet algorithm, we need to know the positions at time
+<!--l. 160--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math>. Verlet and
+Leap-Frog are identical algorithms, since Leap-Frog stores the velocities at the intermediate
+time <!--l. 160--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></math>.
+It is usually useful to be able to know both, positions and velocities, at time
+<!--l. 160--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>t</mi></math>. This
+problem is solved by the Velocity-Verlet algorithm, described in the following
+section.
+<!--l. 162--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">2.3.4   </span> <a 
+ id="x3-110002.3.4"></a>Velocity-Verlet integration</h4>
+<!--l. 164--><p class="noindent" >Let us now also Taylor expand <!--l. 164--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>
+                                                                          
+
+                                                                          
+up to third order in <!--l. 164--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>Δ</mi><mi 
+>t</mi></math>
+at <!--l. 164--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>, i.e. we integrate
+backwards in time from <!--l. 164--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></math>
+to <!--l. 164--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>t</mi></math>.
+This gives <table class="equation"><tr><td> <a 
+ id="x3-11001r21"></a>
+<!--l. 165--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation"><msub><mrow 
+>
+<mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi><mo 
+class="MathClass-bin">+</mo><mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mo 
+class="MathClass-bin">−</mo><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi><mo 
+class="MathClass-bin">+</mo><mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">+</mo>  <mfrac><mrow 
+><mn>1</mn></mrow>
+<mrow 
+><mn>2</mn><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi><mo 
+class="MathClass-bin">+</mo><mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+><mo 
+class="MathClass-bin">−</mo><mfrac><mrow 
+><mn>1</mn></mrow>
+<mrow 
+><mn>6</mn></mrow></mfrac><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mo accent="true">̇</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>3</mn></mrow></msup 
+><mo 
+class="MathClass-bin">+</mo><mi 
+>O</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>3</mn></mrow></msup 
+></mrow><mo 
+class="MathClass-close">)</mo></mrow>
+</math></td><td class="eq-no">(2.21)</td></tr></table>
+<!--l. 169--><p class="indent" >   Equation (<a 
+href="#x3-10001r18">2.18<!--tex4ht:ref: eqn: taylor_tplus --></a>) is the positions update of the Velocity-Verlet algorithm. The
+sum of Eq. (<a 
+href="#x3-10001r18">2.18<!--tex4ht:ref: eqn: taylor_tplus --></a>) and Eq. (<a 
+href="#x3-11001r21">2.21<!--tex4ht:ref: eqn: taylor_r --></a>) gives the velocity update in the Velocity-Verlet
+algorithm:
+<!--tex4ht:inline--><!--l. 173--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mtable 
+columnalign="left" class="align">
+             <mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>             <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">+</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo>   <mfrac><mrow 
+><mn>1</mn></mrow> 
+<mrow 
+><mn>2</mn><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><msup><mrow 
+><mi 
+>t</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+><mspace width="2em"/></mtd>                              <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-11002r22"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.22)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+             </mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>             <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">+</mo>   <mfrac><mrow 
+><mn>1</mn></mrow> 
+<mrow 
+><mn>2</mn><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac> <mfenced separators="" 
+open="("  close=")" ><mrow><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">+</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow></mfenced> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-punc">,</mo><mspace width="2em"/></mtd>                          <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-11003r23"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.23)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+   </mtd></mtr></mtable></math>
+<!--l. 174--><p class="noindent" >Note that this algorithm is often split in the form of a predictor-corrector scheme
+since this saves computation time and the necessity to keep past forces around.
+The predictor step is
+                                                                          
+
+                                                                          
+<!--tex4ht:inline--><!--l. 181--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mtable 
+columnalign="left" class="align">
+                   <mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>                   <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">+</mo>   <mfrac><mrow 
+><mn>1</mn></mrow> 
+<mrow 
+><mn>2</mn><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi><mspace width="2em"/></mtd>                                         <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-11004r24"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.24)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+                   </mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd>                     <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>r</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">+</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi><mspace width="2em"/></mtd>                                      <mtd 
+columnalign="right" class="align-label"><mstyle 
+   id="x3-11005r25"  class="label" ></mstyle><!--endlabel--><mstyle 
+class="maketag"><mtext  >(2.25)</mtext></mstyle><mspace width="0.33em" class="nbsp" />
+   </mtd></mtr></mtable></math>
+<!--l. 182--><p class="noindent" >where <!--l. 182--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>
+is the predicted velocity. After this we compute new forces,
+<!--l. 183--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>. We
+then correct the velocities via <table class="equation"><tr><td> <a 
+ id="x3-11006r26"></a>
+<!--l. 184--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" class="equation"><msub><mrow 
+>
+             <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo><msub><mrow 
+> <mover 
+accent="true"><mrow 
+><mi 
+>v</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">∕</mo><mn>2</mn></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">+</mo>   <mfrac><mrow 
+><mn>1</mn></mrow> 
+<mrow 
+><mn>2</mn><msub><mrow 
+><mi 
+>m</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></mfrac><msub><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>f</mi></mrow><mo accent="true">→</mo></mover></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>t</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Δ</mi><mi 
+>t</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>Δ</mi><mi 
+>t</mi>
+</math></td><td class="eq-no">(2.26)</td></tr></table>
+<!--l. 187--><p class="indent" >   The Velocity-Verlet algorithm is the integration algorithm used in most
+molecular dynamics codes. It has the additional properties that is it <span 
+class="cmti-12">symplectic</span>,
+which means it conserves phase-space volume. We will come back to what this
+mean when talking about statistical mechanics.
+<!--l. 189--><p class="noindent" ><span class="underline"><span 
+class="cmbx-12">Code example:</span></span> We can implement the velocity-verlet algorithm in a few
+lines of C++ code using vectorized <span class="obeylines-h"><span class="verb"><span 
+class="cmtt-12">Eigen</span></span></span> operations. The prediction step
+<!--l. 191-->
+<div class="lstlisting" id="listing-2"><span class="label"><a 
+ id="x3-11007r1"></a><span 
+class="cmr-6">1</span></span><span 
+class="cmtt-10">void</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">verlet_step1</span><span 
+class="cmtt-10">(</span><span 
+class="cmtt-10">Atoms</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">&#x0026;</span><span 
+class="cmtt-10">atoms</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">double</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">timestep</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">double</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">mass</span><span 
+class="cmtt-10">)</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">{</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-11008r2"></a><span 
+class="cmr-6">2</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">atoms</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">velocities</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">+=</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">0.5</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">*</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">atoms</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">forces</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">*</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">timestep</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">/</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">mass</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-11009r3"></a><span 
+class="cmr-6">3</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">atoms</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">positions</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">+=</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">atoms</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">velocities</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">*</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">timestep</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-11010r4"></a><span 
+class="cmr-6">4</span></span><span 
+class="cmtt-10">}</span>
+   </div>
+<!--l. 197--><p class="indent" >   implements Eq. (<a 
+href="#x3-11004r24">2.24<!--tex4ht:ref: eq:vvpred1 --></a>). We then compute new forces and correct the velocities
+via <!--l. 198-->
+                                                                          
+
+                                                                          
+<div class="lstlisting" id="listing-3"><span class="label"><a 
+ id="x3-11011r1"></a><span 
+class="cmr-6">1</span></span><span 
+class="cmtt-10">void</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">verlet_step2</span><span 
+class="cmtt-10">(</span><span 
+class="cmtt-10">Atoms</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">&#x0026;</span><span 
+class="cmtt-10">atoms</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">double</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">timestep</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">double</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">mass</span><span 
+class="cmtt-10">)</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">{</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-11012r2"></a><span 
+class="cmr-6">2</span></span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">atoms</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">velocities</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">+=</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">0.5</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">*</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">atoms</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">forces</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">*</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">timestep</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">/</span><span 
+class="cmtt-10"> </span><span 
+class="cmtt-10">mass</span><span 
+class="cmtt-10">;</span><span 
+class="cmtt-10"> </span><br /><span class="label"><a 
+ id="x3-11013r3"></a><span 
+class="cmr-6">3</span></span><span 
+class="cmtt-10">}</span>
+   </div>
+<!--l. 208--><p class="noindent" ><span class="underline"><span 
+class="cmbx-12">Note:</span></span> The timestep in MD simulations has to be on the order of femtoseconds,
+in order to resolve the fastest atomic vibrations. For example, in
+simulations with metals and Embedded Atom Method (EAM) potentials,
+<!--l. 211--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>Δ</mi><mi 
+>t</mi> <mo 
+class="MathClass-rel">=</mo> <mn>1</mn></math> fs is
+typically a safe choice. How can we check that the timestep is sensible? One
+possibility is to simply propage a configuration in time using the Velocity-Verlet
+algorithm. This is sometimes called the micro-canonical or NVE ensemble. (NVE
+because number of atoms, volume and energy is constant.) We then record the
+evolution of the total (kinetic plus potential) energy, which should be constant.
+The discrete time integration scheme will introduce numerical errors. If
+<!--l. 213--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>Δ</mi><mi 
+>t</mi></math>
+is too large, there will be noticeable drift of the total energy. The
+figures below show the results of such a simulation. A system of
+<!--l. 214--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>1</mn><mn>0</mn><mn>8</mn><mn>0</mn><mn>0</mn><mn>0</mn></math> Au atoms was
+simulated for <!--l. 214--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>1</mn><mn>0</mn><mn>0</mn></math> ps with
+various values of <!--l. 215--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>Δ</mi><mi 
+>t</mi></math>.
+The <!--l. 215--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mi 
+>y</mi></math>-axis
+shows the difference between the current and initial values of the total energy. The data
+was smoothened to suppress high-frequency fluctuations in the figure. For this system,
+even <!--l. 217--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mn>5</mn></math> fs
+would still be an acceptable time step.
+<div class="center" 
+>
+<!--l. 219--><p class="noindent" >
+<!--l. 220--><p class="noindent" ><img 
+src="figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png" alt="PIC"  
+width="191" height="191" > <img 
+src="figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png" alt="PIC"  
+width="191" height="191" ></div>
+                                                                          
+
+                                                                          
