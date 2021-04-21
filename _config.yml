@@ -22,12 +22,12 @@ title: Molecular Dynamics
 email: lars.pastewka@imtek.uni-freiburg.de
 description: >- # this means to ignore newlines until "baseurl:"
   Course on molecular dynamics with C++
-production_url: "https://imtek-simulation.github.io/molecular_dynamics_course/" # the base hostname & protocol for your site, e.g. http://example.com
+production_url: "https://imtek-simulation.github.io/MolecularDynamics/" # the base hostname & protocol for your site, e.g. http://example.com
 JB : 
-  BASE_PATH : "https://imtek-simulation.github.io/molecular_dynamics_course/" # the base hostname & protocol for your site, e.g. http://example.com
+  BASE_PATH : "https://imtek-simulation.github.io/MolecularDynamics/" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
-remote_theme: jekyll/minima
+remote_theme:  pmarsceill/just-the-docs 
 plugins:
   - jekyll-feed
 
@@ -57,7 +57,7 @@ highlighter: rouge
 gist:
   noscript: false
 kramdown:
-  math_engine: mathjax
+  math_engine: katex
   syntax_highlighter: rouge
 include:
   - _posts
@@ -65,6 +65,8 @@ include:
   - _layouts
   - _data
   - _authors
+  - _lectures
+  - _exercises
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -72,9 +74,13 @@ exclude:
   - .jekyll-cache/
   - LICENSE
   - README
+  - _trash
 keep_files:
   - .git
   - .svn
 encoding: "utf-8"
-collections:
-  authors:
+
+# Specific options for just-the-docs theme:
+footer_content: "Copyright &copy; 2021 Lars Pastewka, Wolfram Nöhring.</a>"
+last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
+last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html

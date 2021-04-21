@@ -1,0 +1,15 @@
+---
+layout: default
+title:  "Lecture 1"
+parent: Lectures
+date:   2021-04-21
+categories: lecture
+author : Wolfram Nöhring
+nav_order: 1
+---
+
+This is lecture 2
+
+This is a test equation:
+
+$$ E = mc^2 $$

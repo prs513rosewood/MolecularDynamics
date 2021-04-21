@@ -1,0 +1,11 @@
+---
+layout: default
+title:  "Lecture 2"
+parent: Lectures
+date:   2021-04-21
+categories: lecture
+author : Wolfram Nöhring
+nav_order: 2
+---
+
+This is lecture 2
