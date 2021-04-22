@@ -151,6 +151,6 @@ mtd.align-even{margin-right:2em; text-align:left;}
 div.lstlisting{font-family: monospace,monospace; white-space: nowrap; margin-top:0.5em; margin-bottom:0.5em; color: darkgreen;}
 div.lstinputlisting{ font-family: monospace,monospace; white-space: nowrap; }
 .lstinputlisting .label{margin-right:0.5em;}
-.framedenv{background: lightgray;}
+.framedenv{background: whitesmoke;}
 /* end css.sty */
 
