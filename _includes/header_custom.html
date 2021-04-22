@@ -1,20 +1,36 @@
 <!-- Add a favicon -->
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <!-- Enable Katex for math rendering https://stackoverflow.com/a/57370526 -->
+<!--
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ "/_includes/md.css" | relative_url }}">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-chtml.js"></script> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+-->
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
         key = 'href';
         $('[href^="https://uni-freiburg.cloud.panopto.eu"]').replaceWith(function() {
-            return '<iframe src='+$(this).attr(key)+' width=800 height=600></iframe>';
+            return '<div class="video-container"><iframe src='+$(this).attr(key)+' frameborder="0" allowfullscreen></iframe></div>';
         });
         $('[href^="https://www.youtube.com"]').replaceWith(function() {
-            return '<iframe src='+$(this).attr(key)+' width=800 height=600></iframe>';
+            return '<div class="video-container"><iframe src='+$(this).attr(key)+' frameborder="0" width="100%" height="100%	"></iframe></div>';
         });
     });
 </script>
-}}
+<style type="text/css">
+.video-container {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	height: 0;
+}
+.video-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+</style>
