@@ -137,6 +137,6 @@ called the micro-canonical or NVE ensemble. (NVE because number of atoms, volume
 <div class='center'><!--  l. 219  -->
 <p class='noindent'></p>
 <!--  l. 220  -->
-<p class='noindent'><img src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png' height='390' width='390' alt='PIC' /> <img src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png' height='390' width='390' alt='PIC' /></p>
+<p class='noindent'><img src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png' alt='PIC' width='390' height='390' /> <img src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png' alt='PIC' width='390' height='390' /></p>
 </div>
 </div>
