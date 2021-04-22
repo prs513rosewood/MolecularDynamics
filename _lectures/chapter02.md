@@ -8,12 +8,12 @@ author: Lars Pastewka
 nav_order: 02
 ---
 
-<h2 class='chapterHead'><span class='titlemark'>Chapter 1</span><br />
-<a id='x1-10001'></a>Molecular dynamics</h2>
+<h2 class='chapterHead'><span class='titlemark'>Chapter 3</span><br />
+<a id='x1-10003'></a>Molecular dynamics</h2>
 <div id='shaded*-1' class='framedenv'><!--  l. 3  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Molecular <span class='cmti-12'>dynamics</span> follows the motion of individual atoms through a solution of Newton’s equations of motion. We need integration algorithms to be able to solve this set of coupled differential equations on a computer.</p>
 </div>
-<h3 class='sectionHead'><span class='titlemark'>1.1</span> <a id='x1-20001.1'></a>Newton’s equations of motion</h3>
+<h3 class='sectionHead'><span class='titlemark'>3.1</span> <a id='x1-20003.1'></a>Newton’s equations of motion</h3>
 <!--  l. 14  -->
 <p class='noindent'>We have now (almost) all the ingredients to carry out a molecular dynamics simulation. From our or potential energy expression \(E_{\text{pot}}(\{\vec{r}_i\})\) discussed in the previous chapter, we obtain the force \begin{equation} \vec{f}_i = \partial E_{\text{pot}}/\partial \vec{r}_i \end{equation} on each of the \(N\) atoms. Once we know the forces, we can obtain the accelerations \(\vec{a}_i\) through Newton’s third law, \begin{equation} \vec{f}_i = m_i \vec{a}_i. \end{equation} We
 are therefore assuming that atom \(i\) can be described as a point of mass \(m_i\)! The mass can be obtained from the periodic table of elements. Note that the mass listed in the periodic table is usually the average over all isotopes weighted by their occurrence on earth, and this mass is used for most practical purposes. For some application, in particular to understand the different behavior of Hydrogen and Deuterium, it can be necessary to actually model the individual isotopes by using their
@@ -51,7 +51,7 @@ Eq. \eqref{eq:Newton} can therefore be thought of as a single point moving in t
 </div>
 <!--  l. 58  -->
 <p class='noindent'></p>
-<h3 class='sectionHead'><span class='titlemark'>1.2</span> <a id='x1-30001.2'></a>Kinetic energy and energy conservation</h3>
+<h3 class='sectionHead'><span class='titlemark'>3.2</span> <a id='x1-30003.2'></a>Kinetic energy and energy conservation</h3>
 <!--  l. 60  -->
 <p class='noindent'>In addition to the potential energy \(E_{\text{pot}}(\{ \vec{r}_i\})\), the dynamical state of a system is characterized by its kinetic energy, \begin{equation} E_{\text{kin}}(\{ \vec{p}_i\}) = \sum _i \frac{1}{2} \frac{p_i^2}{m_i}. \end{equation} Note that the total energy \begin{equation} H(\{ \vec{r}_i\},\{ \vec{p}_i\}) = E_{\text{kin}}(\{ \vec{p}_i\}) + E_{\text{pot}}(\{ \vec{r}_i\}) \label{eq:hamil} \end{equation} is a conserved quantity during the motion of the atoms. This can be
 seen by showing that the derivative of the total energy with respect to time vanishes, \begin{equation} \dot{H} = \dot{E}_{\text{kin}} + \dot{E}_{\text{pot}} = \sum _i \frac{\vec{p}_i \dot{\vec{p}}_i}{m_i} + \sum _i \frac{\partial E_{\text{pot}}}{\partial \vec{r}_i} \dot{\vec{r_i}} = \sum _i \vec{v}_i \vec{f}_i - \sum _i \vec{v}_i \vec{f}_i = 0. \end{equation} \(H\) is also called the <span class='cmti-12'>Hamiltonian</span> of the system.</p>
@@ -68,12 +68,12 @@ using <span class='cmti-12'>thermostats</span>, where a generalized degree of fr
 </div>
 <!--  l. 91  -->
 <p class='noindent'></p>
-<h3 class='sectionHead'><span class='titlemark'>1.3</span> <a id='x1-40001.3'></a>Integration algorithms</h3>
+<h3 class='sectionHead'><span class='titlemark'>3.3</span> <a id='x1-40003.3'></a>Integration algorithms</h3>
 <!--  l. 94  -->
 <p class='noindent'>The main ingredient in any molecular dynamics simulation, regardless of the underlying model, is the numerical solution of Eqs. \eqref{eq:Newton}. A plethora of algorithms have been developed over the years, but for most practical purposes the Velocity-Verlet algorithm is used nowadays. For instructive purposes we will start out with a simple integration method, the Euler integration, before discussing Velocity-Verlet.</p>
 <!--  l. 96  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead'><span class='titlemark'>1.3.1</span> <a id='x1-50001.3.1'></a>Euler integration</h4>
+<h4 class='subsectionHead'><span class='titlemark'>3.3.1</span> <a id='x1-50003.3.1'></a>Euler integration</h4>
 <!--  l. 97  -->
 <p class='noindent'>In order to follow the trajectories of all atoms we need to integrate the above differential equation. On a computer, a continuous differential equation needs to be replaced by a discrete equation. Equations \eqref{eq:Newton} are continuous in time and hence need to be discretized. (Note that our system is already discrete spatially since we are dealing with mass points, but each of these points corresponds to a physical object so this is not the result of a discretization
 procedure.) The simplest integration is the Euler algorithm in which forces and velocities are assumed to be constant over time intervals \(\Delta t\).</p>
@@ -89,7 +89,7 @@ procedure.) The simplest integration is the Euler algorithm in which forces and 
 <p class='indent'>These equations cannot be re-arranged to give Eqs. \eqref{eq:eulerexplicita} and \eqref{eq:eulerexplicitb}. Euler integration is generally not a good algorithm and requires very small time steps.</p>
 <!--  l. 124  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead'><span class='titlemark'>1.3.2</span> <a id='x1-60001.3.2'></a>Leap-frog integration</h4>
+<h4 class='subsectionHead'><span class='titlemark'>3.3.2</span> <a id='x1-60003.3.2'></a>Leap-frog integration</h4>
 <!--  l. 125  -->
 <p class='noindent'>Leap-frog stores position at times \(t_i\) and velocities at times \(t_i+\Delta t/2\) and can be derived from a argument similar to the one given above. Specifically, we combine the results of a Taylor expansion \(\pm \Delta t/2\), yielding \begin{align} \vec{v}_i(t+\Delta t/2) - \vec{v}_i(t-\Delta t/2) &amp;= \frac{\vec{f}_i(t)}{m_i} \Delta t \label{eq:leapfrog1} \\ \vec{r}_i(t+\Delta t) - \vec{r}_i(t) &amp;= \vec{v}_i(t+\Delta t/2) \Delta t. \end{align}</p>
 <!--  l. 132  -->
@@ -98,7 +98,7 @@ procedure.) The simplest integration is the Euler algorithm in which forces and 
 <p class='indent'>Bring the terms on the left hand side to the right and vice-versa, and you arrive at the original equations for forward integration. Leap-frog is therefore <span class='cmti-12'>reversible</span>.</p>
 <!--  l. 140  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead'><span class='titlemark'>1.3.3</span> <a id='x1-70001.3.3'></a>Verlet integration</h4>
+<h4 class='subsectionHead'><span class='titlemark'>3.3.3</span> <a id='x1-70003.3.3'></a>Verlet integration</h4>
 <!--  l. 142  -->
 <p class='noindent'>Let us now Taylor expand \(\vec{r}_i(t\pm \Delta t)\) up to third order in \(\pm \Delta t\), \begin{equation} \label{eqn: taylor_tplus} \vec{r}_i(t\pm \Delta t) = \vec{r}_i(t) \pm \vec{v}_i(t) \Delta t + \frac{1}{2m_i} \vec{f}_i(t) \Delta t^2 \pm \frac{1}{6} \dot{\dot{\dot{\vec{r}}}}_i(t) \Delta t^3 + O(\Delta t^4). \end{equation} Note that only the odd exponents see the sign of \(\pm \Delta t\). The sum of this equation for expansion in \(+\Delta t\) and \(-\Delta t\) gives the
 positions update, \begin{equation} \label{eqn: verlet} \vec{r}_i(t+\Delta t) + \vec{r}_i(t-\Delta t) = 2\vec{r}_i(t) + \frac{1}{m_i} \vec{f}_i(t) \Delta t^2 + O(\Delta t^4). \end{equation} Eq. \eqref{eqn: verlet} is called the Verlet algorithm. Instead of requiring the positions \(\{ \vec{r}_i(t)\}\) and velocities \(\{ \vec{v}_i(t)\}\) it requires the positions of the current \(\{ \vec{r}_i(t)\}\) and past \(\{ \vec{r}_i(t-\Delta t)\}\) times for the integration.</p>
@@ -107,7 +107,7 @@ positions update, \begin{equation} \label{eqn: verlet} \vec{r}_i(t+\Delta t) + \
 usually useful to be able to know both, positions and velocities, at time \(t\). This problem is solved by the Velocity-Verlet algorithm, described in the following section.</p>
 <!--  l. 162  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead'><span class='titlemark'>1.3.4</span> <a id='x1-80001.3.4'></a>Velocity-Verlet integration</h4>
+<h4 class='subsectionHead'><span class='titlemark'>3.3.4</span> <a id='x1-80003.3.4'></a>Velocity-Verlet integration</h4>
 <!--  l. 164  -->
 <p class='noindent'>Let us now also Taylor expand \(\vec{r}_i(t)\) up to third order in \(\Delta t\) at \(\vec{r}_i(t+\Delta t)\), i.e. we integrate backwards in time from \(t + \Delta t\) to \(t\). This gives \begin{equation} \label{eqn: taylor_r} \vec{r}_i(t) = \vec{r}_i(t+\Delta t) - \vec{v}_i(t+\Delta t) \Delta t + \frac{1}{2m_i} \vec{f}_i(t+\Delta t) \Delta t^2 - \frac{1}{6} \dot{\dot{\dot{\vec{r}}}}_i(t) \Delta t^3 + O(\Delta t^3) \end{equation} Equation \eqref{eqn: taylor˙tplus} is the
 positions update of the Velocity-Verlet algorithm. The sum of Eq. \eqref{eqn: taylor˙tplus} and Eq. \eqref{eqn: taylor˙r} gives the velocity update in the Velocity-Verlet algorithm: \begin{align} \vec{r}_i(t+\Delta t) &amp;= \vec{r}_i(t) + \vec{v}_i(t)\Delta t + \frac{1}{2m_i} \vec{f}_i(t) \Delta t^2\\ \vec{v}_i(t+\Delta t) &amp;= \vec{v}_i(t) + \frac{1}{2m_i} \left (\vec{f}_i(t) + \vec{f}_i(t+\Delta t) \right ) \Delta t, \end{align}</p>
@@ -137,6 +137,6 @@ called the micro-canonical or NVE ensemble. (NVE because number of atoms, volume
 <div class='center'><!--  l. 219  -->
 <p class='noindent'></p>
 <!--  l. 220  -->
-<p class='noindent'><img alt='PIC' width='390' height='390' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png' /> <img alt='PIC' width='390' height='390' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png' /></p>
+<p class='noindent'><img width='390' alt='PIC' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png' height='390' /> <img width='390' alt='PIC' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png' height='390' /></p>
 </div>
 </div>
