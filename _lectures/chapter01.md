@@ -8,12 +8,12 @@ author: Lars Pastewka
 nav_order: 01
 ---
 
-<h2 class='chapterHead'><span class='titlemark'>Chapter 2</span><br />
-<a id='x1-10002'></a>Introduction</h2>
+<h2 class='chapterHead'><span class='titlemark'>Chapter 1</span><br />
+<a id='x1-10001'></a>Introduction</h2>
 <div class='framedenv' id='shaded*-1'><!--  l. 4  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> We start by introducing the concept of the potential energy and the interatomic force. Those are the central ingredients to the molecular dynamics simulation method.</p>
 </div>
-<h3 class='sectionHead'><span class='titlemark'>2.1</span> <a id='x1-20002.1'></a>Structure of matter at the atomic scale</h3>
+<h3 class='sectionHead'><span class='titlemark'>1.1</span> <a id='x1-20001.1'></a>Structure of matter at the atomic scale</h3>
 <!--  l. 10  -->
 <p class='noindent'>All matter is build out of quark and leptons, or perhaps even smaller particles, but for the sake of modeling the real material world the atom is the fundamental unit. Atoms can be described by nuclei and electrons or through “coarse-grained” models that ignore the fact that there are electrons. Both types of models are useful for describing materials, and the latter ones will be extensively used in this class.</p>
 <!--  l. 12  -->
@@ -25,7 +25,7 @@ constant \(N_A\approx 6\times 10^{23}\). The atomic-scale simulation techniques 
 <p class='indent'><a href='https://www.youtube.com/embed/wYHch5QIWTQ' class='url'><span class='cmtt-12'>https://www.youtube.com/embed/wYHch5QIWTQ</span></a></p>
 <!--  l. 19  -->
 <p class='noindent'></p>
-<h3 class='sectionHead'><span class='titlemark'>2.2</span> <a id='x1-30002.2'></a>Interatomic forces and the potential energy</h3>
+<h3 class='sectionHead'><span class='titlemark'>1.2</span> <a id='x1-30001.2'></a>Interatomic forces and the potential energy</h3>
 <!--  l. 21  -->
 <p class='noindent'>Atoms interact via forces. As Feynman put it in his famous lectures on physics, the fundamental truth about man’s understanding of the physical world is “that all things are made of atoms – little particles that move around in perpetual motion, attracting each other when they are a little distance apart, but repelling upon being squeezed into one another”. Indeed this is the essence of the molecular dynamics simulation method.</p>
 <!--  l. 23  -->
