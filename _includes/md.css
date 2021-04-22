@@ -99,6 +99,9 @@ div.figure img {text-align:center;}
 .marginpar p,.reversemarginpar p{margin-top:0.4em; margin-bottom:0.4em;}
 .reversemarginpar{float:left;}
 .equation td{text-align:center; vertical-align:middle; }
+.equation td:nth-last-child(1){width:100px; }
+.align td:nth-child(1){text-align:right; }
+.align td:nth-last-child(1){width:100px; }
 td.eq-no{ width:5%; }
 table.equation { width:100%; } 
 div.math-display, div.par-math-display{text-align:center;}
