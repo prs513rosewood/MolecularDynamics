@@ -15,7 +15,7 @@ nav_order: 02
 </div>
 <h3 class='sectionHead'><span class='titlemark'>2.1</span> <a id='x1-20002.1'></a>Newton’s equations of motion</h3>
 <!--  l. 14  -->
-<p class='noindent'>We have now (almost) all the ingredients to carry out a molecular dynamics simulation. From our or potential energy expression \(E_{\text{pot}}(\{\vec{r}_i\})\) discussed in the previous chapter, we obtain the force \begin{equation} \vec{f}_i = \partial E_{\text{pot}}/\partial \vec{r}_i \end{equation} on each of the \(N\) atoms. Once we know the forces, we can obtain the accelerations \(\vec{a}_i\) through Newton’s third law, \begin{equation} \vec{f}_i = m_i \vec{a}_i. \end{equation} We
+<p class='noindent'>We have now (almost) all the ingredients to carry out a molecular dynamics simulation. From our potential energy expression \(E_{\text{pot}}(\{\vec{r}_i\})\) discussed in the previous chapter, we obtain the force \begin{equation} \vec{f}_i = -\partial E_{\text{pot}}/\partial \vec{r}_i \end{equation} on each of the \(N\) atoms. Once we know the forces, we can obtain the accelerations \(\vec{a}_i\) through Newton’s third law, \begin{equation} \vec{f}_i = m_i \vec{a}_i. \end{equation} We
 are therefore assuming that atom \(i\) can be described as a point of mass \(m_i\)! The mass can be obtained from the periodic table of elements. Note that the mass listed in the periodic table is usually the average over all isotopes weighted by their occurrence on earth, and this mass is used for most practical purposes. For some application, in particular to understand the different behavior of Hydrogen and Deuterium, it can be necessary to actually model the individual isotopes by using their
 respective mass.</p>
 <!--  l. 24  -->
@@ -25,6 +25,11 @@ Eq. \eqref{eq:Newton} can therefore be thought of as a single point moving in t
 <div class='framedenv' id='shaded*-1'><!--  l. 31  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Code example:</span></span> For a molecular dynamics code, it is useful to have a data structure that represents the state of the simulation and stores at least positions and velocities. This data structure could also store element names (or atomic numbers), masses and forces. An example that uses <a href='https://eigen.tuxfamily.org/'>Eigen</a> arrays as the basic array container is shown below.</p>
 <!--  l. 33  -->
+
+{% capture my_include %}{% include_relative code.md %}{% endcapture %}
+{{ my_include | markdownify }}
+
+<!--
 <div class='lstlisting' id='listing-1'><span class='label'><a id='x1-2001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>using Positions_t = Eigen::Array3Xd; </span><br />
 <span class='label'><a id='x1-2002r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>using Velocities_t = Eigen::Array3Xd; </span><br />
 <span class='label'><a id='x1-2003r3'></a><span class='cmr-6'>3</span></span><span class='cmtt-10'>using Forces_t = Eigen::Array3Xd; </span><br />
@@ -45,7 +50,9 @@ Eq. \eqref{eq:Newton} can therefore be thought of as a single point moving in t
 <span class='label'><a id='x1-2018r18'></a><span class='cmr-6'>18</span></span><span class='cmtt-10'>        return positions.cols(); </span><br />
 <span class='label'><a id='x1-2019r19'></a><span class='cmr-6'>19</span></span><span class='cmtt-10'>    } </span><br />
 <span class='label'><a id='x1-2020r20'></a><span class='cmr-6'>20</span></span><span class='cmtt-10'>};</span></div>
+--> 
 <!--  l. 55  -->
+
 <p class='indent'>As a general rule, the data structure should be designed in a way that data that is processed consecutively is also stored in memory in a continuous manner. This ensures <a href='https://en.wikipedia.org/wiki/Cache_coherence'>cache coherenece</a>. For example, we could be tempted to create a class <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>Atom</span></span></span> that contains the positions, velocities, etc. of a single atom and than use an array (e.g.
 <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>std::vector&lt;Atom&gt; atoms</span></span></span>) of that class as the basic data structure. However, positions are then no longer consecutive in memory. A function (e.g. computing forces) does not need the velocities would still load them into the cache, as the <a href='https://en.wikipedia.org/wiki/CPU_cache'>cache line size</a> for all modern CPUs is \(64\) bytes. For high-performance numerical code, it is therefore <span class='cmti-12'>always</span> preferable to use structures of arrays rather than arrays of structure.</p>
 </div>
