@@ -39,7 +39,7 @@ Eq. \eqref{eq:Newton} can therefore be thought of as a single point moving in t
 <h3 class='sectionHead'><span class='titlemark'>2.2</span> <a id='x1-30002.2'></a>Kinetic energy and energy conservation</h3>
 <!--  l. 60  -->
 <p class='noindent'>In addition to the potential energy \(E_{\text{pot}}(\{ \vec{r}_i\})\), the dynamical state of a system is characterized by its kinetic energy, \begin{equation} E_{\text{kin}}(\{ \vec{p}_i\}) = \sum _i \frac{1}{2} \frac{p_i^2}{m_i}. \end{equation} Note that the total energy \begin{equation} H(\{ \vec{r}_i\},\{ \vec{p}_i\}) = E_{\text{kin}}(\{ \vec{p}_i\}) + E_{\text{pot}}(\{ \vec{r}_i\}) \label{eq:hamil} \end{equation} is a conserved quantity during the motion of the atoms. This can be
-seen by showing that the derivative of the total energy with respect to time vanishes, \begin{equation} \dot{H} = \dot{E}_{\text{kin}} + \dot{E}_{\text{pot}} = \sum _i \frac{\vec{p}_i \dot{\vec{p}}_i}{m_i} + \sum _i \frac{\partial E_{\text{pot}}}{\partial \vec{r}_i} \dot{\vec{r_i}} = \sum _i \vec{v}_i \vec{f}_i - \sum _i \vec{v}_i \vec{f}_i = 0. \end{equation} \(H\) is also called the <span class='cmti-12'>Hamiltonian</span> of the system.</p>
+seen by showing that the derivative of the total energy with respect to time vanishes, \begin{equation} \dot{H} = \dot{E}_{\text{kin}} + \dot{E}_{\text{pot}} = \sum _i \frac{\vec{p}_i \dot{\vec{p}}_i}{m_i} + \sum _i \frac{\partial E_{\text{pot}}}{\partial \vec{r}_i} \dot{\vec{i}_i} = \sum _i \vec{v}_i \vec{f}_i - \sum _i \vec{v}_i \vec{f}_i = 0. \end{equation} \(H\) is also called the <span class='cmti-12'>Hamiltonian</span> of the system.</p>
 <div class='framedenv' id='shaded*-1'><!--  l. 76  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> Measuring the total energy (or any other conserved quantity!) and checking whether it is constant in a molecular dynamics simulation is a way of testing if the time step \(\Delta t\) used in the numerical integration is small enough. We will discuss numerical integration in detail below.</p>
 </div>
@@ -104,19 +104,15 @@ phase-space volume. We will come back to what this mean when talking about stati
 <div class='framedenv' id='shaded*-1'><!--  l. 189  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Code example:</span></span> We can implement the velocity-verlet algorithm in a few lines of C++ code using vectorized <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>Eigen</span></span></span> operations. The prediction step</p>
 <!--  l. 191  -->
-<div class='lstlisting' id='listing-2'><span class='label'><a id='x1-8001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>void verlet_step1(Atoms &amp;atoms, double timestep, double mass) { </span><br />
-<span class='label'><a id='x1-8002r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>    atoms.velocities += 0.5 * atoms.forces * timestep / mass; </span><br />
-<span class='label'><a id='x1-8003r3'></a><span class='cmr-6'>3</span></span><span class='cmtt-10'>    atoms.positions += atoms.velocities * timestep; </span><br />
-<span class='label'><a id='x1-8004r4'></a><span class='cmr-6'>4</span></span><span class='cmtt-10'>}</span></div>
+{% capture verlet_predictor_include %}{% include_relative verlet_predictor.cpp %}{% endcapture %}
+{{ verlet_predictor_include | markdownify }}
 <!--  l. 197  -->
 <p class='indent'>implements Eq. \eqref{eq:vvpred1}. We then compute new forces and correct the velocities via</p>
 <!--  l. 198  -->
-<div class='lstlisting' id='listing-3'><span class='label'><a id='x1-8005r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>void verlet_step2(Atoms &amp;atoms, double timestep, double mass) { </span><br />
-<span class='label'><a id='x1-8006r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>    atoms.velocities += 0.5 * atoms.forces * timestep / mass; </span><br />
-<span class='label'><a id='x1-8007r3'></a><span class='cmr-6'>3</span></span><span class='cmtt-10'>}</span></div>
-</div>
+{% capture verlet_corrector_include %}{% include_relative verlet_corrector.cpp %}{% endcapture %}
+{{ verlet_corrector_include | markdownify }}
 <div class='framedenv' id='shaded*-1'><!--  l. 208  -->
-<p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> The timestep in MD simulations has to be on the order of femtoseconds, in order to resolve the fastest atomic vibrations. For example, in simulations with metals and Embedded Atom Method (EAM) potentials, \(\Delta t=1\) fs is typically a safe choice. How can we check that the timestep is sensible? One possibility is to simply propage a configuration in time using the Velocity-Verlet algorithm. This is sometimes
+<p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> The timestep in MD simulations has to be on the order of femtoseconds, in order to resolve the fastest atomic vibrations. For example, in simulations with metals and Embedded Atom Method (EAM) potentials, \(\Delta t=1\) fs is typically a safe choice. How can we check that the timestep is sensible? One possibility is to simply propagate a configuration in time using the Velocity-Verlet algorithm. This is sometimes
 called the micro-canonical or NVE ensemble. (NVE because number of atoms, volume and energy is constant.) We then record the evolution of the total (kinetic plus potential) energy, which should be constant. The discrete time integration scheme will introduce numerical errors. If \(\Delta t\) is too large, there will be noticeable drift of the total energy. The figures below show the results of such a simulation. A system of \(108000\) Au atoms was simulated for \(100\) ps with various values of
 \(\Delta t\). The \(y\)-axis shows the difference between the current and initial values of the total energy. The data was smoothened to suppress high-frequency fluctuations in the figure. For this system, even \(5\) fs would still be an acceptable time step.</p>
 <div class='center'><!--  l. 219  -->
