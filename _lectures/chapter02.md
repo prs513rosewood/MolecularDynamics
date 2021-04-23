@@ -26,31 +26,9 @@ Eq. \eqref{eq:Newton} can therefore be thought of as a single point moving in t
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Code example:</span></span> For a molecular dynamics code, it is useful to have a data structure that represents the state of the simulation and stores at least positions and velocities. This data structure could also store element names (or atomic numbers), masses and forces. An example that uses <a href='https://eigen.tuxfamily.org/'>Eigen</a> arrays as the basic array container is shown below.</p>
 <!--  l. 33  -->
 
-{% capture my_include %}{% include_relative code.md %}{% endcapture %}
+{% capture my_include %}{% include_relative atoms.cpp %}{% endcapture %}
 {{ my_include | markdownify }}
 
-<!--
-<div class='lstlisting' id='listing-1'><span class='label'><a id='x1-2001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>using Positions_t = Eigen::Array3Xd; </span><br />
-<span class='label'><a id='x1-2002r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>using Velocities_t = Eigen::Array3Xd; </span><br />
-<span class='label'><a id='x1-2003r3'></a><span class='cmr-6'>3</span></span><span class='cmtt-10'>using Forces_t = Eigen::Array3Xd; </span><br />
-<span class='label'><a id='x1-2004r4'></a><span class='cmr-6'>4</span></span><span class='cmtt-10'> </span><br />
-<span class='label'><a id='x1-2005r5'></a><span class='cmr-6'>5</span></span><span class='cmtt-10'>class Atoms { </span><br />
-<span class='label'><a id='x1-2006r6'></a><span class='cmr-6'>6</span></span><span class='cmtt-10'>public: </span><br />
-<span class='label'><a id='x1-2007r7'></a><span class='cmr-6'>7</span></span><span class='cmtt-10'>    Positions_t positions; </span><br />
-<span class='label'><a id='x1-2008r8'></a><span class='cmr-6'>8</span></span><span class='cmtt-10'>    Velocities_t velocities; </span><br />
-<span class='label'><a id='x1-2009r9'></a><span class='cmr-6'>9</span></span><span class='cmtt-10'>    Forces_t forces; </span><br />
-<span class='label'><a id='x1-2010r10'></a><span class='cmr-6'>10</span></span><span class='cmtt-10'> </span><br />
-<span class='label'><a id='x1-2011r11'></a><span class='cmr-6'>11</span></span><span class='cmtt-10'>    Atoms(Positions_t &amp;p) : </span><br />
-<span class='label'><a id='x1-2012r12'></a><span class='cmr-6'>12</span></span><span class='cmtt-10'>            positions{p}, velocities{3, p.cols()}, forces{3, p.cols()} { </span><br />
-<span class='label'><a id='x1-2013r13'></a><span class='cmr-6'>13</span></span><span class='cmtt-10'>        velocities.setZero(); </span><br />
-<span class='label'><a id='x1-2014r14'></a><span class='cmr-6'>14</span></span><span class='cmtt-10'>        forces.setZero(); </span><br />
-<span class='label'><a id='x1-2015r15'></a><span class='cmr-6'>15</span></span><span class='cmtt-10'>    } </span><br />
-<span class='label'><a id='x1-2016r16'></a><span class='cmr-6'>16</span></span><span class='cmtt-10'> </span><br />
-<span class='label'><a id='x1-2017r17'></a><span class='cmr-6'>17</span></span><span class='cmtt-10'>    size_t nb_atoms() { </span><br />
-<span class='label'><a id='x1-2018r18'></a><span class='cmr-6'>18</span></span><span class='cmtt-10'>        return positions.cols(); </span><br />
-<span class='label'><a id='x1-2019r19'></a><span class='cmr-6'>19</span></span><span class='cmtt-10'>    } </span><br />
-<span class='label'><a id='x1-2020r20'></a><span class='cmr-6'>20</span></span><span class='cmtt-10'>};</span></div>
---> 
 <!--  l. 55  -->
 
 <p class='indent'>As a general rule, the data structure should be designed in a way that data that is processed consecutively is also stored in memory in a continuous manner. This ensures <a href='https://en.wikipedia.org/wiki/Cache_coherence'>cache coherenece</a>. For example, we could be tempted to create a class <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>Atom</span></span></span> that contains the positions, velocities, etc. of a single atom and than use an array (e.g.
@@ -116,8 +94,8 @@ usually useful to be able to know both, positions and velocities, at time \(t\).
 <p class='noindent'></p>
 <h4 class='subsectionHead'><span class='titlemark'>2.3.4</span> <a id='x1-80002.3.4'></a>Velocity-Verlet integration</h4>
 <!--  l. 164  -->
-<p class='noindent'>Let us now also Taylor expand \(\vec{r}_i(t)\) up to third order in \(\Delta t\) at \(\vec{r}_i(t+\Delta t)\), i.e. we integrate backwards in time from \(t + \Delta t\) to \(t\). This gives \begin{equation} \label{eqn: taylor_r} \vec{r}_i(t) = \vec{r}_i(t+\Delta t) - \vec{v}_i(t+\Delta t) \Delta t + \frac{1}{2m_i} \vec{f}_i(t+\Delta t) \Delta t^2 - \frac{1}{6} \dot{\dot{\dot{\vec{r}}}}_i(t) \Delta t^3 + O(\Delta t^3) \end{equation} Equation \eqref{eqn: taylor˙tplus} is the
-positions update of the Velocity-Verlet algorithm. The sum of Eq. \eqref{eqn: taylor˙tplus} and Eq. \eqref{eqn: taylor˙r} gives the velocity update in the Velocity-Verlet algorithm: \begin{align} \vec{r}_i(t+\Delta t) &amp;= \vec{r}_i(t) + \vec{v}_i(t)\Delta t + \frac{1}{2m_i} \vec{f}_i(t) \Delta t^2\\ \vec{v}_i(t+\Delta t) &amp;= \vec{v}_i(t) + \frac{1}{2m_i} \left (\vec{f}_i(t) + \vec{f}_i(t+\Delta t) \right ) \Delta t, \end{align}</p>
+<p class='noindent'>Let us now also Taylor expand \(\vec{r}_i(t)\) up to third order in \(\Delta t\) at \(\vec{r}_i(t+\Delta t)\), i.e. we integrate backwards in time from \(t + \Delta t\) to \(t\). This gives \begin{equation} \label{eqn: taylor_r} \vec{r}_i(t) = \vec{r}_i(t+\Delta t) - \vec{v}_i(t+\Delta t) \Delta t + \frac{1}{2m_i} \vec{f}_i(t+\Delta t) \Delta t^2 - \frac{1}{6} \dot{\dot{\dot{\vec{r}}}}_i(t) \Delta t^3 + O(\Delta t^3) \end{equation} Equation \eqref{eqn: taylor_tplus} is the
+positions update of the Velocity-Verlet algorithm. The sum of Eq. \eqref{eqn: taylor_tplus} and Eq. \eqref{eqn: taylor_r} gives the velocity update in the Velocity-Verlet algorithm: \begin{align} \vec{r}_i(t+\Delta t) &amp;= \vec{r}_i(t) + \vec{v}_i(t)\Delta t + \frac{1}{2m_i} \vec{f}_i(t) \Delta t^2\\ \vec{v}_i(t+\Delta t) &amp;= \vec{v}_i(t) + \frac{1}{2m_i} \left (\vec{f}_i(t) + \vec{f}_i(t+\Delta t) \right ) \Delta t, \end{align}</p>
 <!--  l. 174  -->
 <p class='indent'>Note that this algorithm is often split in the form of a predictor-corrector scheme since this saves computation time and the necessity to keep past forces around. The predictor step is \begin{align} \vec{v}_i(t+\Delta t/2) &amp;= \vec{v}_i(t) + \frac{1}{2m_i} \vec{f}_i(t) \Delta t \label{eq:vvpred1} \\ \vec{r}_i(t+\Delta t) &amp;= \vec{r}_i(t) + \vec{v}_i(t+\Delta t/2) \Delta t \label{eq:vvpred2} \end{align}</p>
 <!--  l. 182  -->
