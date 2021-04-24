@@ -61,8 +61,10 @@ on github, you can also directly check out the template repository.
 
 Our template repository has existing CMake files. Those CMake files are set up
 to automatically download the libraries
+
 * [Eigen](https://eigen.tuxfamily.org/) for basic (array) data structures and
-* [Googletest](https://github.com/google/googletest) as a testing framework.  
+* [Googletest](https://github.com/google/googletest) as a testing framework.
+
 We will work with these libraries throughout this class.
 
 _Note_: If you are unfamiliar with the unix shell, we recommend
