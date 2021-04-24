@@ -65,8 +65,8 @@ include:
   - _layouts
   - _data
   - _authors
-  - _lectures
-  - _exercises
+  - _lecture
+  - _project
 exclude:
   - Gemfile
   - Gemfile.lock

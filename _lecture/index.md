@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Lectures
+title: Lecture
 nav_order: 3
 has_children: true
 ---

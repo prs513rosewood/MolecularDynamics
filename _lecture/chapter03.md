@@ -1,16 +1,17 @@
 ---
 layout: default
 title: "Chapter 03"
-parent: Lectures
-date: 2021-04-22
+parent: Lecture
+date: 2021-04-24
 categories: lecture
 author: Lars Pastewka
 nav_order: 03
 ---
+---
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 3</span><br />
 <a id='x1-10003'></a>Pair potentials</h2>
-<div class='framedenv' id='shaded*-1'><!--  l. 4  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 4  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Interatomic forces or interatomic potentials determine the material that we want to study. There is a plethora of interatomic potentials of varying accuracy, transferability and computational cost available in the literature. We here discuss simple pair potentials and point out algorithmic considerations.</p>
 </div>
 <h3 class='sectionHead'><span class='titlemark'>3.1</span> <a id='x1-20003.1'></a>Introduction</h3>
@@ -19,7 +20,7 @@ nav_order: 03
 includes the <span class='cmti-12'>computational complexity</span>.) At constant computational cost, there is always a tradeoff between accuracy and transferability. Accuracy and transferability can typically only be improved at the expense of additional computational cost.</p>
 <ul class='itemize1'>
 <li class='itemize'><span class='cmti-12'>Accuracy:</span> How close to we get to the true, measured value. For example, the absolute error of vacancy formation energy \(E_{\text{vac}} - E_{\text{vac}}^{\exp }\) with respect to experiment can be \(1\ \text{eV}\), \(0.1\ \text{eV}\) (typical), \(0.01\ \text{eV}\) (computationally expensive!). The vacancy formation energy is the energy required to remove a single atom from a solid. The resulting “hole” in the solid is called a vacancy.</li>
-<li class='itemize'><span class='cmti-12'>Transferability:</span> Let’s assume we get the vacancy formation energy right to within \(0.1\ \text{eV}\) of the experimental value. Is the interstitial formation energy, i.e. the energy to insert an additional atoms between lattice sites, predicted with the same accuracy? If so, then the potential is transferable between these two situations. <span class='cmti-12'>Most interatomic potentials are not</span> <span class='cmti-12'>generally transferable,</span> and they need
+<li class='itemize'><span class='cmti-12'>Transferability:</span> Let’s assume we get the vacancy formation energy right to within \(0.1\ \text{eV}\) of the experimental value. Does the interstitial formation energy, i.e. the energy to insert an additional atoms between lattice sites, give the same value? If so, then the potential is transferable between these two situations. <span class='cmti-12'>Most interatomic potentials are not</span> <span class='cmti-12'>generally transferable,</span> and they need
 to be tested when used in new situations, e.g. when the potential has been used to study crystals but you want to use it now to study a glass.</li>
 <li class='itemize'><span class='cmti-12'>Computational cost:</span> The number of floating point operations determine how expensive it is to compute an energy or a force. (Nowadays, actual energy requirement for doing the calculation would be a better measure.) This is related to computational complexity, that says how the computational cost (i.e. the number of operations requires to compute the result) scales with the number of atoms. We want \(O(N)\) complexity, but many methods scale worse. Quantum
 methods (tight-binding, density-functional theory) are usually \(O(N^{3})\) or worse.</li>
@@ -66,7 +67,7 @@ Hamiltonian \(H\) is not a conserved quantity. The shifted potential fulfills th
 <p class='noindent'>The sum Eq. \eqref{eq:pairpotcut} runs over all neighbors. One important algorithmic step with complexity \(O(N)\) in molecular dynamics codes is to build a <span class='cmti-12'>neighbor list</span>, i.e. find all pairs <span class='cmti-12'>i-j</span> with \(r_{ij} &lt; r_{c}\). This is usually done using a <span class='cmti-12'>domain</span> <span class='cmti-12'>decomposition</span> (see Fig. <a href='#x1-7001r1'>3.1<!--  tex4ht:ref: fig:neighborsearch   --></a>) that
 divides the simulation domain in cells of a certain size and sorts all atoms into one of these cells. The neighbor list can then be constructed by looking for neighbors in neighboring cells only. If the cell size \(b\) is larger than the cutoff radius, \(b&gt;r_c\), then we only need to look exactly the neighboring cells.</p>
 <figure class='figure'><!--  l. 111  -->
-<p class='noindent'><img height='390' width='390' alt='PIC' src='figures/neighbor_list_search.png' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
+<p class='noindent'><img src='figures/neighbor_list_search.png' alt='PIC' height='390' width='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
 <figcaption class='caption'><span class='id'>Figure 3.1::</span> <span class='content'>Illustration of the typical data structure used for an \(O(N)\) neighbor search in a molecular dynamics simulation. For searching the neighbors within a cutoff \(r_c\) of the red atom, we only need to consider the candidate atoms that are in the cell adjacent to the red atom.</span></figcaption>
 <!--  tex4ht:label?: x1-7001r3.4   --></figure>
 <!--  l. 116  -->
