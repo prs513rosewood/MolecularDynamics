@@ -3,7 +3,7 @@ layout: default
 title:  "Milestone 1"
 parent: Project
 categories: project
-author : Wolfram Nöhring
+author : Lars Pastewka
 nav_order: 1
 ---
 
