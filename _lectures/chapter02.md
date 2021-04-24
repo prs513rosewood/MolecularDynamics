@@ -15,7 +15,7 @@ nav_order: 02
 </div>
 <h3 class='sectionHead'><span class='titlemark'>2.1</span> <a id='x1-20002.1'></a>Newton’s equations of motion</h3>
 <!--  l. 14  -->
-<p class='noindent'>We have now (almost) all the ingredients to carry out a molecular dynamics simulation. From our or potential energy expression \(E_{\text{pot}}(\{\vec{r}_i\})\) discussed in the previous chapter, we obtain the force \begin{equation} \vec{f}_i = \partial E_{\text{pot}}/\partial \vec{r}_i \end{equation} on each of the \(N\) atoms. Once we know the forces, we can obtain the accelerations \(\vec{a}_i\) through Newton’s third law, \begin{equation} \vec{f}_i = m_i \vec{a}_i. \end{equation} We
+<p class='noindent'>We have now (almost) all the ingredients to carry out a molecular dynamics simulation. From our potential energy expression \(E_{\text{pot}}(\{\vec{r}_i\})\) discussed in the previous chapter, we obtain the force \begin{equation} \vec{f}_i = -\partial E_{\text{pot}}/\partial \vec{r}_i \end{equation} on each of the \(N\) atoms. Once we know the forces, we can obtain the accelerations \(\vec{a}_i\) through Newton’s third law, \begin{equation} \vec{f}_i = m_i \vec{a}_i. \end{equation} We
 are therefore assuming that atom \(i\) can be described as a point of mass \(m_i\)! The mass can be obtained from the periodic table of elements. Note that the mass listed in the periodic table is usually the average over all isotopes weighted by their occurrence on earth, and this mass is used for most practical purposes. For some application, in particular to understand the different behavior of Hydrogen and Deuterium, it can be necessary to actually model the individual isotopes by using their
 respective mass.</p>
 <!--  l. 24  -->
@@ -25,27 +25,12 @@ Eq. \eqref{eq:Newton} can therefore be thought of as a single point moving in t
 <div class='framedenv' id='shaded*-1'><!--  l. 31  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Code example:</span></span> For a molecular dynamics code, it is useful to have a data structure that represents the state of the simulation and stores at least positions and velocities. This data structure could also store element names (or atomic numbers), masses and forces. An example that uses <a href='https://eigen.tuxfamily.org/'>Eigen</a> arrays as the basic array container is shown below.</p>
 <!--  l. 33  -->
-<div class='lstlisting' id='listing-1'><span class='label'><a id='x1-2001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>using Positions_t = Eigen::Array3Xd; </span><br />
-<span class='label'><a id='x1-2002r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>using Velocities_t = Eigen::Array3Xd; </span><br />
-<span class='label'><a id='x1-2003r3'></a><span class='cmr-6'>3</span></span><span class='cmtt-10'>using Forces_t = Eigen::Array3Xd; </span><br />
-<span class='label'><a id='x1-2004r4'></a><span class='cmr-6'>4</span></span><span class='cmtt-10'> </span><br />
-<span class='label'><a id='x1-2005r5'></a><span class='cmr-6'>5</span></span><span class='cmtt-10'>class Atoms { </span><br />
-<span class='label'><a id='x1-2006r6'></a><span class='cmr-6'>6</span></span><span class='cmtt-10'>public: </span><br />
-<span class='label'><a id='x1-2007r7'></a><span class='cmr-6'>7</span></span><span class='cmtt-10'>    Positions_t positions; </span><br />
-<span class='label'><a id='x1-2008r8'></a><span class='cmr-6'>8</span></span><span class='cmtt-10'>    Velocities_t velocities; </span><br />
-<span class='label'><a id='x1-2009r9'></a><span class='cmr-6'>9</span></span><span class='cmtt-10'>    Forces_t forces; </span><br />
-<span class='label'><a id='x1-2010r10'></a><span class='cmr-6'>10</span></span><span class='cmtt-10'> </span><br />
-<span class='label'><a id='x1-2011r11'></a><span class='cmr-6'>11</span></span><span class='cmtt-10'>    Atoms(Positions_t &amp;p) : </span><br />
-<span class='label'><a id='x1-2012r12'></a><span class='cmr-6'>12</span></span><span class='cmtt-10'>            positions{p}, velocities{3, p.cols()}, forces{3, p.cols()} { </span><br />
-<span class='label'><a id='x1-2013r13'></a><span class='cmr-6'>13</span></span><span class='cmtt-10'>        velocities.setZero(); </span><br />
-<span class='label'><a id='x1-2014r14'></a><span class='cmr-6'>14</span></span><span class='cmtt-10'>        forces.setZero(); </span><br />
-<span class='label'><a id='x1-2015r15'></a><span class='cmr-6'>15</span></span><span class='cmtt-10'>    } </span><br />
-<span class='label'><a id='x1-2016r16'></a><span class='cmr-6'>16</span></span><span class='cmtt-10'> </span><br />
-<span class='label'><a id='x1-2017r17'></a><span class='cmr-6'>17</span></span><span class='cmtt-10'>    size_t nb_atoms() { </span><br />
-<span class='label'><a id='x1-2018r18'></a><span class='cmr-6'>18</span></span><span class='cmtt-10'>        return positions.cols(); </span><br />
-<span class='label'><a id='x1-2019r19'></a><span class='cmr-6'>19</span></span><span class='cmtt-10'>    } </span><br />
-<span class='label'><a id='x1-2020r20'></a><span class='cmr-6'>20</span></span><span class='cmtt-10'>};</span></div>
+
+{% capture my_include %}{% include_relative atoms.cpp %}{% endcapture %}
+{{ my_include | markdownify }}
+
 <!--  l. 55  -->
+
 <p class='indent'>As a general rule, the data structure should be designed in a way that data that is processed consecutively is also stored in memory in a continuous manner. This ensures <a href='https://en.wikipedia.org/wiki/Cache_coherence'>cache coherenece</a>. For example, we could be tempted to create a class <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>Atom</span></span></span> that contains the positions, velocities, etc. of a single atom and than use an array (e.g.
 <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>std::vector&lt;Atom&gt; atoms</span></span></span>) of that class as the basic data structure. However, positions are then no longer consecutive in memory. A function (e.g. computing forces) does not need the velocities would still load them into the cache, as the <a href='https://en.wikipedia.org/wiki/CPU_cache'>cache line size</a> for all modern CPUs is \(64\) bytes. For high-performance numerical code, it is therefore <span class='cmti-12'>always</span> preferable to use structures of arrays rather than arrays of structure.</p>
 </div>
@@ -54,7 +39,7 @@ Eq. \eqref{eq:Newton} can therefore be thought of as a single point moving in t
 <h3 class='sectionHead'><span class='titlemark'>2.2</span> <a id='x1-30002.2'></a>Kinetic energy and energy conservation</h3>
 <!--  l. 60  -->
 <p class='noindent'>In addition to the potential energy \(E_{\text{pot}}(\{ \vec{r}_i\})\), the dynamical state of a system is characterized by its kinetic energy, \begin{equation} E_{\text{kin}}(\{ \vec{p}_i\}) = \sum _i \frac{1}{2} \frac{p_i^2}{m_i}. \end{equation} Note that the total energy \begin{equation} H(\{ \vec{r}_i\},\{ \vec{p}_i\}) = E_{\text{kin}}(\{ \vec{p}_i\}) + E_{\text{pot}}(\{ \vec{r}_i\}) \label{eq:hamil} \end{equation} is a conserved quantity during the motion of the atoms. This can be
-seen by showing that the derivative of the total energy with respect to time vanishes, \begin{equation} \dot{H} = \dot{E}_{\text{kin}} + \dot{E}_{\text{pot}} = \sum _i \frac{\vec{p}_i \dot{\vec{p}}_i}{m_i} + \sum _i \frac{\partial E_{\text{pot}}}{\partial \vec{r}_i} \dot{\vec{r_i}} = \sum _i \vec{v}_i \vec{f}_i - \sum _i \vec{v}_i \vec{f}_i = 0. \end{equation} \(H\) is also called the <span class='cmti-12'>Hamiltonian</span> of the system.</p>
+seen by showing that the derivative of the total energy with respect to time vanishes, \begin{equation} \dot{H} = \dot{E}_{\text{kin}} + \dot{E}_{\text{pot}} = \sum _i \frac{\vec{p}_i \dot{\vec{p}}_i}{m_i} + \sum _i \frac{\partial E_{\text{pot}}}{\partial \vec{r}_i} \dot{\vec{i}_i} = \sum _i \vec{v}_i \vec{f}_i - \sum _i \vec{v}_i \vec{f}_i = 0. \end{equation} \(H\) is also called the <span class='cmti-12'>Hamiltonian</span> of the system.</p>
 <div class='framedenv' id='shaded*-1'><!--  l. 76  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> Measuring the total energy (or any other conserved quantity!) and checking whether it is constant in a molecular dynamics simulation is a way of testing if the time step \(\Delta t\) used in the numerical integration is small enough. We will discuss numerical integration in detail below.</p>
 </div>
@@ -109,8 +94,8 @@ usually useful to be able to know both, positions and velocities, at time \(t\).
 <p class='noindent'></p>
 <h4 class='subsectionHead'><span class='titlemark'>2.3.4</span> <a id='x1-80002.3.4'></a>Velocity-Verlet integration</h4>
 <!--  l. 164  -->
-<p class='noindent'>Let us now also Taylor expand \(\vec{r}_i(t)\) up to third order in \(\Delta t\) at \(\vec{r}_i(t+\Delta t)\), i.e. we integrate backwards in time from \(t + \Delta t\) to \(t\). This gives \begin{equation} \label{eqn: taylor_r} \vec{r}_i(t) = \vec{r}_i(t+\Delta t) - \vec{v}_i(t+\Delta t) \Delta t + \frac{1}{2m_i} \vec{f}_i(t+\Delta t) \Delta t^2 - \frac{1}{6} \dot{\dot{\dot{\vec{r}}}}_i(t) \Delta t^3 + O(\Delta t^3) \end{equation} Equation \eqref{eqn: taylor˙tplus} is the
-positions update of the Velocity-Verlet algorithm. The sum of Eq. \eqref{eqn: taylor˙tplus} and Eq. \eqref{eqn: taylor˙r} gives the velocity update in the Velocity-Verlet algorithm: \begin{align} \vec{r}_i(t+\Delta t) &amp;= \vec{r}_i(t) + \vec{v}_i(t)\Delta t + \frac{1}{2m_i} \vec{f}_i(t) \Delta t^2\\ \vec{v}_i(t+\Delta t) &amp;= \vec{v}_i(t) + \frac{1}{2m_i} \left (\vec{f}_i(t) + \vec{f}_i(t+\Delta t) \right ) \Delta t, \end{align}</p>
+<p class='noindent'>Let us now also Taylor expand \(\vec{r}_i(t)\) up to third order in \(\Delta t\) at \(\vec{r}_i(t+\Delta t)\), i.e. we integrate backwards in time from \(t + \Delta t\) to \(t\). This gives \begin{equation} \label{eqn: taylor_r} \vec{r}_i(t) = \vec{r}_i(t+\Delta t) - \vec{v}_i(t+\Delta t) \Delta t + \frac{1}{2m_i} \vec{f}_i(t+\Delta t) \Delta t^2 - \frac{1}{6} \dot{\dot{\dot{\vec{r}}}}_i(t) \Delta t^3 + O(\Delta t^3) \end{equation} Equation \eqref{eqn: taylor_tplus} is the
+positions update of the Velocity-Verlet algorithm. The sum of Eq. \eqref{eqn: taylor_tplus} and Eq. \eqref{eqn: taylor_r} gives the velocity update in the Velocity-Verlet algorithm: \begin{align} \vec{r}_i(t+\Delta t) &amp;= \vec{r}_i(t) + \vec{v}_i(t)\Delta t + \frac{1}{2m_i} \vec{f}_i(t) \Delta t^2\\ \vec{v}_i(t+\Delta t) &amp;= \vec{v}_i(t) + \frac{1}{2m_i} \left (\vec{f}_i(t) + \vec{f}_i(t+\Delta t) \right ) \Delta t, \end{align}</p>
 <!--  l. 174  -->
 <p class='indent'>Note that this algorithm is often split in the form of a predictor-corrector scheme since this saves computation time and the necessity to keep past forces around. The predictor step is \begin{align} \vec{v}_i(t+\Delta t/2) &amp;= \vec{v}_i(t) + \frac{1}{2m_i} \vec{f}_i(t) \Delta t \label{eq:vvpred1} \\ \vec{r}_i(t+\Delta t) &amp;= \vec{r}_i(t) + \vec{v}_i(t+\Delta t/2) \Delta t \label{eq:vvpred2} \end{align}</p>
 <!--  l. 182  -->
@@ -119,19 +104,15 @@ phase-space volume. We will come back to what this mean when talking about stati
 <div class='framedenv' id='shaded*-1'><!--  l. 189  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Code example:</span></span> We can implement the velocity-verlet algorithm in a few lines of C++ code using vectorized <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>Eigen</span></span></span> operations. The prediction step</p>
 <!--  l. 191  -->
-<div class='lstlisting' id='listing-2'><span class='label'><a id='x1-8001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>void verlet_step1(Atoms &amp;atoms, double timestep, double mass) { </span><br />
-<span class='label'><a id='x1-8002r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>    atoms.velocities += 0.5 * atoms.forces * timestep / mass; </span><br />
-<span class='label'><a id='x1-8003r3'></a><span class='cmr-6'>3</span></span><span class='cmtt-10'>    atoms.positions += atoms.velocities * timestep; </span><br />
-<span class='label'><a id='x1-8004r4'></a><span class='cmr-6'>4</span></span><span class='cmtt-10'>}</span></div>
+{% capture verlet_predictor_include %}{% include_relative verlet_predictor.cpp %}{% endcapture %}
+{{ verlet_predictor_include | markdownify }}
 <!--  l. 197  -->
 <p class='indent'>implements Eq. \eqref{eq:vvpred1}. We then compute new forces and correct the velocities via</p>
 <!--  l. 198  -->
-<div class='lstlisting' id='listing-3'><span class='label'><a id='x1-8005r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>void verlet_step2(Atoms &amp;atoms, double timestep, double mass) { </span><br />
-<span class='label'><a id='x1-8006r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>    atoms.velocities += 0.5 * atoms.forces * timestep / mass; </span><br />
-<span class='label'><a id='x1-8007r3'></a><span class='cmr-6'>3</span></span><span class='cmtt-10'>}</span></div>
-</div>
+{% capture verlet_corrector_include %}{% include_relative verlet_corrector.cpp %}{% endcapture %}
+{{ verlet_corrector_include | markdownify }}
 <div class='framedenv' id='shaded*-1'><!--  l. 208  -->
-<p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> The timestep in MD simulations has to be on the order of femtoseconds, in order to resolve the fastest atomic vibrations. For example, in simulations with metals and Embedded Atom Method (EAM) potentials, \(\Delta t=1\) fs is typically a safe choice. How can we check that the timestep is sensible? One possibility is to simply propage a configuration in time using the Velocity-Verlet algorithm. This is sometimes
+<p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> The timestep in MD simulations has to be on the order of femtoseconds, in order to resolve the fastest atomic vibrations. For example, in simulations with metals and Embedded Atom Method (EAM) potentials, \(\Delta t=1\) fs is typically a safe choice. How can we check that the timestep is sensible? One possibility is to simply propagate a configuration in time using the Velocity-Verlet algorithm. This is sometimes
 called the micro-canonical or NVE ensemble. (NVE because number of atoms, volume and energy is constant.) We then record the evolution of the total (kinetic plus potential) energy, which should be constant. The discrete time integration scheme will introduce numerical errors. If \(\Delta t\) is too large, there will be noticeable drift of the total energy. The figures below show the results of such a simulation. A system of \(108000\) Au atoms was simulated for \(100\) ps with various values of
 \(\Delta t\). The \(y\)-axis shows the difference between the current and initial values of the total energy. The data was smoothened to suppress high-frequency fluctuations in the figure. For this system, even \(5\) fs would still be an acceptable time step.</p>
 <div class='center'><!--  l. 219  -->
