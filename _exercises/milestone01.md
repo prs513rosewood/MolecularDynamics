@@ -12,15 +12,15 @@ nav_order: 1
 ### Setting up your system
 
 The starting point of your project is setting up a proper build environment.
-This means, we need to install and test all tools necessary for the project.
-In particular, we will need:
+This means, you need to install and test all tools necessary for the project.
+In particular, you will need:
 * A C++ compiler
 * [CMake](https://cmake.org) (at least version 3.11) for our build environment
 * An [MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) installation
 
 We provide installation instructions for [Ubuntu](https://ubuntu.com/)
 installations. If you have a Windows machine, we recommend to use
-[Windows Subsystem for Linux (WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux).
+the [Windows Subsystem for Linux (WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux).
 Documentation on how to install WSL on Windows 10 can be found
 [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
@@ -56,13 +56,13 @@ type
 git clone git@github.com:pastewka/yamd.git
 ```
 (and replace "pastewka" and "yamd" with whatever is appropriate for you). The
-code now resides in the subdirectory "yamd". Note if you do not want to work
+code now resides in the subdirectory "yamd". Note that if you do not want to work
 on github, you can also directly check out the template repository.
 
 Our template repository has existing CMake files. Those CMake files are set up
 to automatically download the libraries
 * [Eigen](https://eigen.tuxfamily.org/) for basic (array) data structures and
-* [Googletest](https://github.com/google/googletest) as a testing framework.
+* [Googletest](https://github.com/google/googletest) as a testing framework.  
 We will work with these libraries throughout this class.
 
 _Note_: If you are unfamiliar with the unix shell, we recommend
