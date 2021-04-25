@@ -24,7 +24,7 @@ The header file typically has the extension `.h` and contains only the signature
 the functions. It is required such that the module can be used from another source file.
 
 Create a file `verlet.h` with the following contents:
-```C++
+```c++
 #ifndef __VERLET_H
 #define __VERLET_H
 
@@ -54,7 +54,7 @@ is not allowed. (We don't need to modify the forces and it is good practice to p
 to avoid accidental modification.)
 
 The corresponding source file `verlet.cpp` should look like this:
-```C++
+```c++
 #include "verlet.h"
 
 void verlet_step1(Eigen::Array3Xd &positions, Eigen::Array3Xd &velocities, const Eigen::Array3Xd &forces,
