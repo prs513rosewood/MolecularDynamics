@@ -88,4 +88,16 @@ Please browse the documentation and look at the primer on the documentation page
 
 A _test case_ consists of a number of _assertion_. An assertion defines a certain outcome of the function to be tested.
 As an example, let us assume we were writing a test for a `sin` function. We know for example than the function vanishes
-at integer multiples of $\pi$.
+at integer multiples of $\pi$. A test case could look like this:
+```c++
+TEST(SinTest, IntegerMultiplesOfPi) {
+  EXPECT_EQ(sin(0), 0);
+  EXPECT_EQ(sin(pi), 0);
+  EXPECT_EQ(sin(2+pi), 0);
+}
+```
+Note that instead of `EXCEPT_EQ` you can use `ASSERT_EQ`, which terminates the test at the first failure.
+
+### Assigment
+
+Implement the Velocity-Verlet integration and write a test for it.
