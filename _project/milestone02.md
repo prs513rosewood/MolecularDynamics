@@ -37,7 +37,7 @@ void verlet_step2(Eigen::Array3Xd &velocities, const Eigen::Array3Xd &forces, do
 #endif  // __VERLET_H
 ```
 The `#ifndef __VERLET_H` commands are called a [header guard](https://en.wikipedia.org/wiki/Include_guard) and
-avoids double inclusion of the file (e.g. in a chain of include statements). Everything that starts with a `#`
+avoid double inclusion of the file (e.g. in a chain of include statements). Everything that starts with a `#`
 is processed by the [preprocessor](https://en.wikipedia.org/wiki/C_preprocessor) which produces the file that
 is actually compiled by the C++ compiler.
 
@@ -52,5 +52,21 @@ passed as a reference can be modified inside the function, which is why we can u
 `verlet_step1`. The [`const` qualifier](https://en.cppreference.com/w/c/language/const) tells the compiler that a modification
 is not allowed. (We don't need to modify the forces and it is good practice to protect the with this `const` qualifier
 to avoid accidental modification.)
+
+The corresponding source file `verlet.cpp` should look like this:
+```C++
+#include "verlet.h"
+
+void verlet_step1(Eigen::Array3Xd &positions, Eigen::Array3Xd &velocities, const Eigen::Array3Xd &forces,
+                  double timestep) {
+    ... implement Verlet step1 here ...
+}
+
+void verlet_step2(Eigen::Array3Xd &velocities, const Eigen::Array3Xd &forces, double timestep) {
+    ... implement Verlet step2 here ...
+}
+```
+Header and source files have typically extensions `.h` and `.cpp`. On Unix system, you sometimes find `.hh` and `.cc`
+for C++ code.
 
 
