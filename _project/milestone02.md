@@ -69,4 +69,16 @@ void verlet_step2(Eigen::Array3Xd &velocities, const Eigen::Array3Xd &forces, do
 Header and source files have typically extensions `.h` and `.cpp`. On Unix system, you sometimes find `.hh` and `.cc`
 for C++ code.
 
+To compile the code, you need to add headers files to `MYPROJECT_HDRS` and sources files to `MYPROJECT_SRCS` in the
+main `CMakeLists.txt`. From the command-line, you can compile the code by running `make` in the `build` directory.
+
+### Testing the integrator
+
+It is important to properly test _any_ implementation. You can even adopt a [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development)
+style in which tests are written before the implementation. We also here encourage you to write tests for all parts
+of your molecular dynamics code. We will outline possible testing strategies in the respective milestones.
+
+One possible test strategy for numerical code is to compare a numerical solution against a known analysical solution.
+We are here solving Newton's equation of motion. Think which problem you can possibly solve analytically and then write
+a test for it.
 
