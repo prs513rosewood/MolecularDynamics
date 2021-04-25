@@ -9,6 +9,12 @@ nav_order: 1
 
 ## Milestone 1 <br/> Setting up the build environment
 
+### Introduction
+
+In this first milestone we will set up a build environemnt and make sure
+that you can compile C++ code on your computer. This will be the starting
+point for the developments in the following milestones.
+
 ### Setting up your system
 
 The starting point of your project is setting up a proper build environment.
