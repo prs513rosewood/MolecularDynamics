@@ -100,4 +100,4 @@ Note that instead of `EXCEPT_EQ` you can use `ASSERT_EQ`, which terminates the t
 
 ### Assigment
 
-Implement the Velocity-Verlet integration and write a test for it.
+Implement the Velocity-Verlet integration and write a test for it. You find useful code snippets in the lecture material.
