@@ -82,3 +82,10 @@ One possible test strategy for numerical code is to compare a numerical solution
 We are here solving Newton's equation of motion. Think which problem you can possibly solve analytically and then write
 a test for it.
 
+To add a new test, create a new file to the `tests` subdirectory and add it to the `myproject_tests_SRCS` in `CMakeLists.txt`
+in the `tests` directory. You can copy the file `test_hello_world.cpp` as a template. The project uses [Googletest](https://google.github.io/googletest/).
+Please browse the documentation and look at the primer on the documentation page.
+
+A _test case_ consists of a number of _assertion_. An assertion defines a certain outcome of the function to be tested.
+As an example, let us assume we were writing a test for a `sin` function. We know for example than the function vanishes
+at integer multiples of $\pi$.
