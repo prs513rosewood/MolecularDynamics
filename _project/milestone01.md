@@ -9,6 +9,11 @@ nav_order: 1
 
 ## Milestone 1 <br/> Setting up the build environment
 
+### Learning goals
+
+The student will...
+* ...be able to compile a C++ project with CMake.
+
 ### Introduction
 
 In this first milestone we will set up a build environemnt and make sure

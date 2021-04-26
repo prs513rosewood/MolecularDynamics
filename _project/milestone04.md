@@ -7,5 +7,6 @@ author : Lars Pastewka
 nav_order: 4
 ---
 
-## Milestone 4 <br/> Berendsen thermostat
+## Milestone 4 <br/> Lennard-Jones potential with direct summation
+
 

@@ -7,5 +7,5 @@ author : Lars Pastewka
 nav_order: 6
 ---
 
-## Milestone 6 <br/> Embedded-atom method potential
+## Milestone 6 <br/> Lennard-Jones potential with a cutoff
 

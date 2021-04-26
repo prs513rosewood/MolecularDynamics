@@ -7,5 +7,5 @@ author : Lars Pastewka
 nav_order: 5
 ---
 
-## Milestone 5 <br/> Lennard-Jones potential with a cutoff
+## Milestone 5 <br/> Berendsen thermostat
 
