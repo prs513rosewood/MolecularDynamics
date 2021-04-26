@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 03"
 parent: Lecture
-date: 2021-04-24
+date: 2021-04-26
 categories: lecture
 author: Lars Pastewka
 nav_order: 03
@@ -11,7 +11,7 @@ nav_order: 03
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 3</span><br />
 <a id='x1-10003'></a>Pair potentials</h2>
-<div id='shaded*-1' class='framedenv'><!--  l. 4  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 4  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Interatomic forces or interatomic potentials determine the material that we want to study. There is a plethora of interatomic potentials of varying accuracy, transferability and computational cost available in the literature. We here discuss simple pair potentials and point out algorithmic considerations.</p>
 </div>
 <h3 class='sectionHead'><span class='titlemark'>3.1</span> <a id='x1-20003.1'></a>Introduction</h3>
@@ -35,8 +35,8 @@ distance between atom <span class='cmti-12'>i</span> and atom <span class='cmti-
 <p class='noindent'></p>
 <h4 class='subsectionHead'><span class='titlemark'>3.2.1</span> <a id='x1-40003.2.1'></a>Dispersion forces</h4>
 <!--  l. 57  -->
-<p class='noindent'>An important type of interatomic and intermolecular is the London dispersion force. This interaction is attractive, and acts between all atoms even noble gases. Its lies in fluctuations of the atomic dipole moment. (This is a quantum mechanical effect, but the simplest model would be an electron orbiting a nucleus with a rotating dipole moment.) This fluctuating dipole <span class='cmti-12'>indices</span> a dipole in a second atom and these interact. The interaction decays as \(r^{-6}\)
-at short distances. London dispersion forces are one of the forces that are often subsumed under the term van-der-Waals interaction.</p>
+<p class='noindent'>An important contribution to interatomic and intermolecular interactions is the London dispersion force. This interaction is attractive, and acts between all atoms even noble gases. Its origin lies in fluctuations of the atomic dipole moment. (This is a quantum mechanical effect, but the simplest model would be an electron orbiting a nucleus with a rotating dipole moment.) This fluctuating dipole <span class='cmti-12'>induces</span> a dipole in a second atom and these interact. The
+interaction decays as \(r^{-6}\) at short distances. London dispersion forces are one of the forces that are often subsumed under the term van-der-Waals interaction.</p>
 <!--  l. 59  -->
 <p class='noindent'></p>
 <h4 class='subsectionHead'><span class='titlemark'>3.2.2</span> <a id='x1-50003.2.2'></a>Lennard-Jones potential</h4>
@@ -67,7 +67,7 @@ Hamiltonian \(H\) is not a conserved quantity. The shifted potential fulfills th
 <p class='noindent'>The sum Eq. \eqref{eq:pairpotcut} runs over all neighbors. One important algorithmic step with complexity \(O(N)\) in molecular dynamics codes is to build a <span class='cmti-12'>neighbor list</span>, i.e. find all pairs <span class='cmti-12'>i-j</span> with \(r_{ij} &lt; r_{c}\). This is usually done using a <span class='cmti-12'>domain</span> <span class='cmti-12'>decomposition</span> (see Fig. <a href='#x1-7001r1'>3.1<!--  tex4ht:ref: fig:neighborsearch   --></a>) that
 divides the simulation domain in cells of a certain size and sorts all atoms into one of these cells. The neighbor list can then be constructed by looking for neighbors in neighboring cells only. If the cell size \(b\) is larger than the cutoff radius, \(b&gt;r_c\), then we only need to look exactly the neighboring cells.</p>
 <figure class='figure'><!--  l. 111  -->
-<p class='noindent'><img src='figures/neighbor_list_search.png' alt='PIC' height='390' width='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
+<p class='noindent'><img alt='PIC' height='390' src='figures/neighbor_list_search.png' width='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
 <figcaption class='caption'><span class='id'>Figure 3.1::</span> <span class='content'>Illustration of the typical data structure used for an \(O(N)\) neighbor search in a molecular dynamics simulation. For searching the neighbors within a cutoff \(r_c\) of the red atom, we only need to consider the candidate atoms that are in the cell adjacent to the red atom.</span></figcaption>
 <!--  tex4ht:label?: x1-7001r3.4   --></figure>
 <!--  l. 116  -->
