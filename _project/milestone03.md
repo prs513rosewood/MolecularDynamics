@@ -82,8 +82,8 @@ We suggest to use the following signature for the integrators:
 
 #include <Eigen/Dense>
 
-void verlet_step1(Eigen::Array3Xd &positions, Eigen::Array3Xd &velocities, const Eigen::Array3Xd &forces,
-                  double timestep);
+void verlet_step1(Eigen::Array3Xd &positions, Eigen::Array3Xd &velocities,
+                  const Eigen::Array3Xd &forces, double timestep);
 void verlet_step2(Eigen::Array3Xd &velocities, const Eigen::Array3Xd &forces, double timestep);
 
 #endif  // __VERLET_H
@@ -97,8 +97,8 @@ The corresponding source file `verlet.cpp` should look like this:
 ```c++
 #include "verlet.h"
 
-void verlet_step1(Eigen::Array3Xd &positions, Eigen::Array3Xd &velocities, const Eigen::Array3Xd &forces,
-                  double timestep) {
+void verlet_step1(Eigen::Array3Xd &positions, Eigen::Array3Xd &velocities,
+                  const Eigen::Array3Xd &forces, double timestep) {
     ... implement Verlet step1 here ...
 }
 
