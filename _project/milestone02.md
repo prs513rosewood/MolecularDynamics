@@ -71,7 +71,7 @@ for C++ code. C++ headers sometimes have the suffix `.hpp`.
 To compile the code, you need to add headers files to `MYPROJECT_HDRS` and sources files to `MYPROJECT_SRCS` in the
 main `CMakeLists.txt`. From the command-line, you can compile the code by running `make` in the `build` directory.
 
-### Testing the integrator
+### Adding new test cases
 
 It is important to properly test _any_ implementation. You can even adopt a [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development)
 style in which tests are written before the implementation. We also here encourage you to write tests for all parts
@@ -97,6 +97,22 @@ TEST(SinTest, IntegerMultiplesOfPi) {
 Note that instead of `EXCEPT_EQ` you can use `ASSERT_EQ`, which terminates the test at the first failure. Note that a proper
 test for the \\(sin\\) function would also need to test intermediate values.
 
-### Assigment
+### Implement integrator and tests
 
 Implement the Velocity-Verlet integration and write a test for it by comparing the motion of a single atom under the action of a constant force. You will find useful code snippets in the lecture material.
+
+Note that the test will require a first mini-(molecular)-dynamics simulation. In order to integrate the equations of motion,
+you will need to write a loop of the form
+```c++
+for (int i = 0; i < nb_steps; ++i) {
+    std::cout << "Step: " << i << std::endl;
+    verlet_step1(args...);
+    ... compute forces here ...
+    verlet_step2(args...);
+}
+```
+This loop integrates the equation of motion for `nb_steps`  steps.
+The main loop of any molecular dynamics simulation code looks like this. We will add bells and whistles to it, but the main
+structure will remain the same.
+
+The stream `std::cout` can be used to print something to the screen. You can find the documentation for [`iostream` here](https://en.cppreference.com/w/cpp/header/iostream).

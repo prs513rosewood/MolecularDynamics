@@ -69,7 +69,7 @@ Eigen::Array3d distance_vector{positions.col(i) - positions.col(j)};
 ```
 Note that in the above example we have use the [`auto`](https://en.cppreference.com/w/cpp/language/auto) keyword
 to automatically derive the type, while in the second case we have explicitly used the data type [`Eigen::Array3d`](https://eigen.tuxfamily.org/dox/group__arraytypedefs.html)
-for the distance vector. The curly brackets are a [non-narrowing intialization](https://en.cppreference.com/w/cpp/language/direct_initialization). This type of initialization avoid implicit type conversion and should be prefered over
+for the distance vector. The curly brackets are a [non-narrowing initialization](https://en.cppreference.com/w/cpp/language/direct_initialization). This type of initialization avoids implicit type conversion and should be prefered over
 copy initialization or narrowing initialization (with round parenthesis).
 
 ### Integrator for multiple atoms
