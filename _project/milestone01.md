@@ -33,7 +33,8 @@ We provide installation instructions for [Ubuntu](https://ubuntu.com/)
 installations. If you have a Windows machine, we recommend to use
 the [Windows Subsystem for Linux (WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux).
 Documentation on how to install WSL on Windows 10 can be found
-[here](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
+[here](https://docs.microsoft.com/en-us/windows/wsl/install-win10). The following
+instructions also apply for Ubuntu installed within WSL.
 
 Once you have these things set up, open a command shell and type
 ```bash
@@ -41,10 +42,18 @@ sudo apt-get update
 sudo apt-get install cmake gcc clang gdb build-essential git cmake-curses-gui valgrind
 sudo apt-get install openmpi-bin libopenmpi-dev 
 ```
+Note that if you are on a different system than Ubuntu, these commands may differ.
+On [Ubuntu](https://ubuntu.com/)/[Debian](https://www.debian.org/) it is `apt` or `apt-get`
+but on [Fedora](https://getfedora.org/)/[CentOS](https://www.centos.org/)/[RHEL](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)
+the package manager command is `dnf`. On macOS it depends on which package manager you have installed, the
+most pupular one is [Homebrew](https://brew.sh/) which provides the `brew` command for
+package installation. The names of the packages will also vary between these systems.
 
 We recommend using a development environment for developing code. We
 ourselves use [CLion](https://www.jetbrains.com/clion/). Free educational
 licenses CLion can be obtained [here](https://www.jetbrains.com/community/education/).
+CLion is available for all of the above platforms and can on Windows be configured
+to use WSL.
 
 ### Creating an empty repository
 
