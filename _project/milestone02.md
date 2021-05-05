@@ -97,6 +97,15 @@ TEST(SinTest, IntegerMultiplesOfPi) {
 Note that instead of `EXCEPT_EQ` you can use `ASSERT_EQ`, which terminates the test at the first failure. Note that a proper
 test for the \\(sin\\) function would also need to test intermediate values.
 
+Tests for floating-point number should not be done using equalities as in the above example. This is because floating-point results are subject to rounding errors. More complex numerical schemes (such as the integrator discussed in the next milestone) are additionally subject to numerical (discretization) errors. Any comparison must therefore be carried out with a certain tolerance. Googletest provides the assertion `EXPECT_NEAR` and `ASSERT_NEAR` for this. These assertions take a third argument that specifies the maximum tolerable absolute difference between the two arguments:
+```c++
+TEST(SinTest, IntegerMultiplesOfPi) {
+  EXPECT_NEAR(sin(0), 0, 1e-6);
+  EXPECT_NEAR(sin(pi), 0, 1e-6);
+  EXPECT_NEAR(sin(2+pi), 0, 1e-6);
+}
+```
+
 ### Implement integrator and tests
 
 Implement the Velocity-Verlet integration and write a test for it by comparing the motion of a single atom under the action of a constant force. You will find useful code snippets in the lecture material.
@@ -116,3 +125,11 @@ The main loop of any molecular dynamics simulation code looks like this. We will
 structure will remain the same.
 
 The stream `std::cout` can be used to print something to the screen. You can find the documentation for [`iostream` here](https://en.cppreference.com/w/cpp/header/iostream).
+
+### Task summary
+
+This milestone requires the following tasks:
+
+* Implement the Velocity-Verlet integrator
+* Implement a test for the Velocity-Verlet integrator
+
