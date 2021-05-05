@@ -115,3 +115,10 @@ Update the tests such that they test your modified integrator. These tests shoul
 same time.
 
 [Eigen arrays]: https://eigen.tuxfamily.org/dox/group__TutorialArrayClass.html
+
+### Task summary
+
+This milestone requires the following tasks:
+
+* Extend your Velocity-Verlet integrator to work with multiple atoms
+* Update your tests to accomodate the changed interface

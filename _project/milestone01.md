@@ -138,3 +138,14 @@ tests/myproject_tests
 ```
 If this worked, you have successfully compiled the hello world program and
 its tests.
+
+### Task summary
+
+This milestone requires the following tasks:
+
+* Create a repository for your code development from our template
+* Compile the template and run main exectuable and tests
+
+We provide the following files for you:
+
+* Skeleton repository at [https://github.com/imtek-simulation/cmake-skeleton/](https://github.com/imtek-simulation/cmake-skeleton/)
