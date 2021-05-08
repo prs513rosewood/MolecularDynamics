@@ -10,7 +10,7 @@ nav_order: 05
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 5</span><br />
 <a id='x1-10005'></a>Embedded-atom method potentials</h2>
-<div id='shaded*-1' class='framedenv'><!--  l. 4  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 4  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> We here introduce a more complex interatomic potential that is suitable for modeling metals, the embedded atom method potential. It belongs to the class of <span class='cmti-12'>many-body</span> interatomic potentials and can be used to model mechanical or thermodynamic properties of metals.</p>
 </div>
 <h3 class='sectionHead'><span class='titlemark'>5.1</span> <a id='x1-20005.1'></a>Introduction</h3>
@@ -26,11 +26,11 @@ properties of melt, or the transition between solid and melt.</p>
 <p class='noindent'></p>
 <h3 class='sectionHead'><span class='titlemark'>5.2</span> <a id='x1-30005.2'></a>Functional form</h3>
 <!--  l. 38  -->
-<p class='noindent'>The EAM is based on the assumption that the energy of an impurity in a host crystal lattice is a functional of the overall electron density \(\rho (\vec{r})\) (that leads to an attraction), plus some form of repulsion (i.e. due to Pauli exclusion). This can be written as \(E_\text{pot}=\mathcal{F}\left \lbrack \rho ( \vec{r} ) \right \rbrack + V_{\text{rep}}\), where \(\mathcal{F}\) is called the embedding functional that tells us the relationship between energy and electron density and
-\(V_{\text{rep}}\) some repulsive interaction.</p>
+<p class='noindent'>The EAM is based on the assumption that the energy of an impurity in a host crystal lattice is a functional of the overall electron density \(\rho (\vec{r})\) (that leads to an attraction), plus some form of repulsion (i.e. due to Pauli exclusion). This can be written as \(E_\text{pot}=\mathcal{F}\left \lbrack \rho ( \vec{r} ) \right \rbrack + \phi \), where \(\mathcal{F}\) is called the embedding functional that tells us the relationship between energy and electron density and \(\phi
+\) some repulsive interaction.</p>
 <!--  l. 42  -->
 <p class='indent'>We view each individual atom in the system as an impurity in the host consisting of all other atoms (<a href='#Xdaw_semiempirical_1983'>Daw and Baskes</a>, <a href='#Xdaw_semiempirical_1983'>1983</a>). \(\mathcal{F}\) is then approximated by a <span class='cmti-12'>function</span> that depends on the <span class='cmti-12'>local</span> electron density \(\rho _{i}\) at atom \(i\): \begin{equation} E_\text{pot}( \{{\vec{r}}_{i} \} ) = \sum _{i}{\mathcal{F}( \rho _{i} )} +
-\frac{1}{2}\sum _{i,j}^{}{V( r_{ij} )} \end{equation} Note the first sum is over atoms, not pairs, and the second term is a simple pair interaction. The missing ingredient is now the local electron density \(\rho _i\), which we approximate from the local density of the nuclei. This assumes that each atom in the vicinity of atom \(i\) contributes a certain number of electrons to the position of atom \(i\).</p>
+\frac{1}{2}\sum _{i,j}^{}{\phi ( r_{ij} )} \end{equation} Note the first sum is over atoms, not pairs, and the second term is a simple pair interaction. The missing ingredient is now the local electron density \(\rho _i\), which we approximate from the local density of the nuclei. This assumes that each atom in the vicinity of atom \(i\) contributes a certain number of electrons to the position of atom \(i\).</p>
 <!--  l. 52  -->
 <p class='indent'>The embedding function \(\mathcal{F(}\rho )\) is negative and (typically) decreases monotonously with increasing density. The more closely a structure is packed the lower the energy. The repulsive term that is physically due to electrostatic and Pauli repulsion then stabilizes the structure. This is balance between attractive and repulsive contribution a common feature of most interatomic potentials, and we have already seen it for the Lennard-Jones potential.</p>
 <!--  l. 59  -->
@@ -54,15 +54,15 @@ et al.</a> (<a href='#Xfoiles_embedded-atom-method_1986'>1986</a>) obtain \(f(
 <p class='indent'>A more modern approach is <span class='cmti-12'>force matching</span> due to <a href='#Xercolessi_interatomic_1994'>Ercolessi and Adams</a> (<a href='#Xercolessi_interatomic_1994'>1994</a>). Force matching potentials are fit to a set of calculations carried out with a more accurate and more transferable but also more expensive method (e.g. a quantum chemical method) at finite temperature. This generates a molecular dynamics trajectory that has configurations with nonzero forces on
 each atom. (Fitting to equilibrium properties such as Cleri-Rosato means fitting to structures where all forces are zero.) The potential parameters are then fit to reproduce these forces. This method has the advantage that, in principle, an unlimited set of fitting target can be generated easily and the potential can be fit to a large number of parameters. An example of a force-matched EAM is <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>). It
 has no fixed functional form, but splines are used to represent the three functions \(\mathcal{F}(\rho )\), \(f(r)\) and \(V(r_ij)\). Figure <a href='#x1-4001r1'>5.1<!--  tex4ht:ref: fig:grochola   --></a> shows these functions for the <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>) potential.</p>
-<div id='shaded*-1' class='framedenv'><!--  l. 115  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 115  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> While early EAM potentials had a purely attractive embedding contribution \(\mathcal{F}(\rho )\) and a purely repulsive pair contribution \(\phi (r)\), this condition is relaxed in more complex potential. As can be seen from Fig. <a href='#x1-4001r1'>5.1<!--  tex4ht:ref: fig:grochola   --></a>, <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>)’s potential
 includes a repulsive contribution from the embedding term.</p>
 </div>
 <figure class='figure'><!--  l. 120  -->
-<p class='noindent'><img alt='PIC' src='figures/image6.png' width='178' height='142' /> <img alt='PIC' src='figures/image7.png' width='178' height='142' /> <img alt='PIC' src='figures/image8.png' width='178' height='142' /> <a id='x1-4001r1'></a> <a id='x1-4002'></a></p>
+<p class='noindent'><img height='284' alt='PIC' src='figures/image6.png' width='356' /> <img height='284' alt='PIC' src='figures/image7.png' width='356' /> <img height='284' alt='PIC' src='figures/image8.png' width='356' /> <a id='x1-4001r1'></a> <a id='x1-4002'></a></p>
 <figcaption class='caption'><span class='id'>Figure 5.1::</span> <span class='content'>\(\mathcal{F}(\rho )\), \(f(r)\) and \(V(r_ij)\) as employed in the Au potential by <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>).</span></figcaption>
 <!--  tex4ht:label?: x1-4001r5.3   --></figure>
-<div id='shaded*-1' class='framedenv'><!--  l. 127  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 127  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> Note that these two approaches, fitting to experimental ground-state data and force-matching, are quite different from a philosophical point of view. It has been argued by <a href='#Xsukhomlinov_constraints_2016'>Sukhomlinov and Müser</a> (<a href='#Xsukhomlinov_constraints_2016'>2016</a>), that the potential should contains as few parameters as possible (Occam’s razor!) to achieve best transferability. Potential
 with many parameters are often accurate for the fitting data set but not accurate outside and hence not transferable. This problem is typically referred to as overfitting.</p>
 </div>
