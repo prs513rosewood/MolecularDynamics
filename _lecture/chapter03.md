@@ -11,7 +11,7 @@ nav_order: 03
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 3</span><br />
 <a id='x1-10003'></a>Pair potentials</h2>
-<div id='shaded*-1' class='framedenv'><!--  l. 4  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 4  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Interatomic forces or interatomic potentials determine the material that we want to study. There is a plethora of interatomic potentials of varying accuracy, transferability and computational cost available in the literature. We here discuss simple pair potentials and point out algorithmic considerations.</p>
 </div>
 <h3 class='sectionHead'><span class='titlemark'>3.1</span> <a id='x1-20003.1'></a>Introduction</h3>
@@ -71,7 +71,7 @@ Hamiltonian \(H\) is not a conserved quantity. The shifted potential fulfills th
 <p class='noindent'>The sum Eq. \eqref{eq:pairpotcut} runs over all neighbors. One important algorithmic step with complexity \(O(N)\) in molecular dynamics codes is to build a <span class='cmti-12'>neighbor list</span>, i.e. find all pairs <span class='cmti-12'>i-j</span> with \(r_{ij} &lt; r_{c}\). This is usually done using a <span class='cmti-12'>domain</span> <span class='cmti-12'>decomposition</span> (see Fig. <a href='#x1-7001r1'>3.1<!--  tex4ht:ref: fig:neighborsearch   --></a>) that
 divides the simulation domain in cells of a certain size and sorts all atoms into one of these cells. The neighbor list can then be constructed by looking for neighbors in neighboring cells only. If the cell size \(b\) is larger than the cutoff radius, \(b&gt;r_c\), then we only need to look exactly the neighboring cells.</p>
 <figure class='figure'><!--  l. 137  -->
-<p class='noindent'><img width='390' alt='PIC' src='figures/neighbor_list_search.png' height='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
+<p class='noindent'><img src='figures/neighbor_list_search.png' alt='PIC' width='390' height='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
 <figcaption class='caption'><span class='id'>Figure 3.1::</span> <span class='content'>Illustration of the typical data structure used for an \(O(N)\) neighbor search in a molecular dynamics simulation. For searching the neighbors within a cutoff \(r_c\) of the red atom, we only need to consider the candidate atoms that are in the cell adjacent to the red atom.</span></figcaption>
 <!--  tex4ht:label?: x1-7001r3.4   --></figure>
 <!--  l. 142  -->

@@ -31,8 +31,8 @@ and extended system methods are deterministic, i.e. they follow the same path wh
 <p class='noindent'></p>
 <h4 class='subsectionHead'><span class='titlemark'>4.2.1</span> <a id='x1-40004.2.1'></a>Velocity rescaling</h4>
 <!--  l. 20  -->
-<p class='noindent'>The crudest (and simplest) form of fixing the temperature in a molecular dynamics simulation to a value of \(T_0\) is by velocity rescaling. Since the instantaneous temperature is \begin{equation} 3k_BT/2 = \sum _i mv_i^2/2, \end{equation} we obtain a temperature of \(T_0\) if we rescale all velocities by \begin{equation} \label{eq:velocity-rescaling} \vec{v}_i \to \lambda \vec{v}_i\ \text{ with } \ \lambda =\sqrt{\frac{T_0}{T}} \end{equation} after every time step. This is a very
-intrusive way of setting the temperature and should not be used in any practical situations, but it is a good illustration of how a simple constraint method works.</p>
+<p class='noindent'>The crudest (and simplest) form of fixing the temperature in a molecular dynamics simulation to a value of \(T_0\) is by velocity rescaling. Since the instantaneous temperature is \begin{equation} \frac{3}{2} k_BT = \sum _i \frac{1}{2} mv_i^2, \end{equation} we obtain a temperature of \(T_0\) if we rescale all velocities by \begin{equation} \label{eq:velocity-rescaling} \vec{v}_i \to \lambda \vec{v}_i\ \text{ with } \ \lambda =\sqrt{\frac{T_0}{T}} \end{equation} after every time step.
+This is a very intrusive way of setting the temperature and should not be used in any practical situations, but it is a good illustration of how a simple constraint method works.</p>
 <!--  l. 31  -->
 <p class='noindent'></p>
 <h4 class='subsectionHead'><span class='titlemark'>4.2.2</span> <a id='x1-50004.2.2'></a>Berendsen thermostat</h4>
