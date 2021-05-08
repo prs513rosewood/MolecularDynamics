@@ -10,7 +10,7 @@ nav_order: 04
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 4</span><br />
 <a id='x1-10004'></a>Temperature control</h2>
-<div class='framedenv' id='shaded*-1'><!--  l. 3  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 3  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Most molecular dynamics calculations are carried out in <span class='cmti-12'>thermal</span> <span class='cmti-12'>equilibrium</span>. Equilibrium is typically maintained by coupling the molecular calculation to a virtual <span class='cmti-12'>heat bath</span>, with which it exchanges energy but no particles. This chapter discusses properties of thermal equilibrium and introduces simple algorithms for heat-bath
 coupling.</p>
 </div>
@@ -64,5 +64,5 @@ solids this guess is simple, since we typically know the crystal structure that 
 <p class='indent'>Note that if we <span class='cmti-12'>continuously</span> pump energy into our system, for example because we deform it externally, then Eq. \eqref{eq:berendsen-temperature-evolution} acquires a non-zero source term, \(S &gt; 0\). Assuming \(S\) is constant over time, the final temperature is shifted to \(T_0\,' = T_0 + S\tau \). This temperature offset gets smaller with increasing coupling strength \(1/\tau \).</p>
 <h2 class='likechapterHead'><a id='x1-70004.3'></a>Bibliography</h2>
 <div class='thebibliography'>
-<p class='bibitem'><span class='biblabel'><a id='Xberendsen_molecular_1984'></a><span class='bibsp'>   </span></span>H. J. C. Berendsen, J. P. M. Postma, W. F. van Gunsteren, A. DiNola, and J. R. Haak. Molecular dynamics with coupling to an external bath. <span class='cmti-12'>J. Chem. Phys.</span>, 81(8):3684–3690, 1984. URL <a class='url' href='https://doi.org/10.1063/1.448118'><span class='cmtt-12'>https://doi.org/10.1063/1.448118</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xberendsen_molecular_1984'></a><span class='bibsp'>   </span></span>H. J. C. Berendsen, J. P. M. Postma, W. F. van Gunsteren, A. DiNola, and J. R. Haak. Molecular dynamics with coupling to an external bath. <span class='cmti-12'>J. Chem. Phys.</span>, 81(8):3684–3690, 1984. URL <a href='https://doi.org/10.1063/1.448118' class='url'><span class='cmtt-12'>https://doi.org/10.1063/1.448118</span></a>.</p>
 </div>
