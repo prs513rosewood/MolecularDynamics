@@ -23,7 +23,7 @@ energy of a system interacting via Lennard-Jones forces is given by
 $$E_\text{pot} = \frac{1}{2} \sum_{ij} 4 \varepsilon \left[ \left(\frac{\sigma}{r_{ij}}\right)^{12} - \left(\frac{\sigma}{r_{ij}}\right)^6\right]$$
 
 The term \\(\propto r^{-12}\\) is a simple model for Pauli repulsion and the term \\(\propto r^{-6}\\) is a model for London dispersion forces.
-Within this milestone, you will implement this potential via direct summation, i.e. directly using the equation given above.
+Within this milestone, you will implement this potential via direct summation, i.e. directly using the equation given above without cutting it off at a certain distance.
 
 ### A data structure for the atomic system
 
@@ -57,18 +57,17 @@ public:
     }
 };
 ```
-The [`const` qualifier](https://en.cppreference.com/w/c/language/const) tells behind `nb_atoms` tells the compiler that this method does not change
-the state of the `Atoms` object.
+The [`const` qualifier](https://en.cppreference.com/w/c/language/const) behind `nb_atoms` tells the compiler that this method does not change the state of the `Atoms` object, i.e. the value of `positions`, `velocities` and `forces` are not affected by a call to `nb_atoms`.
 Place this data structure in a separate header file, e.g. `atoms.h`. We had already discussed in [Milestone 3] that the types should reside in their own
-header, e.g. `types.h`. You can then simply include them in `atoms.h` by placing `#include "types.h"` somewhere at the beginning of the file.
+header, e.g. `types.h`. You can then simply include them in `atoms.h` by placing `#include "types.h"` somewhere at the beginning of the file. Make sure all header files have [header guards](https://en.wikipedia.org/wiki/Include_guard).
 
-### Function signature
+### Signature of the function that computes the interatomic potential
 
 Implement the Lennard-Jones potential. We suggest a function with the following signature:
 ```c++
 double lj_direct_summation(Atoms &atoms, double epsilon = 1.0, double sigma = 1.0);
 ```
-This signature defines default parameters for `epsilon` and `sigma`, i.e. they do need to be specified. It directly modifies the forces in `atoms.forces`. The return value of this function is the potential energy. Place this function in its own source and
+This signature defines default parameters for `epsilon` and `sigma`, i.e. they need to be specified only if they differ from unity. The function directly modifies the forces in `atoms.forces`. The return value of this function is the potential energy. Place this function in its own source and
 header file, e.g. `lj_direction_summation.h` and `lj_direct_summation.cpp`. 
 
 ### Testing the implementation
@@ -78,7 +77,7 @@ consistent in the sense that the forces are the negative derivative of the energ
 can be fiddly. One sign of wrong forces is that energy in a molecular dynamics simulation is not conserved, but there are also other causes for
 this effect (e.g. a time step that is too large) which makes it difficult as a test for the implementation of forces.
 
-The common strategy is to compute the forces \emph{numerically} from the energies. For this, we have to compute a numerical first derivative.
+The common strategy is to compute the forces _numerically_ from the energies. For this, we have to compute a numerical first derivative.
 This is straightforward to do from the difference quotient, e.g.
 
 $$ f'(x) \approx \frac{f(x+\Delta x) - f(x-\Delta x)}{2 \Delta x}$$
@@ -92,9 +91,18 @@ This type of test is often called a _gradient test_.
 
 You are now in a position to run a first molecular dynamics calculation. To do this, you need a reasonable initial state for your
 simulation. The initial state is the initial condition for the solution of Newton's equation of motion and requires you to
-specify positions and momenta. You can find such an initial state in the following file: [lj54.xyz](lj54.xyz). We also provide a C++ module for reading and writing these files here: [xyz.h](xyz.h), [xyz.cpp](xyz.cpp). Include these files into your project.
+specify positions and momenta. You can find such an initial state in the following file: [lj54.xyz](lj54.xyz). The format of this file is called the [`XYZ` file format](https://en.wikipedia.org/wiki/XYZ_file_format). We provide a C++ module for reading and writing these files here: [xyz.h](xyz.h), [xyz.cpp](xyz.cpp). Include these files into your project. Also open them in an editor and try to understand what they do.
 
-Update your code to read this file and then propagate the simulation for a total time of at least \\(100 \sqrt{m\sigma^2/\varepsilon} \\). A reasonable initial time step is \\( 0.001 \sqrt{m\sigma^2/\varepsilon} \\).
+You can then read an XYZ-file using the following code block:
+```c++
+#include "xyz.h"
+
+auto [names, positions, velocities]{read_xyz_with_velocities("lj54.xyz")};
+```
+The variable `names` contains the element names that you can discard at this point. Important are the variables `positions` and `velocities` that you should use as the initial state of your simulation.
+Note that the velocities contained in [lj54.xyz](lj54.xyz) are an extension to the typical [`XYZ` file format](https://en.wikipedia.org/wiki/XYZ_file_format) that is, however, understood by common visualization tools.
+
+Update your code to read this file and then propagate the simulation for a total time of at least \\(100 \sqrt{m\sigma^2/\varepsilon} \\). Use a mass of unity (\\(m=1)\\) and \\(\varepsilon=1\\) and \\(\sigma=1\\) for the Lennard-Jones interaction. A reasonable initial time step is \\( 0.001 \sqrt{m\sigma^2/\varepsilon} \\).
 Monitor the total energy of your simulation. For this you need to implement the computation of the kinetic energy.
 
 At this point you can quantify the influence of the time step on your simulation. Change the time step and see how the total energy evolves. What is a good time step for your simulation?
@@ -102,9 +110,9 @@ At this point you can quantify the influence of the time step on your simulation
 ### Visualization
 
 Since you have now run the first molecular dynamics calculation, it is useful to visualize your simulation, i.e. look at how
-the individual atoms move over time. To achieve this, output the state of the simulation as an `XYZ` a time intervals of order \\(1 \sqrt{m\sigma^2/\varepsilon} \\).
+the individual atoms move over time. To achieve this, output the state of the simulation as an `XYZ` at time intervals of order \\(1 \sqrt{m\sigma^2/\varepsilon} \\).
 
-`XYZ`-files can be visualized with the [Open Visualization Tool (OVITO)](https://www.ovito.org/). Download OVITO, install it and look at one of your `XYZ` files. If number you files, e.g. `traj0000.xyz`, `traj0001.xyz`, `traj0002.xyz`, etc., OVITO will automatically detect that this is a sequence of files (a _trajectory_) and allow you visualize the time evolution of your atomic configuration.
+`XYZ`-files can be visualized with the [Open Visualization Tool (OVITO)](https://www.ovito.org/). Download _OVITO Basic_, install it and look at one of your `XYZ` files. If you consecutively number your files, e.g. `traj0000.xyz`, `traj0001.xyz`, `traj0002.xyz`, etc., OVITO will automatically detect that this is a sequence of files (a _trajectory_) and allow you visualize the time evolution of your atomic configuration.
 
 ### Task summary
 
