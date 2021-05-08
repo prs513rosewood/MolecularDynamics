@@ -46,14 +46,14 @@ Note that if you are on a different system than Ubuntu, these commands may diffe
 On [Ubuntu](https://ubuntu.com/)/[Debian](https://www.debian.org/) it is `apt` or `apt-get`
 but on [Fedora](https://getfedora.org/)/[CentOS](https://www.centos.org/)/[RHEL](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)
 the package manager command is `dnf`. On macOS it depends on which package manager you have installed, the
-most pupular one is [Homebrew](https://brew.sh/) which provides the `brew` command for
+most popular one is [Homebrew](https://brew.sh/) which provides the `brew` command for
 package installation. The names of the packages will also vary between these systems.
 
 We recommend using a development environment for developing code. We
 ourselves use [CLion](https://www.jetbrains.com/clion/). Free educational
-licenses CLion can be obtained [here](https://www.jetbrains.com/community/education/).
+licenses for CLion can be obtained [here](https://www.jetbrains.com/community/education/).
 CLion is available for all of the above platforms and can on Windows be configured
-to use WSL.
+to use WSL. (Documentation on CLion and WSL can be found [here](https://www.jetbrains.com/help/clion/how-to-use-wsl-development-environment-in-product.html).)
 
 ### Creating an empty repository
 
