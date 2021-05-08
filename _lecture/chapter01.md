@@ -23,12 +23,12 @@ constant \(N_A\approx 6\times 10^{23}\). The atomic-scale simulation techniques 
 <!--  l. 15  -->
 <p class='indent'>We can nowadays even observe matter at atomic scales and “see” individual atoms. The <a href='https://www.sfb-transregio103.de/'>collaborative research center 103</a> has produced an extremely instructive video on the structure of specific type of alloys, dubbed “superalloy”, that is used in e.g. turbine blades. Enjoy the ride from the blade to the atom. This class is about modeling matter at the smallest scales that you see in this video.</p>
 <!--  l. 17  -->
-<p class='indent'><a class='url' href='https://www.youtube.com/embed/wYHch5QIWTQ'><span class='cmtt-12'>https://www.youtube.com/embed/wYHch5QIWTQ</span></a></p>
+<p class='indent'><a href='https://www.youtube.com/embed/wYHch5QIWTQ' class='url'><span class='cmtt-12'>https://www.youtube.com/embed/wYHch5QIWTQ</span></a></p>
 <!--  l. 19  -->
 <p class='noindent'></p>
 <h3 class='sectionHead'><span class='titlemark'>1.2</span> <a id='x1-30001.2'></a>Interatomic forces and the potential energy</h3>
 <!--  l. 21  -->
-<p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=a12a8064-84e7-47f6-80ab-ad15014bae8a'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=a12a8064-84e7-47f6-80ab-ad15014bae8a</span></a></p>
+<p class='noindent'><a href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=a12a8064-84e7-47f6-80ab-ad15014bae8a' class='url'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=a12a8064-84e7-47f6-80ab-ad15014bae8a</span></a></p>
 <!--  l. 23  -->
 <p class='indent'>Atoms interact via forces. As Feynman put it in his famous lectures on physics, the fundamental truth about man’s understanding of the physical world is “that all things are made of atoms – little particles that move around in perpetual motion, attracting each other when they are a little distance apart, but repelling upon being squeezed into one another”. Indeed this is the essence of the molecular dynamics simulation method.</p>
 <!--  l. 25  -->
