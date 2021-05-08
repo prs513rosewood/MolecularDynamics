@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 03"
 parent: Lecture
-date: 2021-05-04
+date: 2021-05-08
 categories: lecture
 author: Lars Pastewka
 nav_order: 03
@@ -32,8 +32,8 @@ methods (tight-binding, density-functional theory) are usually \(O(N^{3})\) or w
 <p class='noindent'>We have already encountered the simplest (and oldest) form of an interaction potentials, the pair potential. The total energy for a system interacting in <span class='cmti-12'>pairs</span> can be written quite generally as \begin{equation} E_\text{pot}\left ( \{ \vec{r}_{i} \} \right ) = \frac{1}{2}\sum _{i = 1}^{N}{\sum _{j = 1}^{N}{V\left ( r_{ij} \right ) = \sum _{i &lt; j} V(r_{ij})}} \label{eq:pairpot} \end{equation} where \(r_{ij} = |\vec{r}_{i} - \vec{r}_{j}|\) is the distance
 between atom <span class='cmti-12'>i</span> and atom <span class='cmti-12'>j</span>. \(V(r_{ij})\) is the pair interaction energy or just the pair potential and we assume that the interaction is pair-wise additive. The sum on the right (\(\sum _{i&lt;j}\)) runs over all pairs while sum on the left double counts each pair and therefore needs the factor \(1/2\). We have already seen a combination of the electrostatic potential and Pauli repulsion as an example of a pair-potential earlier.</p>
 <!--  l. 55  -->
-<p class='indent'>Forces are computed by taking the negative gradient of this expression. The force on atom \(k\) is given by \begin{equation} \v{f}_k = - \frac{\partial E_\text{pot}}{\partial \v{r}_k} = - \frac{1}{2} \sum _{ij} \frac{\partial V}{\partial r_{ij}} \frac{\partial r_{ij}}{\partial \v{r}_k} = - \frac{1}{2} \sum _{ij} \frac{\partial V}{\partial r_{ij}} \hat{r}_{ij} \left (\delta _{ik} - \delta _{jk}\right ) = \sum _i \frac{\partial V}{\partial r_{ik}} \hat{r}_{ik}, \end{equation} where
-\(\hat{r}_{ik}=\v{r}_{ik}/r_{ik}\) is the unit vector pointing from atom \(k\) to atom \(i\). Note that these forces are symmetric, i.e. the term \(\partial V/\partial r_{ik} \hat{r}_{ik}\) shows up in the expression not only for the force on atom \(k\), but also (with an opposite sign) for the force on atom \(k\). This a consequence of momentum conservation. (The sum over all forces needs to vanish.) In an implementation one can therefore loop over all <span class='cmti-12'>pairs</span> between atoms,
+<p class='indent'>Forces are computed by taking the negative gradient of this expression. The force on atom \(k\) is given by \begin{equation} \vec{f}_k = - \frac{\partial E_\text{pot}}{\partial \vec{r}_k} = - \frac{1}{2} \sum _{ij} \frac{\partial V}{\partial r_{ij}} \frac{\partial r_{ij}}{\partial \vec{r}_k} = - \frac{1}{2} \sum _{ij} \frac{\partial V}{\partial r_{ij}} \hat{r}_{ij} \left (\delta _{ik} - \delta _{jk}\right ) = \sum _i \frac{\partial V}{\partial r_{ik}} \hat{r}_{ik}, \end{equation} where
+\(\hat{r}_{ik}=\vec{r}_{ik}/r_{ik}\) is the unit vector pointing from atom \(k\) to atom \(i\). Note that these forces are symmetric, i.e. the term \(\partial V/\partial r_{ik} \hat{r}_{ik}\) shows up in the expression not only for the force on atom \(k\), but also (with an opposite sign) for the force on atom \(k\). This a consequence of momentum conservation. (The sum over all forces needs to vanish.) In an implementation one can therefore loop over all <span class='cmti-12'>pairs</span> between atoms,
 compute this pair term and add it to the array entries holding the forces for both atoms.</p>
 <!--  l. 81  -->
 <p class='noindent'></p>
@@ -71,7 +71,7 @@ Hamiltonian \(H\) is not a conserved quantity. The shifted potential fulfills th
 <p class='noindent'>The sum Eq. \eqref{eq:pairpotcut} runs over all neighbors. One important algorithmic step with complexity \(O(N)\) in molecular dynamics codes is to build a <span class='cmti-12'>neighbor list</span>, i.e. find all pairs <span class='cmti-12'>i-j</span> with \(r_{ij} &lt; r_{c}\). This is usually done using a <span class='cmti-12'>domain</span> <span class='cmti-12'>decomposition</span> (see Fig. <a href='#x1-7001r1'>3.1<!--  tex4ht:ref: fig:neighborsearch   --></a>) that
 divides the simulation domain in cells of a certain size and sorts all atoms into one of these cells. The neighbor list can then be constructed by looking for neighbors in neighboring cells only. If the cell size \(b\) is larger than the cutoff radius, \(b&gt;r_c\), then we only need to look exactly the neighboring cells.</p>
 <figure class='figure'><!--  l. 137  -->
-<p class='noindent'><img alt='PIC' width='390' src='figures/neighbor_list_search.png' height='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
+<p class='noindent'><img width='390' alt='PIC' src='figures/neighbor_list_search.png' height='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
 <figcaption class='caption'><span class='id'>Figure 3.1::</span> <span class='content'>Illustration of the typical data structure used for an \(O(N)\) neighbor search in a molecular dynamics simulation. For searching the neighbors within a cutoff \(r_c\) of the red atom, we only need to consider the candidate atoms that are in the cell adjacent to the red atom.</span></figcaption>
 <!--  tex4ht:label?: x1-7001r3.4   --></figure>
 <!--  l. 142  -->
@@ -81,3 +81,4 @@ stores the index of the first entry of cell \((m,n)\). Note that this second arr
 <!--  l. 144  -->
 <p class='indent'>The neighbor search then proceeds as follows: For atom \(i\), compute the cell \((m_i,n_i)\) in which this atom resides and then loop over all atoms in this cell and in cells \((m_i\pm 1,n_i)\), \((m_i, n_i\pm 1)\) and \((m_i\pm 1, n_i\pm 1)\). In two dimensions, this yields a loop over \(9\) cells, in three-dimensions there the loop runs over \(27\). If the distance between these two atoms is smaller than the cutoff \(r_c\), we add it to the neighbor list. Note that if the cell size
 \(b\) is smaller than \(r_c\) we need include more cells in the search.</p>
+<h2 class='likechapterHead'><a id='x1-80003.4'></a>Bibliography</h2>

@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 01"
 parent: Lecture
-date: 2021-05-04
+date: 2021-05-08
 categories: lecture
 author: Lars Pastewka
 nav_order: 01
@@ -60,3 +60,4 @@ important to at least identify the ground-state of a system; this is the most st
 <!--  l. 82  -->
 <p class='indent'>Since the dynamics of a molecular system is determined by the forces, we only need to specify the potential energy up to a constant which disappears in the derivative Eq. \eqref{eq:forces}. We can therefore measure the potential energy with respect to any reference configuration. This reference configuration is often the atomized state of the material, where all of the constituent atoms sit individually in vacuum and are not interacting with each other. If this reference situation is
 assigned the energy \(0\), then the potential energy is generally negative, because if it was positive the system would spontaneously atomize. (Remember, any physical system evolves to a state of lower energy.)</p>
+<h2 class='likechapterHead'><a id='x1-40001.2'></a>Bibliography</h2>

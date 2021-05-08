@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 02"
 parent: Lecture
-date: 2021-05-04
+date: 2021-05-08
 categories: lecture
 author: Lars Pastewka
 nav_order: 02
@@ -11,7 +11,7 @@ nav_order: 02
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 2</span><br />
 <a id='x1-10002'></a>Molecular dynamics</h2>
-<div class='framedenv' id='shaded*-1'><!--  l. 3  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 3  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Molecular <span class='cmti-12'>dynamics</span> follows the motion of individual atoms through a solution of Newton’s equations of motion. We need integration algorithms to be able to solve this set of coupled differential equations on a computer.</p>
 </div>
 <h3 class='sectionHead'><span class='titlemark'>2.1</span> <a id='x1-20002.1'></a>Equations of motion</h3>
@@ -28,10 +28,10 @@ respective mass.</p>
 <p class='indent'>We further have \(\vec{a}_i = \dot{\vec{v}}_i\), where \(\vec{v}_i\) is the velocity of atom \(i\), and \(\vec{v}_i = \dot{\vec{r}}_i\). The dot superscript indicates derivative with respect to time. The set of linear differential equations to solve is therefore \begin{equation} \dot{v}_i(t) = \vec{f}_i(t)/m_i\:{\text{ and} }\ \dot{\vec{r}}_i(t) = \vec{v}_i(t) \label{eq:Newton} \end{equation} with the initial (boundary) conditions \(\vec{r}_i(0) = \vec{r}_0\) and \(\vec{v}_i(0) =
 \vec{v}_0\). Note that the boundary condition is an integral part of the differential Eq. \eqref{eq:Newton}. The state of the system is therefore fully and uniquely determined by the positions \(\vec{r}_i\) and the velocities \(\vec{v}_i\) of all atoms. This set of positions \(\vec{r}_i\) and momenta \(\vec{p}_i = \vec{v}_i/m_i\) defines a point in <span class='cmti-12'>phase-space</span> \(\vec{\Gamma } = \{ \vec{r}_i, \vec{p}_i\}\). The evolution of position and velocities given by
 Eq. \eqref{eq:Newton} can therefore be thought of as a single point moving in the \(6N\) dimensional phase-space. The concept of a phase-space will become important in the next chapter when we talk about statistical mechanics.</p>
-<div class='framedenv' id='shaded*-1'><!--  l. 35  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 35  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Code example:</span></span> For a molecular dynamics code, it is useful to have a data structure that represents the state of the simulation and stores at least positions and velocities. This data structure could also store element names (or atomic numbers), masses and forces. An example that uses <a href='https://eigen.tuxfamily.org/'>Eigen</a> arrays as the basic array container is shown below.</p>
 <!--  l. 37  -->
-<div class='lstlisting' id='listing-1'><span class='label'><a id='x1-3001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>using Positions_t = Eigen::Array3Xd; </span><br />
+<div id='listing-1' class='lstlisting'><span class='label'><a id='x1-3001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>using Positions_t = Eigen::Array3Xd; </span><br />
 <span class='label'><a id='x1-3002r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>using Velocities_t = Eigen::Array3Xd; </span><br />
 <span class='label'><a id='x1-3003r3'></a><span class='cmr-6'>3</span></span><span class='cmtt-10'>using Forces_t = Eigen::Array3Xd; </span><br />
 <span class='label'><a id='x1-3004r4'></a><span class='cmr-6'>4</span></span><span class='cmtt-10'> </span><br />
@@ -47,7 +47,7 @@ Eq. \eqref{eq:Newton} can therefore be thought of as a single point moving in t
 <span class='label'><a id='x1-3014r14'></a><span class='cmr-6'>14</span></span><span class='cmtt-10'>        forces.setZero(); </span><br />
 <span class='label'><a id='x1-3015r15'></a><span class='cmr-6'>15</span></span><span class='cmtt-10'>    } </span><br />
 <span class='label'><a id='x1-3016r16'></a><span class='cmr-6'>16</span></span><span class='cmtt-10'> </span><br />
-<span class='label'><a id='x1-3017r17'></a><span class='cmr-6'>17</span></span><span class='cmtt-10'>    size_t nb_atoms() { </span><br />
+<span class='label'><a id='x1-3017r17'></a><span class='cmr-6'>17</span></span><span class='cmtt-10'>    size_t nb_atoms() const { </span><br />
 <span class='label'><a id='x1-3018r18'></a><span class='cmr-6'>18</span></span><span class='cmtt-10'>        return positions.cols(); </span><br />
 <span class='label'><a id='x1-3019r19'></a><span class='cmr-6'>19</span></span><span class='cmtt-10'>    } </span><br />
 <span class='label'><a id='x1-3020r20'></a><span class='cmr-6'>20</span></span><span class='cmtt-10'>};</span></div>
@@ -60,13 +60,13 @@ Eq. \eqref{eq:Newton} can therefore be thought of as a single point moving in t
 <h4 class='subsectionHead'><span class='titlemark'>2.1.2</span> <a id='x1-40002.1.2'></a>Kinetic energy and energy conservation</h4>
 <!--  l. 64  -->
 <p class='noindent'>In addition to the potential energy \(E_{\text{pot}}(\{ \vec{r}_i\})\), the dynamical state of a system is characterized by its kinetic energy, \begin{equation} E_{\text{kin}}(\{ \vec{p}_i\}) = \sum _i \frac{1}{2} \frac{p_i^2}{m_i}. \end{equation}</p>
-<div class='framedenv' id='shaded*-1'><!--  l. 69  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 69  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> The <span class='cmti-12'>temperature</span> is simply a measure of the kinetic energy of the system, \(\frac{3}{2} N k_B T = E_{\text{kin}}\) where \(N\) is the number of atoms. In other words, \(E_{\text{kin}}\) measures the variance of the velocity distribution, which is Gaussian. We will learn more about this when discussing the basics of statistical mechanics.</p>
 </div>
 <!--  l. 73  -->
 <p class='indent'>The total energy \begin{equation} H(\{ \vec{r}_i\},\{ \vec{p}_i\}) = E_{\text{kin}}(\{ \vec{p}_i\}) + E_{\text{pot}}(\{ \vec{r}_i\}) \label{eq:hamil} \end{equation} is a conserved quantity during the motion of the atoms. This can be seen by showing that the derivative of the total energy with respect to time vanishes, \begin{equation} \dot{H} = \dot{E}_{\text{kin}} + \dot{E}_{\text{pot}} = \sum _i \frac{\vec{p}_i \dot{\vec{p}}_i}{m_i} + \sum _i \frac{\partial E_{\text{pot}}}{\partial
 \vec{r}_i} \dot{\vec{r_i}} = \sum _i \vec{v}_i \vec{f}_i - \sum _i \vec{v}_i \vec{f}_i = 0. \end{equation} \(H\) is also called the <span class='cmti-12'>Hamiltonian</span> of the system.</p>
-<div class='framedenv' id='shaded*-1'><!--  l. 85  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 85  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> Measuring the total energy (or any other conserved quantity!) and checking whether it is constant in a molecular dynamics simulation is a way of testing if the time step \(\Delta t\) used in the numerical integration is small enough. We will discuss numerical integration in detail below.</p>
 </div>
 <!--  l. 89  -->
@@ -126,27 +126,28 @@ update of the Velocity-Verlet algorithm. The sum of Eq. \eqref{eq:taylor˙tplus
 <!--  l. 189  -->
 <p class='indent'>where \(\vec{v}_i(t+\Delta t/2)\) is the predicted velocity. After this we compute new forces, \(\vec{f}_i(t+\Delta t)\). We then correct the velocities via \begin{equation} \vec{v}_i(t+\Delta t) = \vec{v}_i(t+\Delta t/2) + \frac{1}{2m_i} \vec{f}_i(t+\Delta t) \Delta t \end{equation} The Velocity-Verlet algorithm is the integration algorithm used in most molecular dynamics codes. It has the additional properties that is it <span class='cmti-12'>symplectic</span>, which means it conserves
 phase-space volume. We will come back to what this mean when talking about statistical mechanics.</p>
-<div class='framedenv' id='shaded*-1'><!--  l. 196  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 196  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Code example:</span></span> We can implement the velocity-verlet algorithm in a few lines of C++ code using vectorized <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>Eigen</span></span></span> operations. The prediction step</p>
 <!--  l. 198  -->
-<div class='lstlisting' id='listing-2'><span class='label'><a id='x1-9001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>void verlet_step1(Atoms &amp;atoms, double timestep, double mass) { </span><br />
+<div id='listing-2' class='lstlisting'><span class='label'><a id='x1-9001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>void verlet_step1(Atoms &amp;atoms, double timestep, double mass) { </span><br />
 <span class='label'><a id='x1-9002r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>    atoms.velocities += 0.5 * atoms.forces * timestep / mass; </span><br />
 <span class='label'><a id='x1-9003r3'></a><span class='cmr-6'>3</span></span><span class='cmtt-10'>    atoms.positions += atoms.velocities * timestep; </span><br />
 <span class='label'><a id='x1-9004r4'></a><span class='cmr-6'>4</span></span><span class='cmtt-10'>}</span></div>
 <!--  l. 204  -->
 <p class='indent'>implements Eq. \eqref{eq:vvpred1}. We then compute new forces and correct the velocities via</p>
 <!--  l. 205  -->
-<div class='lstlisting' id='listing-3'><span class='label'><a id='x1-9005r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>void verlet_step2(Atoms &amp;atoms, double timestep, double mass) { </span><br />
+<div id='listing-3' class='lstlisting'><span class='label'><a id='x1-9005r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>void verlet_step2(Atoms &amp;atoms, double timestep, double mass) { </span><br />
 <span class='label'><a id='x1-9006r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>    atoms.velocities += 0.5 * atoms.forces * timestep / mass; </span><br />
 <span class='label'><a id='x1-9007r3'></a><span class='cmr-6'>3</span></span><span class='cmtt-10'>}</span></div>
 </div>
-<div class='framedenv' id='shaded*-1'><!--  l. 215  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 215  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> The timestep in MD simulations has to be on the order of femtoseconds, in order to resolve the fastest atomic vibrations. For example, in simulations with metals and Embedded Atom Method (EAM) potentials, \(\Delta t=1\) fs is typically a safe choice. How can we check that the timestep is sensible? One possibility is to simply propage a configuration in time using the Velocity-Verlet algorithm. This is sometimes
 called the micro-canonical or NVE ensemble. (NVE because number of atoms, volume and energy is constant.) We then record the evolution of the total (kinetic plus potential) energy, which should be constant. The discrete time integration scheme will introduce numerical errors. If \(\Delta t\) is too large, there will be noticeable drift of the total energy. The figures below show the results of such a simulation. A system of \(108000\) Au atoms was simulated for \(100\) ps with various values of
 \(\Delta t\). The \(y\)-axis shows the difference between the current and initial values of the total energy. The data was smoothened to suppress high-frequency fluctuations in the figure. For this system, even \(5\) fs would still be an acceptable time step.</p>
 <div class='center'><!--  l. 226  -->
 <p class='noindent'></p>
 <!--  l. 227  -->
-<p class='noindent'><img alt='PIC' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png' height='390' width='390' /> <img alt='PIC' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png' height='390' width='390' /></p>
+<p class='noindent'><img height='390' alt='PIC' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png' width='390' /> <img height='390' alt='PIC' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png' width='390' /></p>
 </div>
 </div>
+<h2 class='likechapterHead'><a id='x1-100002.2.4'></a>Bibliography</h2>
