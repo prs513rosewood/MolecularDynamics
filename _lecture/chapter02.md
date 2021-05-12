@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 02"
 parent: Lecture
-date: 2021-05-08
+date: 2021-05-09
 categories: lecture
 author: Lars Pastewka
 nav_order: 02
@@ -16,7 +16,7 @@ nav_order: 02
 </div>
 <h3 class='sectionHead'><span class='titlemark'>2.1</span> <a id='x1-20002.1'></a>Equations of motion</h3>
 <!--  l. 11  -->
-<p class='noindent'><a href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=d3188a05-4143-4602-b6c2-ad15014fe21d' class='url'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=d3188a05-4143-4602-b6c2-ad15014fe21d</span></a></p>
+<p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=d3188a05-4143-4602-b6c2-ad15014fe21d'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=d3188a05-4143-4602-b6c2-ad15014fe21d</span></a></p>
 <!--  l. 13  -->
 <p class='noindent'></p>
 <h4 class='subsectionHead'><span class='titlemark'>2.1.1</span> <a id='x1-30002.1.1'></a>Newton’s equations of motion</h4>
@@ -78,7 +78,7 @@ simulations using <span class='cmti-12'>thermostats</span>, where a generalized 
 <p class='noindent'></p>
 <h3 class='sectionHead'><span class='titlemark'>2.2</span> <a id='x1-50002.2'></a>Integration algorithms</h3>
 <!--  l. 99  -->
-<p class='noindent'><a href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=50b66784-6560-4aea-8654-ad16004e1442' class='url'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=50b66784-6560-4aea-8654-ad16004e1442</span></a></p>
+<p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=50b66784-6560-4aea-8654-ad16004e1442'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=50b66784-6560-4aea-8654-ad16004e1442</span></a></p>
 <!--  l. 101  -->
 <p class='indent'>The main ingredient in any molecular dynamics simulation, regardless of the underlying model, is the numerical solution of Eqs. \eqref{eq:Newton}. A plethora of algorithms have been developed over the years, but for most practical purposes the Velocity-Verlet algorithm is used nowadays. For instructive purposes we will start out with a simple integration method, the Euler integration, before discussing Velocity-Verlet.</p>
 <!--  l. 103  -->
@@ -147,7 +147,7 @@ called the micro-canonical or NVE ensemble. (NVE because number of atoms, volume
 <div class='center'><!--  l. 226  -->
 <p class='noindent'></p>
 <!--  l. 227  -->
-<p class='noindent'><img height='390' alt='PIC' width='390' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png' /> <img height='390' alt='PIC' width='390' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png' /></p>
+<p class='noindent'><img alt='PIC' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png' width='390' height='390' /> <img alt='PIC' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png' width='390' height='390' /></p>
 </div>
 </div>
 <h2 class='likechapterHead'><a id='x1-100002.2.4'></a>Bibliography</h2>

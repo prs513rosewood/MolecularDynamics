@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 01"
 parent: Lecture
-date: 2021-05-08
+date: 2021-05-09
 categories: lecture
 author: Lars Pastewka
 nav_order: 01
@@ -11,7 +11,7 @@ nav_order: 01
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 1</span><br />
 <a id='x1-10001'></a>Introduction</h2>
-<div class='framedenv' id='shaded*-1'><!--  l. 4  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 4  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> We start by introducing the concept of the potential energy and the interatomic force. Those are the central ingredients to the molecular dynamics simulation method.</p>
 </div>
 <h3 class='sectionHead'><span class='titlemark'>1.1</span> <a id='x1-20001.1'></a>Structure of matter at the atomic scale</h3>
@@ -48,7 +48,7 @@ encountered our first atomic-scale model for a real material. Potentials that ca
 <!--  l. 63  -->
 <p class='indent'>Likely the most famous pair-potential is the Lennard-Jones potential. Its pair interaction energy is given by \begin{equation} V(r_{ij}) = 4\varepsilon \left [\left (\frac{\sigma }{r}\right )^{12} - \left (\frac{\sigma }{r}\right )^6\right ]. \end{equation} The repulsive term \(\propto r^{-12}\) is one of the models for Pauli repulsion discussed above. The attractive term \(\propto r^{-6}\) arises from <span class='cmti-12'>London dispersion interactions</span>. Dispersion forces exist
 between all atoms, even uncharged molecules or noble gases. They are widely employed for the nonbonded portion of valence force-fields. Simple Lennard-Jones systems are often used to study generic phenomena found in real materials, e.g. for example the glass transition or plasticity of amorphous materials. There are limitations of pair potentials and more sophisticated potential energy models have been developed over the past decades. We will discuss a few of those in Chapter <span class='cmbx-12'>??</span>.</p>
-<div class='framedenv' id='shaded*-1'><!--  l. 69  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 69  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> A repulsive term of the form \(r^{-12}\) is more attractive from a simulation point of view since it is faster to compute than an exponential. This has helped popularize the Lennard-Jones potential in the early days of molecular dynamics simulations.</p>
 </div>
 <!--  l. 73  -->
