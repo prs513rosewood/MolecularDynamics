@@ -24,7 +24,7 @@ algorithm.
 
 ### Neighbor list search
 
-The rough alorigthm for searching for neighbors is described in the lecture material. We here provide an implementation and tests for you: [neighbors.h](neighbors.h) [neighbors.cpp](neighbors.h) [test_neighbors.cpp](test_neighbors.cpp) The neighbor list class needs to be initialized with the cutoff range (i.e. the interaction range of the potential):
+The rough alorigthm for searching for neighbors is described in the lecture material. We here provide an implementation and tests for you: [neighbors.h](neighbors.h) [neighbors.cpp](neighbors.cpp) [test_neighbors.cpp](test_neighbors.cpp) The neighbor list class needs to be initialized with the cutoff range (i.e. the interaction range of the potential):
 ```c++
 NeighborList neighbor_list(5.0);
 ```
