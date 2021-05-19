@@ -30,7 +30,7 @@ The Berendsen thermostat is most straightforwardly implemented by rescaling the 
 
 $$\lambda = \sqrt{1+ \left( \frac{T_0}{T} - 1 \right) \frac{\Delta t}{\tau}}$$
 
-after each time step. This means after the second verlet step, rescale each velocity vector \\(\vec{v}_i\\) to the new value \\(\lambda \vec{v}_i\\). Here \\(T\\) is the current temperature measure from the current velocities \\(\vec{v}_i\\) and \\(T_0\\) is a user-specified target temperature. The relaxation time constant \\(\tau\\) is chosen by the user and \\(\Delta t\\) is the time step of the integration algorithm. The lecture material contains the full derivation of this expression and rationales for choosing the relaxation time constant.
+after each time step. This means after the second verlet step, rescale each velocity vector \\(\vec{v}_i\\) to the new value \\(\lambda \vec{v}_i\\). Here \\(T\\) is the current temperature measured from the current velocities \\(\vec{v}_i\\) and \\(T_0\\) is a user-specified target temperature. The relaxation time constant \\(\tau\\) is chosen by the user and \\(\Delta t\\) is the time step of the integration algorithm. The lecture material contains the full derivation of this expression and rationales for choosing the relaxation time constant.
 
 ### Implementation and tests
 
@@ -76,6 +76,10 @@ This milestone requires the following tasks:
 * Implement creation of atomic lattices
 * Devise an equilibration strategy and equilibrate a number of Lennard-Jones clusters with different numbers of atoms
 * Measure the simulation time as a function of the number of atoms in your system
+
+We ask you to provide the following analytical results in your final report:
+
+* Explain your test strategy for the Berendsen thermostat
 
 We ask you to provide and discuss the following figures in your final report:
 

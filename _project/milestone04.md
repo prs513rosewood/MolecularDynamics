@@ -63,7 +63,17 @@ header, e.g. `types.h`. You can then simply include them in `atoms.h` by placing
 
 ### Signature of the function that computes the interatomic potential
 
-Implement the Lennard-Jones potential. We suggest a function with the following signature:
+Implement the Lennard-Jones potential. Note that you will need to derive the _analytical_ gradient of the total energy
+
+$$\vec{f}_k = \nabla_k E$$
+
+before you can implement the analytical forces. The final expression should take the form
+
+$$\vec{f}_k = \sum_i \vec{f}_{ik}$$
+
+where \\(\vec{f}\_{ik}\\) is a pair force. (You need to evaluate the specific expression for \\(\vec{f}\_{ik}\\) yourself.) This type of expression is most efficiently computed by looping over unique pairs.
+
+We suggest a function with the following signature:
 ```c++
 double lj_direct_summation(Atoms &atoms, double epsilon = 1.0, double sigma = 1.0);
 ```
@@ -118,12 +128,17 @@ the individual atoms move over time. To achieve this, output the state of the si
 
 This milestone requires the following tasks:
 
+* Derive the analytical expression for the forces of the Lennard-Jones potential
 * Implement the Lennard-Jones potential and make sure the gradient test passes
 * Implement computation of the kinetic energy
 * Run a first molecular dynamics simulation
 * Decide on a "good" time step
 * Download and install OVITO
 * Visualize your simulation
+
+We ask you to provide the following analytical results in your final report:
+
+* Derivation of the analytical expression for the forces of the Lennard-Jones potential
 
 We ask you to provide and discuss the following figures in your final report:
 
