@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 02"
 parent: Lecture
-date: 2021-05-09
+date: 2021-05-30
 categories: lecture
 author: Lars Pastewka
 nav_order: 02
@@ -147,7 +147,7 @@ called the micro-canonical or NVE ensemble. (NVE because number of atoms, volume
 <div class='center'><!--  l. 226  -->
 <p class='noindent'></p>
 <!--  l. 227  -->
-<p class='noindent'><img alt='PIC' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png' width='390' height='390' /> <img alt='PIC' src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png' width='390' height='390' /></p>
+<p class='noindent'><img src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_01.png' alt='PIC' width='390' height='390' /> <img src='figures/etot_vs_time_as_function_of_timestep_Grochola_Au_NVE_ensemble_02.png' alt='PIC' width='390' height='390' /></p>
 </div>
 </div>
 <h2 class='likechapterHead'><a id='x1-100002.2.4'></a>Bibliography</h2>

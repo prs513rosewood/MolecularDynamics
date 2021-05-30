@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 04"
 parent: Lecture
-date: 2021-05-09
+date: 2021-05-30
 categories: lecture
 author: Lars Pastewka
 nav_order: 04
@@ -11,7 +11,7 @@ nav_order: 04
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 4</span><br />
 <a id='x1-10004'></a>Temperature control</h2>
-<div class='framedenv' id='shaded*-1'><!--  l. 3  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 3  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Most molecular dynamics calculations are carried out in <span class='cmti-12'>thermal</span> <span class='cmti-12'>equilibrium</span>. Equilibrium is typically maintained by coupling the molecular calculation to a virtual <span class='cmti-12'>heat bath</span>, with which it exchanges energy but no particles. This chapter discusses properties of thermal equilibrium and introduces simple algorithms for heat-bath
 coupling.</p>
 </div>
