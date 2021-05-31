@@ -40,7 +40,6 @@ TEST(LJDirectSummationTest, Forces) {
     Forces_t forces0{atoms.forces};
 
     // loop over all atoms and compute forces from a finite differences approximation
-    Forces_t dummy_forces(3, nb_atoms);  // we don't actually need these
     for (int i{0}; i < nb_atoms; ++i) {
         // loop over all Cartesian directions
         for (int j{0}; j < 3; ++j) {
