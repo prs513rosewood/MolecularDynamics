@@ -28,6 +28,11 @@
 #include "atoms.h"
 
 /*
+ * Type Names_t, if not defined use
+ * using Names_t = std::vector<std::string>;
+ */
+
+/*
  * Read positions from an XYZ file. XYZ files are structured a follows:
  *     line 1: Number of atoms
  *     line 2: Comment line (is ignored)
