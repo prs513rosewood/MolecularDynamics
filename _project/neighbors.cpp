@@ -111,9 +111,9 @@ const std::tuple<const Eigen::ArrayXi &, const Eigen::ArrayXi &> NeighborList::u
         seed_(i) = n;
 
         Eigen::Array3i cell_coord{
-                static_cast<int>(std::floor((r(0, i) - origin(0)) / lengths(0))),
-                static_cast<int>(std::floor((r(1, i) - origin(1)) / lengths(1))),
-                static_cast<int>(std::floor((r(2, i) - origin(2)) / lengths(2)))};
+                static_cast<int>(std::floor(nb_grid_pts(0) * (r(0, i) - origin(0)) / lengths(0))),
+                static_cast<int>(std::floor(nb_grid_pts(1) * (r(1, i) - origin(1)) / lengths(1))),
+                static_cast<int>(std::floor(nb_grid_pts(2) * (r(2, i) - origin(2)) / lengths(2)))};
 
         // Loop over neighboring cells.
         for (int x = -1; x <= 1; ++x) {

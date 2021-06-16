@@ -31,14 +31,37 @@ class NeighborList {
 public:
     NeighborList(double interaction_range);
 
+    /*
+     * Update neighbor list from the particle positons stores in the `atoms` argument
+     */
     const std::tuple<const Eigen::ArrayXi &, const Eigen::ArrayXi &> update(const Atoms &atoms);
 
+    /*
+     * Return internal seed and neighbor arrays
+     */
     const std::tuple<const Eigen::ArrayXi &, const Eigen::ArrayXi &> neighbors() const {
         if (seed_.size() > 0) {
             return {seed_, neighbors_};
         } else {
             throw std::runtime_error("Neighbor list not yet computed. Use `update` to compute it.");
         }
+    }
+
+    /*
+     * Return the total number of neighbors found by the last call to `update`
+     */
+    int nb_neighbors() const {
+        // Note that the length of the `neighbor_` array can be longer than the total number of neighbors!
+        return seed_(seed_.size() - 1);
+    }
+
+    /*
+     * Return the number of neighbors of atom `i` found by the last call to `update`
+     */
+    int nb_neighbors(int i) const {
+        assert(i >= 0);
+        assert(i < seed_.size());
+        return seed_(i + 1) - seed_(i);
     }
 
     class iterator : public std::iterator<
@@ -52,8 +75,10 @@ public:
                 : seed_{seed}, neighbors_{neighbors}, i_{i}, n_{n} {}
 
         iterator &operator++() {
+            assert(n_ < seed_(seed_.size() - 1));
+
             n_++;
-            if (n_ == seed_(i_ + 1)) {
+            while (n_ == seed_(i_ + 1) && i_ < seed_.size() - 2) {
                 i_++;
             }
             return *this;
@@ -71,17 +96,30 @@ public:
         int i_, n_;
     };
 
+    /*
+     * Return iterator that represents the beginning of the neighbor list
+     */
     iterator begin() const {
         if (seed_.size() > 0) {
-            return iterator(seed_, neighbors_, 0, seed_(0));
+            int i0{0}, n0{seed_(0)};
+            assert(n0 == 0);  // seed_(0) should be zero
+            // If the first atom has no neighbors, we need to fast-forward the counter to the first atom that does have
+            // a neighbor.
+            while (n0 == seed_(i0 + 1) && n0 < nb_neighbors()) {
+                i0++;
+            }
+            return iterator(seed_, neighbors_, i0, n0);
         } else {
             throw std::runtime_error("Neighbor list not yet computed. Use `update` to compute it.");
         }
     }
 
+    /*
+     * Return iterator that represents the end of the neighbor list
+     */
     iterator end() const {
         if (seed_.size() > 0) {
-            return iterator(seed_, neighbors_, seed_.size() - 2, seed_(seed_.size() - 1));
+            return iterator(seed_, neighbors_, seed_.size() - 2, nb_neighbors());
         } else {
             throw std::runtime_error("Neighbor list not yet computed. Use `update` to compute it.");
         }
