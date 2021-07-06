@@ -13,9 +13,15 @@ nav_order: 1
 
 For the EAM potential you need to switch from working with Lennard-Jones units to working with real physical units. We outline here briefly how unit conversion works. Our system of units requires units for length $$[l]$$, time $$[t]$$, and mass $$[m]$$. All other units are compound units, for example velocities $$[v]=[l]/[t]$$, accelerations $$[a]=[l]/[t]^2$$, forces $$[f]=[m][l]/[t]^2$$ and energies $$[E]=[m][l]^2/[t]^2$$. Note that the unit of force can also be expressed through energy and length, $$[f]=[E]/[l]$$ and it is common to use this denomination in molecular calculations.
 
-In molecular calculations we typically fix the units of energy $$[E]$$ and length $$[l]$$. This is because we know what typical energy and length scales look like. Molecular calculations use different sets of unit system. We will here use $$[E]=\text{eV}$$ and $$[l]=\text{Å}$$, because $$1~\text{eV}$$ is roughly the energy stored in a metallic or covalent bond and $$1~\text{Å}$$ is roughly the distance between atoms. Note that $$k_B T$$ at room temperature $$T=300~\text{K}$$ is $$k_B T\approx 25~\text{meV}$$. Other energy units that are used in molecular calculations are $$\text{kJ/mol}$$ or $$\text{kcal/mol}$$. Please forget immediately that something like $$\text{kcal/mol}$$ even exists. To convert from $$\text{eV}$$ to SI units, we simply insert the respective units. Remember $$e=1.6\cdot 10^{-19}~\text{C}$$, then $$1~\text{eV}\approx 1.6\cdot 10^{-19} C J/C=1.6\cdot 10^{-19} J$$.
-
 ## eV/Å
+
+### Energy, lengths and forces
+
+In molecular calculations we typically fix the units of energy $$[E]$$ and length $$[l]$$. This is because we know what typical energy and length scales look like. Molecular calculations use different sets of unit system. We will here use $$[E]=\text{eV}$$ and $$[l]=\text{Å}$$, because $$1~\text{eV}$$ is roughly the energy stored in a metallic or covalent bond and $$1~\text{Å}$$ is roughly the distance between atoms. Note that $$k_B T$$ at room temperature $$T=300~\text{K}$$ is $$k_B T\approx 25~\text{meV}$$.
+
+Other energy units that are used in molecular calculations are $$\text{kJ/mol}$$ or $$\text{kcal/mol}$$. Please forget immediately that something like $$\text{kcal/mol}$$ even exists. To convert from $$\text{eV}$$ to SI units, we simply insert the respective units. Remember $$e=1.6\cdot 10^{-19}~\text{C}$$, then $$1~\text{eV}\approx 1.6\cdot 10^{-19} C J/C=1.6\cdot 10^{-19} J$$.
+
+Forces in molecular calculations are typically reported in units of $$\text{eV}/\text{Å}$$, which is the natural force unit for this system of units. Note that in SI units this becomes $$1~\text{eV}/\text{Å}\approx 1.6\cdot 10^{-19}/10^{10}~\text{N}=1.6~\text{nN}$$.
 
 ### Fixing the mass unit
 
