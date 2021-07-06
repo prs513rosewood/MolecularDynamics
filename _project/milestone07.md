@@ -35,7 +35,7 @@ A special structure is the [Mackay icosahedron](http://doye.chem.ox.ac.uk/jon/st
 
 ### Units and time step
 
-The previous milestones considered Lennard-Jones potentials and we did not dicuss units explicitly. Implicity, you have run all your calculations in Lennard-Jones units, where for example the energy scale is set by the parameter \\(\varepsilon\\). For the EAM potential, the energy and force units are specified by the parameter set. In the case of Cleri & Rosato, those units are A for lengths and eV for energies. Determine the resulting unit for time. Run a series of calculations to determine the time step. We suggest to use the Maykay icosahedra provided by us as starting points.
+The previous milestones considered Lennard-Jones potentials and we did not dicuss units explicitly. Implicity, you have run all your calculations in Lennard-Jones units, where for example the energy scale is set by the parameter \\(\varepsilon\\). For the EAM potential, the energy and force units are specified by the parameter set. In the case of Cleri & Rosato, those units are Å for lengths and eV for energies. Determine the resulting unit for time. (See also the notes [here](../_notes/eV_A_units).) Run a series of calculations to determine the time step. We suggest to use the Maykay icosahedra provided by us as starting points.
 
 ### Heat capacity and latent heat
 
