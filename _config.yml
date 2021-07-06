@@ -62,11 +62,9 @@ kramdown:
 include:
   - _posts
   - _includes
-  - _layouts
-  - _data
-  - _authors
   - _lecture
   - _project
+  - _notes
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -77,8 +75,8 @@ exclude:
   - vendor/ruby/
   - .sass-cache/
   - .jekyll-cache/
-  - LICENSE
-  - README
+  - LICENSE.txt
+  - README.md
   - _trash
 keep_files:
   - .git

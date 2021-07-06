@@ -4,10 +4,14 @@ This repository contains the source code for the class "High-Performance Computi
 
 ## Local development
 
-To host the site locally, run
+To host the site locally, create a file `_config.docker.yml` with the following contents:
+```yaml
+url: "http://localhost:4000"
+```
 
+Then run:
 ```bash
-JEKYLL_VERSION=4.0 docker run --name MD --volume="$PWD:/srv/jekyll" -p 4000:4000 -it jekyll/jekyll:$JEKYLL_VERSION jekyll serve
+JEKYLL_VERSION=4.0 docker run --rm -e "JEKYLL_ENV=docker" --name MDLecture --volume="$PWD:/srv/jekyll" -p 4000:4000 -it jekyll/jekyll jekyll serve --config _config.yml,_config.docker.yml
 ```
 
 The site can be restarted with
