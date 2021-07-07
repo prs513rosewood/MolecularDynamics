@@ -1,20 +1,20 @@
 ---
 layout: default
-title:  "Milestone 6"
+title:  "Milestone 06"
 parent: Project
 categories: project
 author : Lars Pastewka
-nav_order: 6
+nav_order: 7
 ---
 
-## Milestone 6 <br/> Lennard-Jones potential with a cutoff
+# Milestone 6 <br/> Lennard-Jones potential with a cutoff
 
-### Learning goals
+## Learning goals
 
 The student will...
 * ...learn how to work with neighbor lists.
 
-### Introduction
+## Introduction
 
 In this milestone, we will start working with neighbor lists that are useful for computing short ranged potential. These types of
 data structures are sometimes also called [Verlet lists](https://en.wikipedia.org/wiki/Verlet_list). We will provide an
@@ -22,7 +22,7 @@ implementation of the neighbor search for you, but you are also welcome to imple
 decide on your own implementation, please point this out to us in your written report and add a brief description of the
 algorithm.
 
-### Neighbor list search
+## Neighbor list search
 
 The rough alorigthm for searching for neighbors is described in the lecture material. We here provide an implementation and tests for you: [neighbors.h](neighbors.h) [neighbors.cpp](neighbors.cpp) [test_neighbors.cpp](test_neighbors.cpp) The neighbor list class needs to be initialized with the cutoff range (i.e. the interaction range of the potential):
 ```c++
@@ -49,16 +49,16 @@ for (auto[i, j]: neighbor_list) {
 ```
 to exclude one occurence of the pair explicitly.
 
-### Lennard-Jones potential with a cutoff
+## Lennard-Jones potential with a cutoff
 
 Copy your Lennard-Jones implementation (to a file `lj.h` and `lj.cpp` or similar) and modify it to use the neighbor list. Note
 that you need a new parameter, the cutoff distance. Make sure what you shift the energy to zero at the cutoff distance as discussed in the lecture material.
 
-### Computational complexity
+## Computational complexity
 
 Rerun the equilibration steps from Milestone 5 and measure the execution time as a function of the number of atoms in the system. Compare these results to those of Milestone 5. Discuss what you see and why.
 
-### Task summary
+## Task summary
 
 This milestone requires the following tasks:
 

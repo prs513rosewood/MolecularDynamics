@@ -1,28 +1,28 @@
 ---
 layout: default
-title:  "Milestone 2"
+title:  "Milestone 02"
 parent: Project
 categories: project
 author : Lars Pastewka
-nav_order: 2
+nav_order: 3
 ---
 
-## Milestone 2 <br/> Velocity-Verlet integration for a single atom
+# Milestone 2 <br/> Velocity-Verlet integration for a single atom
 
-### Learning goals
+## Learning goals
 
 The student will...
 * ...understand how to work with source and header files.
 * ...learn how to add new tests to the testing framework.
 
-### Introduction
+## Introduction
 
 In this second milestone you will implement a Velocity-Verlet integrator. You will learn about header and source
 files and how to add them to the CMake build system. You will also need to think about *testing*, i.e. how to systematically test an implementation. Testing makes sure your new function works correctly but it also makes
 sure that you will notice when you break it in the future. Note that we explain only the very basics of the
 relevant C++ features here but link to more detailed explanation.
 
-### Adding a header/source file
+## Adding a header/source file
 
 We recommend to add the integration functionality into a new module that consists of a header and source file.
 The header file typically has the extension `.h` and contains only the signatures (also called interfaces) of
@@ -71,7 +71,7 @@ for C++ code. C++ headers sometimes have the suffix `.hpp`.
 To compile the code, you need to add headers files to `MYPROJECT_HDRS` and sources files to `MYPROJECT_SRCS` in the
 main `CMakeLists.txt`. From the command-line, you can compile the code by running `make` in the `build` directory.
 
-### Adding new test cases
+## Adding new test cases
 
 It is important to properly test _any_ implementation. You can even adopt a [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development)
 style in which tests are written before the implementation. We also here encourage you to write tests for all parts
@@ -106,7 +106,7 @@ TEST(SinTest, IntegerMultiplesOfPi) {
 }
 ```
 
-### Implement integrator and tests
+## Implement integrator and tests
 
 Implement the Velocity-Verlet integration and write a test for it by comparing the motion of a single atom under the action of a constant force. You will find useful code snippets in the lecture material.
 
@@ -126,7 +126,7 @@ structure will remain the same.
 
 The stream `std::cout` can be used to print something to the screen. You can find the documentation for [`iostream` here](https://en.cppreference.com/w/cpp/header/iostream).
 
-### Task summary
+## Task summary
 
 This milestone requires the following tasks:
 

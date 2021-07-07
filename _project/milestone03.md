@@ -1,27 +1,27 @@
 ---
 layout: default
-title:  "Milestone 3"
+title:  "Milestone 03"
 parent: Project
 categories: project
 author : Lars Pastewka
-nav_order: 3
+nav_order: 4
 ---
 
-## Milestone 3 <br/> Velocity-Verlet integration for multiple atoms
+# Milestone 3 <br/> Velocity-Verlet integration for multiple atoms
 
-### Learning goals
+## Learning goals
 
 The student will...
 * ...learn how to work with [Eigen arrays].
 
-### Introduction
+## Introduction
 
 The implementation of the integration algorithm from Milestone 2 only works for a single atom.
 You will now extend the function `verlet_step1` and `verlet_step2` to work with multiple atoms.
 For this we will have to introduce data structure that can store the positions and velocities
 of multiple atoms. We will use [Eigen arrays] for this.
 
-### Basic data structures
+## Basic data structures
 
 Arrays store multiple values of the same data type and can be used to represent, for example, positions
 of all atoms. Arrays are indexed and can be though of as the realization of the mathematical
@@ -41,7 +41,7 @@ type that stores `double`s (hence the suffix `d`), has \\(3\\) rows (this is fix
 columns (indicated by the `X`). [Eigen arrays] are stored [column major](https://en.wikipedia.org/wiki/Row-_and_column-major_order),
 hence the \\(3\\) row entries are stored consecutive in memory. Note that Eigen only supports \\(1\\)- and \\(2\\)-dimensional arrays.
 
-### Working with Eigen arrays
+## Working with Eigen arrays
 
 We will here outline a couple of important features of [Eigen arrays]. First, when initializing an array you
 need to specify the array size:
@@ -72,7 +72,7 @@ to automatically derive the type, while in the second case we have explicitly us
 for the distance vector. The curly brackets are a [non-narrowing initialization](https://en.cppreference.com/w/cpp/language/direct_initialization). This type of initialization avoids implicit type conversion and should be prefered over
 copy initialization or narrowing initialization (with round parenthesis).
 
-### Integrator for multiple atoms
+## Integrator for multiple atoms
 
 You are now in a position to turn your integrator into one that accepts multiple atoms.
 We suggest to use the following signature for the integrators:
@@ -109,14 +109,14 @@ void verlet_step2(Eigen::Array3Xd &velocities, const Eigen::Array3Xd &forces, do
 Note that you only need to make minor modifications to your current, single-atom integrator, as the loop over
 atoms occurs automatically. For example, you can obtain an array containing all \\(x\\)-positions from `positions.row(0)`.
 
-### Testing the integrator
+## Testing the integrator
 
 Update the tests such that they test your modified integrator. These tests should probably propagate a few atoms at the
 same time.
 
 [Eigen arrays]: https://eigen.tuxfamily.org/dox/group__TutorialArrayClass.html
 
-### Task summary
+## Task summary
 
 This milestone requires the following tasks:
 

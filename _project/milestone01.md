@@ -1,26 +1,26 @@
 ---
 layout: default
-title:  "Milestone 1"
+title:  "Milestone 01"
 parent: Project
 categories: project
 author : Lars Pastewka
-nav_order: 1
+nav_order: 2
 ---
 
-## Milestone 1 <br/> Setting up the build environment
+# Milestone 1 <br/> Setting up the build environment
 
-### Learning goals
+## Learning goals
 
 The student will...
 * ...be able to compile a C++ project with CMake.
 
-### Introduction
+## Introduction
 
 In this first milestone we will set up a build environemnt and make sure
 that you can compile C++ code on your computer. This will be the starting
 point for the developments in the following milestones.
 
-### Setting up your system
+## Setting up your system
 
 The starting point of your project is setting up a proper build environment.
 This means, you need to install and test all tools necessary for the project.
@@ -55,7 +55,7 @@ licenses for CLion can be obtained [here](https://www.jetbrains.com/community/ed
 CLion is available for all of the above platforms and can on Windows be configured
 to use WSL. (Documentation on CLion and WSL can be found [here](https://www.jetbrains.com/help/clion/how-to-use-wsl-development-environment-in-product.html).)
 
-### Creating an empty repository
+## Creating an empty repository
 
 The first thing you need to do is to set up your build environment. We have
 done this for you and provide a template repository here:
@@ -139,7 +139,7 @@ tests/myproject_tests
 If this worked, you have successfully compiled the hello world program and
 its tests.
 
-### Task summary
+## Task summary
 
 This milestone requires the following tasks:
 
