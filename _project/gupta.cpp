@@ -37,6 +37,9 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
     auto cutoff_sq{cutoff * cutoff};
     double xi_sq{xi * xi};
 
+    // Reset forces. This needs to be turned off if multiple potentials are present.
+    atoms.forces.setZero();
+
     // compute embedding energies
     Eigen::ArrayXd embedding(atoms.nb_atoms());  // contains first density, later energy
     embedding.setZero();
@@ -54,7 +57,9 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
 
     // compute embedding contribution to the potential energy
     embedding = -embedding.sqrt();
-    double potential_energy{embedding.sum()};
+
+    // per-atom energies
+    Eigen::ArrayXd energies{embedding};
 
     // compute forces
     for (auto[i, j]: neighbor_list) {
@@ -75,7 +80,7 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
                 distance_vector /= distance;
 
                 // repulsive energy and derivative of it with respect to distance
-                double repulsive_energy{A * std::exp(-p * (distance / re - 1.0))};
+                double repulsive_energy{2 * A * std::exp(-p * (distance / re - 1.0))};
                 double d_repulsive_energy{-repulsive_energy * p / re};
 
                 // derivative of embedding energy contributions
@@ -86,13 +91,18 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
                         (d_repulsive_energy + fac * (d_embedding_density_i + d_embedding_density_j)) *
                         distance_vector};
 
-                potential_energy += repulsive_energy;
+                // sum per-atom energies
+                repulsive_energy *= 0.5;
+                energies(i) += repulsive_energy;
+                energies(j) += repulsive_energy;
 
+                // sum per-atom forces
                 atoms.forces.col(i) -= pair_force;
                 atoms.forces.col(j) += pair_force;
             }
         }
     }
 
-    return potential_energy;
+    // Return total potential energy
+    return energies.sum();
 }
