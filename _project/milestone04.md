@@ -106,7 +106,6 @@ specify positions and momenta. You can find such an initial state in the followi
 You can then read an XYZ-file using the following code block:
 ```c++
 #include "xyz.h"
-
 auto [names, positions, velocities]{read_xyz_with_velocities("lj54.xyz")};
 ```
 The variable `names` contains the element names that you can discard at this point. Important are the variables `positions` and `velocities` that you should use as the initial state of your simulation.
@@ -122,7 +121,17 @@ At this point you can quantify the influence of the time step on your simulation
 Since you have now run the first molecular dynamics calculation, it is useful to visualize your simulation, i.e. look at how
 the individual atoms move over time. To achieve this, output the state of the simulation as an `XYZ` at time intervals of order \\(1 \sqrt{m\sigma^2/\varepsilon} \\).
 
-`XYZ`-files can be visualized with the [Open Visualization Tool (OVITO)](https://www.ovito.org/). Download _OVITO Basic_, install it and look at one of your `XYZ` files. If you consecutively number your files, e.g. `traj0000.xyz`, `traj0001.xyz`, `traj0002.xyz`, etc., OVITO will automatically detect that this is a sequence of files (a _trajectory_) and allow you visualize the time evolution of your atomic configuration.
+`XYZ`-files can be visualized with the [Open Visualization Tool (OVITO)](https://www.ovito.org/). Download _OVITO Basic_, install it and look at one of your `XYZ` files. To output trajectories, you can do two things:
+* Consecutively number your files, e.g. `traj0000.xyz`, `traj0001.xyz`, `traj0002.xyz`, etc., OVITO will automatically detect that this is a sequence of files (a _trajectory_) and allow you visualize the time evolution of your atomic configuration.
+* Write multiple `XYZ`s into the same file. Also here OVITO will autodetect that this is a trajectory. The following code snippets where `write_xyz` can be repeated as often as necessary does this:
+
+```c++
+std::ofstream traj("traj.xyz");
+write_xyz(traj, atoms);
+traj.close();
+```
+
+The second approach has the advantage that there is only a single file that you need to work with, but it can be difficult to extract individual frames from it (e.g. for restarts of your simulation).
 
 ## Task summary
 
