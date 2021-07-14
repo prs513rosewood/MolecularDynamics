@@ -25,6 +25,8 @@ $$E_\text{pot} = \frac{1}{2} \sum_{ij} 4 \varepsilon \left[ \left(\frac{\sigma}{
 The term \\(\propto r^{-12}\\) is a simple model for Pauli repulsion and the term \\(\propto r^{-6}\\) is a model for London dispersion forces.
 Within this milestone, you will implement this potential via direct summation, i.e. directly using the equation given above without cutting it off at a certain distance.
 
+Note that it can be useful to create a separate build target with a separate `main.cpp` for this milestone. Our notes on [`CMake`](../_notes/CMake) describe how to do that.
+
 ## A data structure for the atomic system
 
 Before starting, we introduce a data structure that holds the information on the atomic system, i.e. the positions, velocities, forces etc.

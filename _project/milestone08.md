@@ -32,5 +32,7 @@ The skeleton repository that we provided for you already contained the configura
 
 For running your code in parallel, you need to start the executable throuhg `mpirun`. For example on 4 processes, you have to run `mpirun -n 4 ./milestone08` from the command line. Note that if you have less than 4 CPUs in your computer, `mpirun` may not allow you to run your code on 4 processes, but this may still be useful for testing purposes (although you won't see any speedup). You can force `mpirun` execute your command by specifying the `--oversubscribe` option: `mpirun -n 4 --oversubscribe ./milestone08`
 
+### Preparing your code for MPI
+
 
 
