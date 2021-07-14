@@ -37,7 +37,8 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
     auto cutoff_sq{cutoff * cutoff};
     double xi_sq{xi * xi};
 
-    // Reset forces. This needs to be turned off if multiple potentials are present.
+    // Reset energies and forces. This needs to be turned off if multiple potentials are present.
+    atoms.energies.setZero();
     atoms.forces.setZero();
 
     // compute embedding energies
@@ -102,6 +103,9 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
             }
         }
     }
+
+    // Sum per-atom potential energy contributions
+    atoms.energies += energies;
 
     // Return total potential energy
     return energies.sum();

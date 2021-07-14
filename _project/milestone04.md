@@ -127,7 +127,11 @@ the individual atoms move over time. To achieve this, output the state of the si
 
 ```c++
 std::ofstream traj("traj.xyz");
+...
 write_xyz(traj, atoms);
+...
+write_xyz(traj, atoms);
+...
 traj.close();
 ```
 
