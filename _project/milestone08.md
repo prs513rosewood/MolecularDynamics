@@ -26,4 +26,11 @@ Starting with this milestone, we will make use of the [Message Passing Interface
 
 ### Build system
 
-The skeleton repository that we provided for you already contained the configuration for MPI. The toplevel `CMakeLists.txt` contains a statement `find_package(MPI REQUIRED)` that enables MPI for your project. This means all your code is compiled with the MPI compiler wrapper `mpicc`, `mpicxx` or `mpic++` that takes care of linking you program to the correct MPI libraries. You can still run your program (`milestone08`) in a normal fashion (as you have done in the past milestones); this is equivalent to running on a single process via `mpirun -n 1 ./milestone08`. 
+The skeleton repository that we provided for you already contained the configuration for MPI. The toplevel `CMakeLists.txt` contains a statement `find_package(MPI REQUIRED)` that enables MPI for your project. This means all your code is compiled with the MPI compiler wrapper `mpicc`, `mpicxx` or `mpic++` that takes care of linking you program to the correct MPI libraries. You can still run your program (`milestone08`) in a normal fashion (as you have done in the past milestones); this is equivalent to running on a single process via `mpirun -n 1 ./milestone08`.
+
+### Running MPI codes
+
+For running your code in parallel, you need to start the executable throuhg `mpirun`. For example on 4 processes, you have to run `mpirun -n 4 ./milestone08` from the command line. Note that if you have less than 4 CPUs in your computer, `mpirun` may not allow you to run your code on 4 processes, but this may still be useful for testing purposes (although you won't see any speedup). You can force `mpirun` execute your command by specifying the `--oversubscribe` option: `mpirun -n 4 --oversubscribe ./milestone08`
+
+
+
