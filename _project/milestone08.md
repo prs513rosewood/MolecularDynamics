@@ -81,6 +81,8 @@ instantiates a domain a size $$3.5~Å\times 4.5~Å\times 5.5~A$$. The origin is 
 
 The `Domain` class knows two states of the simulation. First, a replicated state where each MPI process contains all atoms, i.e. the respective `Atoms` objects are simply replicated across the MPI processes. Second, a decomposed state in which each MPI process only contains the atoms within the subdomain (and possibly ghost atoms). After instantiation, the `Domain` object is in the replicated state. File I/O needs to happen in the replicated state. Files needs to be read on all processes but written only on a single process.
 
+The `Domain` class requires the `Atoms` class to have a `resize` method that resizes all arrays (positions, velocities, etc.) without loosing existing data. You will need to implement this method for your `Atoms` class.
+
 ### Enabling/disabling domain decomposition
 
 The `enable` method of the `Domain` class switches into the decomposed state. Before starting the integrator loop, you would execute
