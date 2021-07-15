@@ -119,6 +119,14 @@ protected:
     }
 
     /*
+     * Get domain index given an array of position
+     */
+    Eigen::ArrayXi get_coordinates(const Eigen::Array3Xd &positions, int dim) {
+        return (positions.row(dim) * (static_cast<double>(decomposition_(dim) / domain_length_(dim))))
+            .floor().cast<int>();
+    }
+
+    /*
      * Check whether domain decomposition is enabled and raise an error is this is not the case.
      */
     void assert_enabled() const {

@@ -50,11 +50,10 @@ inline T wrap_to_distance(T value, T range) {
 
 namespace MPI {
 
-/*
- * The following function convert C++ data types to MPI type identifiers at
- * compile time. Example: MPI_Datatype t_int{mpi_type<int>()};
- */
-
+    /*
+     * The following functions convert C++ data types to MPI type identifiers at
+     * compile time. Example: MPI_Datatype t_int{mpi_type<int>()};
+     */
     template<typename T, typename T2 = T>
     inline decltype(auto) mpi_type() {
         static_assert(std::is_same<T, T2>::value,
@@ -64,66 +63,117 @@ namespace MPI {
         return MPI_LONG;
     }
 
+    /*
+     * Template specialization for type `char`
+     */
     template<>
     inline decltype(auto) mpi_type<char>() {
         return MPI_CHAR;
     }
 
+    /*
+     * Template specialization for type `short`
+     */
     template<>
     inline decltype(auto) mpi_type<short>() {
         return MPI_SHORT;
     }
 
+    /*
+     * Template specialization for type `int`
+     */
     template<>
     inline decltype(auto) mpi_type<int>() {
         return MPI_INT;
     }
 
+    /*
+     * Template specialization for type `long`
+     */
     template<>
     inline decltype(auto) mpi_type<long>() {
         return MPI_LONG;
     }
 
+    /*
+     * Template specialization for type `long long`
+     */
     template<>
     inline decltype(auto) mpi_type<long long>() {
         return MPI_LONG_LONG_INT;
     }
 
+    /*
+     * Template specialization for type `unsigned char`
+     */
     template<>
     inline decltype(auto) mpi_type<unsigned char>() {
         return MPI_UNSIGNED_CHAR;
     }
 
+    /*
+     * Template specialization for type `unsigned short`
+     */
     template<>
     inline decltype(auto) mpi_type<unsigned short>() {
         return MPI_UNSIGNED_SHORT;
     }
 
+    /*
+     * Template specialization for type `unsigned int`
+     */
     template<>
     inline decltype(auto) mpi_type<unsigned int>() {
         return MPI_UNSIGNED;
     }
 
+    /*
+     * Template specialization for type `unsigned long`
+     */
     template<>
     inline decltype(auto) mpi_type<unsigned long>() {
         return MPI_UNSIGNED_LONG;
     }
 
+    /*
+     * Template specialization for type `float`
+     */
     template<>
     inline decltype(auto) mpi_type<float>() {
         return MPI_FLOAT;
     }
 
+    /*
+     * Template specialization for type `double`
+     */
     template<>
     inline decltype(auto) mpi_type<double>() {
         return MPI_DOUBLE;
     }
 
     /*
-     * Call MPI_Sendrecv with correct data types.
+     * Return MPI communicator size.
+     */
+    inline int comm_size(MPI_Comm comm) {
+        int i;
+        MPI_Comm_size(comm, &i);
+        return i;
+    }
+
+    /*
+     * Return current MPI rank.
+     */
+    inline int comm_rank(MPI_Comm comm) {
+        int i;
+        MPI_Comm_rank(comm, &i);
+        return i;
+    }
+
+    /*
+     * Call MPI_Sendrecv with correct data types and return result.
      */
     template<typename T>
-    T sendrecv(T &sendval, int dest, int source, MPI_Comm comm) {
+    T sendrecv(T sendval, int dest, int source, MPI_Comm comm) {
         T recvval{};
         MPI_Sendrecv(&sendval, 1, mpi_type<T>(), dest, 0,
                      &recvval, 1, mpi_type<T>(), source, 0,
@@ -132,7 +182,7 @@ namespace MPI {
     }
 
     /*
-     * Call MPI_Allreduce with correct data types.
+     * Call MPI_Allreduce with correct data types and return result.
     */
     template<typename T>
     T allreduce(T sendval, MPI_Op op, MPI_Comm comm) {
@@ -141,45 +191,59 @@ namespace MPI {
         return recvval;
     }
 
+    /*
+     * Eigen namespace contains simple wrappers that work with Eigen arrays and automatically deduce the size of the
+     * communication buffer. It also contains function for serialization of data.
+     */
     namespace Eigen {
 
         template<int i, typename B, typename T>
-        void pack_buffer_entry(B buffer, T arg) {
+        void _pack_buffer_entry(B buffer, T arg) {
             static_assert(B::RowsAtCompileTime == i + 1, "Your buffer has the wrong number of rows");
             buffer(i) = arg;
         }
 
         template<int i, typename B, typename T, typename ... Ts>
-        void pack_buffer_entry(B buffer, T arg, Ts... args) {
+        void _pack_buffer_entry(B buffer, T arg, Ts... args) {
             buffer(i) = arg;
-            pack_buffer_entry<i + 1>(buffer, args...);
+            _pack_buffer_entry<i + 1>(buffer, args...);
         }
 
+        /*
+         * Serialization: Pack the arguments in order into the buffer
+         */
         template<typename B, typename ... Ts>
         void pack_buffer_entry(B buffer, Ts... args) {
-            pack_buffer_entry<0>(buffer, args...);
+            _pack_buffer_entry<0>(buffer, args...);
         }
 
         template<int i, typename B, typename T>
-        void unpack_buffer_entry(B &buffer, T &arg) {
+        void _unpack_buffer_entry(B &buffer, T &arg) {
             static_assert(B::RowsAtCompileTime == i + 1, "Your buffer has the wrong number of rows");
             arg = buffer(i);
         }
 
         template<int i, typename B, typename T, typename ... Ts>
-        void unpack_buffer_entry(B &buffer, T &arg, Ts &... args) {
+        void _unpack_buffer_entry(B &buffer, T &arg, Ts &... args) {
             arg = buffer(i);
-            unpack_buffer_entry<i + 1>(buffer, args...);
+            _unpack_buffer_entry<i + 1>(buffer, args...);
         }
 
+        /*
+         * Serialization: Unpack the buffer into the arguments in order
+         */
         template<typename B, typename ... Ts>
         void unpack_buffer_entry(B &buffer, Ts &... args) {
-            unpack_buffer_entry<0>(buffer, args...);
+            _unpack_buffer_entry<0>(buffer, args...);
         }
 
-        template<typename B, typename M, typename... Ts>
-        void pack_buffer(B &buffer, M mask, const Ts &...args) {
-            assert(buffer.cols() == mask.count());
+        /*
+         * Serialize specific entries of a number of arrays into a buffer. The mask specifies which entries are picked
+         * from the arrays given in args.
+         */
+        template<typename M, typename... Ts>
+        decltype(auto) pack_buffer(M mask, const Ts &...args) {
+            ::Eigen::Array<double, sizeof...(Ts), ::Eigen::Dynamic> buffer(sizeof...(Ts), mask.count());
             ::Eigen::Index buffer_index{0};
             for (std::size_t i{0}; i < mask.size(); ++i) {
                 if (mask[i]) {
@@ -188,8 +252,13 @@ namespace MPI {
                 }
             }
             assert(buffer_index == mask.count());
+            return buffer;
         }
 
+        /*
+         * Deserialize specific entries of a number of arrays into a buffer. All buffer elements are inserted into the
+         * arrays given in args starting with the position given by offset.
+         */
         template<typename B, typename... Ts>
         void unpack_buffer(B &buffer, ::Eigen::Index offset, const Ts &...args) {
             ::Eigen::Index buffer_index{0};
@@ -200,14 +269,21 @@ namespace MPI {
         }
 
         /*
-         * Call MPI_Sendrecv for data stored in Eigen arrays; deduce data types
-         * and size automatically.
+         * Call MPI_Sendrecv for data stored in Eigen arrays; deduce data types and size automatically.
          */
-        template<typename SendType, typename RecvType>
-        void sendrecv(const SendType &sendarr, int dest, const RecvType &recvarr, int source, MPI_Comm &comm) {
-            // Some trickery: recvbuf for MPI_Sendrecv cannot be NULL, we hence use a dummy buffer when no data is received.
+        template<typename SendType>
+        decltype(auto) sendrecv(const SendType &sendarr, int dest, int source, MPI_Comm &comm) {
+            // Negotiate buffer sizes.
+            auto nb_recv{MPI::sendrecv(sendarr.cols(), dest, source, comm)};
+
+            // Create receive buffer.
+            using RecvType = ::Eigen::Array<typename SendType::Scalar, SendType::RowsAtCompileTime, ::Eigen::Dynamic>;
+            RecvType recvarr(sendarr.rows(), nb_recv);
+
+            // Some trickery: recvbuf for MPI_Sendrecv cannot be NULL, we hence use a dummy buffer when no data is
+            // received.
             typename RecvType::Scalar dummy_recv_buffer[0];
-            typename RecvType::Scalar *recv_buffer{const_cast<RecvType &>(recvarr).derived().data()};
+            typename RecvType::Scalar *recv_buffer{recvarr.data()};
             if (!recv_buffer) recv_buffer = dummy_recv_buffer;
 
             MPI_Sendrecv(const_cast<SendType &>(sendarr).derived().data(), sendarr.size(),
@@ -215,6 +291,8 @@ namespace MPI {
                          recv_buffer, recvarr.size(),
                          mpi_type<typename RecvType::Scalar>(), source, 0,
                          comm, nullptr);
+
+            return recvarr;
         }
 
         /*

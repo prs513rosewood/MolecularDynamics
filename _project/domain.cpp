@@ -22,6 +22,7 @@
 * SOFTWARE.
 */
 
+#include <iostream>
 #include <sstream>
 
 #include "domain.h"
@@ -35,8 +36,8 @@ Domain::Domain(const MPI_Comm &comm, const Eigen::Array3d &domain_length,
     MPI_Comm_size(comm, &size_);
     if (decomposition_.prod() != size_) {
         std::stringstream s;
-        s << "Domain decomposition into " << decomposition_ << " domains is not possible with an MPI communicator with "
-          << size_ << " processes.";
+        s << "Domain decomposition into " << decomposition_.transpose() << " domains is not possible with an MPI "
+          << "communicator consisting of " << size_ << " processes.";
         throw std::runtime_error(s.str());
     }
     MPI_Cart_create(comm, 3, decomposition_.data(), periodicity_.data(), 1, &comm_);
@@ -133,89 +134,56 @@ void Domain::disable(Atoms &atoms) {
 
 
 Eigen::Index Domain::_exchange_atoms(Atoms &atoms, int dim) {
-    // We first need to inform our neighbor how many atoms we are going to send.
-    Eigen::Index nb_send_left{0}, nb_send_right{0};
-    for (Eigen::Index i{0}; i < nb_local_; ++i) {
-        auto domain_coordinate{get_coordinate(atoms.positions.col(i))};
-        if (domain_coordinate(dim) < coordinate_(dim)) {
-            nb_send_left++;
-        } else if (domain_coordinate(dim) > coordinate_(dim)) {
-            nb_send_right++;
-        }
-    }
+    // Determine atoms that need to be send to the left and the right.
+    auto domain_coordinates{get_coordinates(atoms.positions, dim)};
+    auto left_mask{domain_coordinates < coordinate_(dim)};
+    auto right_mask{domain_coordinates > coordinate_(dim)};
 
-    // Communicate number of atoms to neighbors.
-    auto nb_recv_right{MPI::sendrecv(nb_send_left, left_(dim), right_(dim), comm_)};
-    auto nb_recv_left{MPI::sendrecv(nb_send_right, right_(dim), left_(dim), comm_)};
+    // Pack send buffers. We need full particle information.
+    auto send_left{MPI::Eigen::pack_buffer(left_mask,
+                                           atoms.masses,
+                                           atoms.positions.row(0) + offset_left_(0, dim),
+                                           atoms.positions.row(1) + offset_left_(1, dim),
+                                           atoms.positions.row(2) + offset_left_(2, dim),
+                                           atoms.velocities.row(0),
+                                           atoms.velocities.row(1),
+                                           atoms.velocities.row(2))};
+    auto send_right{MPI::Eigen::pack_buffer(right_mask,
+                                            atoms.masses,
+                                            atoms.positions.row(0) + offset_right_(0, dim),
+                                            atoms.positions.row(1) + offset_right_(1, dim),
+                                            atoms.positions.row(2) + offset_right_(2, dim),
+                                            atoms.velocities.row(0),
+                                            atoms.velocities.row(1),
+                                            atoms.velocities.row(2))};
 
-    // Pack send buffers (for mass, positions and velocities; we don't send forces since they are valid for individual
-    // time steps only).
-    Eigen::Array<double, 7, Eigen::Dynamic> send_left(7, nb_send_left), send_right(7, nb_send_right);
-    Eigen::Index ileft{0}, iright{0};
-    for (Eigen::Index i{0}; i < nb_local_;) {
-        auto domain_coordinate{get_coordinate(atoms.positions.col(i))};
-        if (domain_coordinate(dim) < coordinate_(dim)) {
-            // Pack masses, positions and velocities into send buffer.
-            MPI::Eigen::pack_buffer_entry(
-                    send_left.col(ileft),
-                    atoms.masses(i),
-                    atoms.positions(0, i) + offset_left_(0, dim),
-                    atoms.positions(1, i) + offset_left_(1, dim),
-                    atoms.positions(2, i) + offset_left_(2, dim),
-                    atoms.velocities(0, i),
-                    atoms.velocities(1, i),
-                    atoms.velocities(2, i));
-            ileft++;
-
-            // Since this atom will leave the domain, we need to remove it. We simply move the last atom in place.
-            if (i < nb_local_) {
-                nb_local_--;
+    // Delete atoms that are send to left and right
+    for (int i{nb_local_-1}; i >= 0; --i) {
+        if (left_mask(i) || right_mask(i)) {
+            // Delete this atom
+            nb_local_--;
+            if (i != nb_local_) {
+                // If it is not the last atom, we the last atom here
                 atoms.masses(i) = atoms.masses(nb_local_);
                 atoms.positions.col(i) = atoms.positions.col(nb_local_);
                 atoms.velocities.col(i) = atoms.velocities.col(nb_local_);
             }
-        } else if (domain_coordinate(dim) > coordinate_(dim)) {
-            // Pack masses, positions and velocities into send buffer.
-            MPI::Eigen::pack_buffer_entry(
-                    send_right.col(iright),
-                    atoms.masses(i),
-                    atoms.positions(0, i) + offset_right_(0, dim),
-                    atoms.positions(1, i) + offset_right_(1, dim),
-                    atoms.positions(2, i) + offset_right_(2, dim),
-                    atoms.velocities(0, i),
-                    atoms.velocities(1, i),
-                    atoms.velocities(2, i));
-            iright++;
-
-            // Since this atom will leave the domain, we need to remove it. We simply move the last atom in place.
-            if (i < nb_local_) {
-                nb_local_--;
-                atoms.masses(i) = atoms.masses(nb_local_);
-                atoms.positions.col(i) = atoms.positions.col(nb_local_);
-                atoms.velocities.col(i) = atoms.velocities.col(nb_local_);
-            }
-        } else {
-            i++;
         }
     }
-
-    assert(ileft == nb_send_left);
-    assert(iright == nb_send_right);
 
     // Communicate buffers.
-    Eigen::Array<double, 7, Eigen::Dynamic> recv_left(7, nb_recv_left), recv_right(7, nb_recv_right);
-    MPI::Eigen::sendrecv(send_left, left_(dim), recv_right, right_(dim), comm_);
-    MPI::Eigen::sendrecv(send_right, right_(dim), recv_left, left_(dim), comm_);
+    auto recv_right{MPI::Eigen::sendrecv(send_left, left_(dim), right_(dim), comm_)};
+    auto recv_left{MPI::Eigen::sendrecv(send_right, right_(dim), left_(dim), comm_)};
 
     // Resize atoms array. This will discard all ghost atoms.
-    atoms.resize(nb_local_ + nb_recv_left + nb_recv_right);
+    atoms.resize(nb_local_ + recv_left.cols() + recv_right.cols());
 
     // Unpack buffers.
     MPI::Eigen::unpack_buffer(recv_left, nb_local_,
                               atoms.masses,
                               atoms.positions.row(0), atoms.positions.row(1), atoms.positions.row(2),
                               atoms.velocities.row(0), atoms.velocities.row(1), atoms.velocities.row(2));
-    MPI::Eigen::unpack_buffer(recv_right, nb_local_ + nb_recv_left,
+    MPI::Eigen::unpack_buffer(recv_right, nb_local_ + recv_left.cols(),
                               atoms.masses,
                               atoms.positions.row(0), atoms.positions.row(1), atoms.positions.row(2),
                               atoms.velocities.row(0), atoms.velocities.row(1), atoms.velocities.row(2));
@@ -224,13 +192,16 @@ Eigen::Index Domain::_exchange_atoms(Atoms &atoms, int dim) {
     assert(nb_local_ + recv_left.cols() + recv_right.cols() == atoms.nb_atoms());
     nb_local_ = atoms.nb_atoms();
 
-    return nb_send_left + nb_send_right;
+    return send_left.cols() + send_right.cols();
 }
 
 
 void Domain::exchange_atoms(Atoms &atoms) {
     // This method only works if decomposition is enabled.
     assert_enabled();
+
+    // Invalidate ghosts (we don't want to send those).
+    atoms.resize(nb_local_);
 
     // Loop as long as there is something left to be send. Multiple iterations
     // happen if atoms are farther than one subdomain away from where they
@@ -267,39 +238,32 @@ Domain::_update_ghosts(Atoms &atoms, double border_width, int dim,
     auto left_mask{left_positions.row(dim) < left_domain_boundary + border_width};
     auto right_mask{right_positions.row(dim) > right_domain_boundary - border_width};
 
-    // Communicate number of ghost particles that will be transferred to neighbors.
-    auto nb_send_left{left_mask.count()}, nb_send_right{right_mask.count()};
-    auto nb_recv_right{MPI::sendrecv(nb_send_left, left_(dim), right_(dim), comm_)};
-    auto nb_recv_left{MPI::sendrecv(nb_send_right, right_(dim), left_(dim), comm_)};
-
     // Pack send buffers. We only need positions.
-    Eigen::Array3Xd send_left(3, nb_send_left), send_right(3, nb_send_right);
-    MPI::Eigen::pack_buffer(send_left, left_mask,
-                            left_positions.row(0) + offset_left_(0, dim),
-                            left_positions.row(1) + offset_left_(1, dim),
-                            left_positions.row(2) + offset_left_(2, dim));
-    MPI::Eigen::pack_buffer(send_right, right_mask,
-                            right_positions.row(0) + offset_right_(0, dim),
-                            right_positions.row(1) + offset_right_(1, dim),
-                            right_positions.row(2) + offset_right_(2, dim));
+    auto send_left{MPI::Eigen::pack_buffer(left_mask,
+                                           left_positions.row(0) + offset_left_(0, dim),
+                                           left_positions.row(1) + offset_left_(1, dim),
+                                           left_positions.row(2) + offset_left_(2, dim))};
+    auto send_right{MPI::Eigen::pack_buffer(right_mask,
+                                            right_positions.row(0) + offset_right_(0, dim),
+                                            right_positions.row(1) + offset_right_(1, dim),
+                                            right_positions.row(2) + offset_right_(2, dim))};
 
     // Send and receive buffers.
-    Eigen::Array3Xd recv_right(3, nb_recv_right), recv_left(3, nb_recv_left);
-    MPI::Eigen::sendrecv(send_left, left_(dim), recv_right, right_(dim), comm_);
-    MPI::Eigen::sendrecv(send_right, right_(dim), recv_left, left_(dim), comm_);
+    auto recv_right{MPI::Eigen::sendrecv(send_left, left_(dim), right_(dim), comm_)};
+    auto recv_left{MPI::Eigen::sendrecv(send_right, right_(dim), left_(dim), comm_)};
 
     // Resize Atoms object to store additional ghost atoms. Note that this invalidates left_mask and right_mask
     // and we cannot use this after this step.
     auto nb_last{atoms.nb_atoms()};
-    atoms.resize(nb_last + nb_recv_left + nb_recv_right);
+    atoms.resize(nb_last + recv_left.cols() + recv_right.cols());
 
     // Unpack receive buffers.
     MPI::Eigen::unpack_buffer(recv_left, nb_last,
                               atoms.positions.row(0), atoms.positions.row(1), atoms.positions.row(2));
-    MPI::Eigen::unpack_buffer(recv_right, nb_last + nb_recv_left,
+    MPI::Eigen::unpack_buffer(recv_right, nb_last + recv_left.cols(),
                               atoms.positions.row(0), atoms.positions.row(1), atoms.positions.row(2));
 
-    return {nb_recv_left, nb_recv_right};
+    return {recv_left.cols(), recv_right.cols()};
 }
 
 
