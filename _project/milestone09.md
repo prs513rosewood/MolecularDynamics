@@ -13,6 +13,8 @@ nav_order: 10
 
 In this final milestone, you will run a (parallel) molecular dynamics simulation of the mechanical deformation of a gold nanowire (or whisker). You will compute stress-strain curves and investigate the defects that carry plastic deformation. This milestone is inspired by a [2012 scientific publication](http://dx.doi.org/10.1016/j.actamat.2012.03.018) on twinning-mediated plastic deformation in Au nanowhiskers. You will want to carry out these calculation on a high-performance computing (HPC) system. As a student at Freiburg, you have access to [bwUnicluster](../_notes/bwUnicluster.md).
 
+![Gold whisker consisting of 51500 atoms](whisker.png)
+
 ## Preparation
 
 We provide whiskers of two sizes for you: [whisker_small.xyz](whisker_small.xyz), [whisker_large.xyz](whisker_large.xyz). Start with the smaller one but move to the larger one at a later stage. We also provide a Python script for making these whisker: [make_whisker.py](make_whisker.py). The script require the [Atomic Simulation Environment (ASE)](https://wiki.fysik.dtu.dk/ase/) that can be install via `pip install ase`.

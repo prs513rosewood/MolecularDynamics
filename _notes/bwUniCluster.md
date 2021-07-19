@@ -76,7 +76,7 @@ make
 
 ## Running simulations
 
-bwUniCluster has extensive documentation that can be found here: https://www.bwhpc-c5.de/wiki/index.php/Category:BwUniCluster. Simulations are typically run as batch jobs. They have to be submitted through a batch or queueing system that takes care of assigning the actual hardware (compute node) to your job. A description of the queueing system can be found [here](https://wiki.bwhpc.de/wiki/index.php?title=BwUniCluster_2.0_Slurm_common_Features). Please make sure you understand the concept of a _partition_ described [here](https://wiki.bwhpc.de/wiki/index.php?title=BwUniCluster_2.0_Batch_Queues).
+bwUniCluster has extensive documentation that can be found here: <https://www.bwhpc-c5.de/wiki/index.php/Category:BwUniCluster>. Simulations are typically run as batch jobs. They have to be submitted through a batch or queueing system that takes care of assigning the actual hardware (compute node) to your job. A description of the queueing system can be found [here](https://wiki.bwhpc.de/wiki/index.php?title=BwUniCluster_2.0_Slurm_common_Features). Please make sure you understand the concept of a _partition_ described [here](https://wiki.bwhpc.de/wiki/index.php?title=BwUniCluster_2.0_Batch_Queues).
 
 ### Job scripts
 
@@ -92,12 +92,12 @@ To run you job, you need to write a job script. The job script is executed by th
 #SBATCH --export=ALL
 #SBATCH --partition=multiple
 
-module load devel/python/3.8.1_gnu_9.2-pipenv
-module load mpi/openmpi/4.0
+module load compiler/gnu/11.1
+module load mpi/openmpi/4.1
 
 echo "Running on ${SLURM_JOB_NUM_NODES} nodes with ${SLURM_JOB_CPUS_PER_NODE} cores each."
 echo "Each node has ${SLURM_MEM_PER_NODE} of memory allocated to this job."
-time mpirun yamd
+time mpirun ./yamd
 ```
 
 Lines starting with a `#` are ignored by the shell. Lines starting with `#SBATCH` are ignored by the shell but are treated like command-line options to the `sbatch` command that you need to submit your job. You can see all options but running `man sbatch`.
