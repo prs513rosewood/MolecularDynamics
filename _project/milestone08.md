@@ -123,7 +123,7 @@ This milestone requires the following tasks:
 
 * Parallelize the code using the domain-decomposition module provides by us
 * Optional: Develop your own domain-decomposition module
-* Carry out first parallel runs on the gold clusters from Milestons 07
+* Carry out first parallel runs on the gold clusters from Milestone 07
 
 We ask you to provide and discuss the following figures in your final report:
 
