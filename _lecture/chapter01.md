@@ -2,11 +2,10 @@
 layout: default
 title: "Chapter 01"
 parent: Lecture
-date: 2021-05-30
+date: 2021-07-20
 categories: lecture
 author: Lars Pastewka
 nav_order: 01
----
 ---
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 1</span><br />

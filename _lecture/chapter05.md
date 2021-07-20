@@ -2,11 +2,10 @@
 layout: default
 title: "Chapter 05"
 parent: Lecture
-date: 2021-05-30
+date: 2021-07-20
 categories: lecture
 author: Lars Pastewka
 nav_order: 05
----
 ---
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 5</span><br />
@@ -60,9 +59,9 @@ has no fixed functional form, but splines are used to represent the three functi
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> While early EAM potentials had a purely attractive embedding contribution \(\mathcal{F}(\rho )\) and a purely repulsive pair contribution \(\phi (r)\), this condition is relaxed in more complex potential. As can be seen from Fig. <a href='#x1-4001r1'>5.1<!--  tex4ht:ref: fig:grochola   --></a>, <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>)’s potential
 includes a repulsive contribution from the embedding term.</p>
 </div>
-<figure class='figure'><!--  l. 122  -->
-<p class='noindent'><img width='356' height='284' alt='PIC' src='figures/image6.png' /> <img width='356' height='284' alt='PIC' src='figures/image7.png' /> <img width='356' height='284' alt='PIC' src='figures/image8.png' /> <a id='x1-4001r1'></a> <a id='x1-4002'></a></p>
-<figcaption class='caption'><span class='id'>Figure 5.1::</span> <span class='content'>\(\mathcal{F}(\rho )\), \(f(r)\) and \(V(r_ij)\) as employed in the Au potential by <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>).</span></figcaption>
+<figure class='figure'><a id='x1-4001r1'></a> <!--  l. 122  -->
+<p class='noindent'><img height='284' src='figures/image6.png' alt='PIC' width='356' /> <img height='284' src='figures/image7.png' alt='PIC' width='356' /> <img height='284' src='figures/image8.png' alt='PIC' width='356' /> <a id='x1-4002'></a></p>
+<figcaption class='caption'><span class='id'>Figure 5.1:</span><span class='content'>\(\mathcal{F}(\rho )\), \(f(r)\) and \(V(r_ij)\) as employed in the Au potential by <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>).</span></figcaption>
 <!--  tex4ht:label?: x1-4001r5.3   --></figure>
 <div id='shaded*-1' class='framedenv'><!--  l. 129  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> Note that these two approaches, fitting to experimental ground-state data and force-matching, are quite different from a philosophical point of view. It has been argued by <a href='#Xsukhomlinov_constraints_2016'>Sukhomlinov and Müser</a> (<a href='#Xsukhomlinov_constraints_2016'>2016</a>), that the potential should contains as few parameters as possible (Occam’s razor!) to achieve best transferability. Potential
