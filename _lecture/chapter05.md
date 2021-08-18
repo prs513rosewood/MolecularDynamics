@@ -2,15 +2,16 @@
 layout: default
 title: "Chapter 05"
 parent: Lecture
-date: 2021-07-20
+date: 2021-08-18
 categories: lecture
 author: Lars Pastewka
 nav_order: 05
 ---
+---
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 5</span><br />
 <a id='x1-10005'></a>Embedded-atom method potentials</h2>
-<div id='shaded*-1' class='framedenv'><!--  l. 4  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 4  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> We here introduce a more complex interatomic potential that is suitable for modeling metals, the embedded atom method potential. It belongs to the class of <span class='cmti-12'>many-body</span> interatomic potentials and can be used to model mechanical or thermodynamic properties of metals.</p>
 </div>
 <!--  l. 8  -->
@@ -19,8 +20,8 @@ nav_order: 05
 <!--  l. 12  -->
 <p class='noindent'>Metals are often cubic crystals with anisotropic mechanical properties. Crystals with cubic symmetry have three independent elastic constants, \(C_{11}\), \(C_{12}\) and \(C_{44}\) that roughly describe the resistance to volume change, dilational shear and simple shear. The original driving force behind the development of the embedded atom method (EAM) was to overcome the zero Cauchy pressure \(P_{C} = (C_{11} - C_{44})/2\) for solids obtained for pair potentials: Pair potentials always
 satisfy the <span class='cmti-12'>Cauchy relation</span> \(C_{11}=C_{44}\), hence there are only two independent elastic constants for cubic solids. [Compare: For an <span class='cmti-12'>isotropic</span> solid there are also two independent elastic constants, but this condition is different, bulk modulus \(K = (C_{11} + 2C_{12})/3\) and shear modulus \(G = C_{44} = ( C_{11} - C_{12} )/2\).] The Cauchy relation can be relaxed by adding an energy term that depends on the volume per atom \(v =
-V/N\) (<a href='#Xvitek_pair_1996'>Vitek</a>, <a href='#Xvitek_pair_1996'>1996</a>) \begin{equation} E( \{ \vec{r}_{i} \} ) = \frac{1}{2}\sum _{i = 1}^{N}{\sum _{j = 1}^{N}{V(r_{ij} ) + NU(V/N)}} \label{eq:pairplusdens} \end{equation} The <span class='cmti-12'>volume dependent term</span> contributes only to deformation modes that do not conserve the volume, i.e. \(C_{11}\). This hence breaks the Cauchy relationship \(C_{11} = C_{44}\) and gives a non-zero Cauchy-pressure \(P_{C} = (C_{11} -
-C_{44})/2\)</p>
+V/N\) (<a href='#Xvitek_pair_1996'>Vitek</a>, <a href='#Xvitek_pair_1996'>1996</a>) \begin{equation} E( \{ \vec{r}_{i} \} ) = \frac{1}{2}\sum _{i = 1}^{N}{\sum _{j = 1}^{N}{V(r_{ij} ) + NU(V/N)}} \label{eq:pairplusdens} \end{equation} The <span class='cmti-12'>volume dependent term</span> contributes only to deformation modes that do not conserve the volume, i.e. \(C_{11}\) or \(C_{12}\). This hence breaks the Cauchy relationship \(C_{12} = C_{44}\) and gives a non-zero Cauchy-pressure \(P_{C} =
+(C_{12} - C_{44})/2\)</p>
 <!--  l. 31  -->
 <p class='indent'>While a potential of the type given by Eq. \eqref{eq:pairplusdens} can be adjusted to give the correct elastic constant (and can therefore be accurate), <span class='cmti-12'>it cannot be used for e.g. free surfaces</span> (and is therefore not transferable). This has historically driven the development of more advanced methods for modeling solids such as the EAM described here. Note that EAM potentials are not confined to the realm of solids but can also be used for studying
 properties of melt, or the transition between solid and melt.</p>
@@ -55,15 +56,15 @@ embedding function \(F(\rho )\) is then adjusted to reproduce the universal equa
 <p class='indent'>A more modern approach is <span class='cmti-12'>force matching</span> due to <a href='#Xercolessi_interatomic_1994'>Ercolessi and Adams</a> (<a href='#Xercolessi_interatomic_1994'>1994</a>). Force matching potentials are fit to a set of calculations carried out with a more accurate and more transferable but also more expensive method (e.g. a quantum chemical method) at finite temperature. This generates a molecular dynamics trajectory that has configurations with nonzero forces on
 each atom. (Fitting to equilibrium properties such as Cleri-Rosato means fitting to structures where all forces are zero.) The potential parameters are then fit to reproduce these forces. This method has the advantage that, in principle, an unlimited set of fitting target can be generated easily and the potential can be fit to a large number of parameters. An example of a force-matched EAM is <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>). It
 has no fixed functional form, but splines are used to represent the three functions \(\mathcal{F}(\rho )\), \(f(r)\) and \(V(r_ij)\). Figure <a href='#x1-4001r1'>5.1<!--  tex4ht:ref: fig:grochola   --></a> shows these functions for the <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>) potential.</p>
-<div id='shaded*-1' class='framedenv'><!--  l. 117  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 117  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> While early EAM potentials had a purely attractive embedding contribution \(\mathcal{F}(\rho )\) and a purely repulsive pair contribution \(\phi (r)\), this condition is relaxed in more complex potential. As can be seen from Fig. <a href='#x1-4001r1'>5.1<!--  tex4ht:ref: fig:grochola   --></a>, <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>)’s potential
 includes a repulsive contribution from the embedding term.</p>
 </div>
 <figure class='figure'><a id='x1-4001r1'></a> <!--  l. 122  -->
-<p class='noindent'><img height='284' src='figures/image6.png' alt='PIC' width='356' /> <img height='284' src='figures/image7.png' alt='PIC' width='356' /> <img height='284' src='figures/image8.png' alt='PIC' width='356' /> <a id='x1-4002'></a></p>
+<p class='noindent'><img height='284' src='figures/image6.png' width='356' alt='PIC' /> <img height='284' src='figures/image7.png' width='356' alt='PIC' /> <img height='284' src='figures/image8.png' width='356' alt='PIC' /> <a id='x1-4002'></a></p>
 <figcaption class='caption'><span class='id'>Figure 5.1:</span><span class='content'>\(\mathcal{F}(\rho )\), \(f(r)\) and \(V(r_ij)\) as employed in the Au potential by <a href='#Xgrochola_fitting_2005'>Grochola et al.</a> (<a href='#Xgrochola_fitting_2005'>2005</a>).</span></figcaption>
 <!--  tex4ht:label?: x1-4001r5.3   --></figure>
-<div id='shaded*-1' class='framedenv'><!--  l. 129  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 129  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> Note that these two approaches, fitting to experimental ground-state data and force-matching, are quite different from a philosophical point of view. It has been argued by <a href='#Xsukhomlinov_constraints_2016'>Sukhomlinov and Müser</a> (<a href='#Xsukhomlinov_constraints_2016'>2016</a>), that the potential should contains as few parameters as possible (Occam’s razor!) to achieve best transferability. Potential
 with many parameters are often accurate for the fitting data set but not accurate outside and hence not transferable. This problem is typically referred to as overfitting.</p>
 </div>

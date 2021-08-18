@@ -2,10 +2,11 @@
 layout: default
 title: "Chapter 07"
 parent: Lecture
-date: 2021-07-20
+date: 2021-08-18
 categories: lecture
 author: Lars Pastewka
 nav_order: 07
+---
 ---
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 7</span><br />
@@ -19,7 +20,7 @@ nav_order: 07
 <p class='noindent'>Our atomic system has so far lived in an infinite space consisting of vaccum. We have made no reference to a simulation domain and the code developed up to Milestone 07 makes not reference to such a domain. We now introduce domain decomposition and for this need a simulation domain, i.e. a region of space \(\Omega \) in which our atoms can reside. This domain can be periodic, which we will discuss in more detail in the next chapter.</p>
 <!--  l. 11  -->
 <p class='indent'>We will assume that the simulation has its origin at \((0,0,0)\) and is spanned by three linearly independent vectors \(\vec{a}_1\), \(\vec{a}_2\) and \(\vec{a}_3\). Any atomic position can then be expressed as \begin{equation} \vec{r}_i = s_{i,1} \vec{a}_1 + s_{i,2}\vec{a}_2 + s_3 \vec{a}_{i,3} \end{equation} with \(s_\alpha \in [0,1)\). \(s_\alpha \) must remain in this interval since we do not allow atoms outside of the simulation domain. The vector \(\vec{s}_i\) is the scaled position
-of the atom \(i\). Using the matrix \(\underline{A}=(\vec{a}_1, \vec{a}_2, \vec{a}_3)\), we can express this more compactly as \(\vec{r}_i=\underline{A}\cdot \vec{s}_i\). Conversely, we obtain the scaled positions from \(\vec{s}_i=\underline{A}^{-1}\cdot \vec{r}_i\).</p>
+of the atom \(i\). Using the <span class='cmti-12'>domain matrix</span> \(\underline{A}=(\vec{a}_1, \vec{a}_2, \vec{a}_3)\), we can express this more compactly as \(\vec{r}_i=\underline{A}\cdot \vec{s}_i\). Conversely, we obtain the scaled positions from \(\vec{s}_i=\underline{A}^{-1}\cdot \vec{r}_i\).</p>
 <!--  l. 17  -->
 <p class='indent'>In what follows, we assume rectilinear domains, i.e. \(\vec{a}_1=(L_x, 0, 0)\), \(\vec{a}_2=(0, L_y, 0)\) and \(\vec{a}_3=(0, 0, L_z)\) where \(L_x\), \(L_y\) and \(L_z\) are the linear dimensions of the domain. The methods that are described in the following are straightforwardly extended to arbitrary (tilted) domains.</p>
 <!--  l. 19  -->
@@ -57,6 +58,6 @@ because a force in the EAM potential is affected by an atom that sits twice the 
 <p class='bibitem'><span class='biblabel'><a id='Xbruge_concurrent_1990'></a><span class='bibsp'>   </span></span>F. Brugè and S. L. Fornili. Concurrent molecular dynamics simulation of spinodal phase transition on transputer arrays. <span class='cmti-12'>Comput. Phys. Comm.</span>, 60(1):31–38, 1990. URL <a href='https://doi.org/10.1016/0010-4655(90)90076-D' class='url'><span class='cmtt-12'>https://doi.org/10.1016/0010-4655(90)90076-D</span></a>.</p>
 <p class='bibitem'><span class='biblabel'><a id='Xchynoweth_simulation_1991'></a><span class='bibsp'>   </span></span>S. Chynoweth, U. C. Klomp, and L. E. Scales. Simulation of organic liquids using pseudo-pairwise interatomic forces on a toroidal transputer array. <span class='cmti-12'>Comput. Phys. Comm.</span>, 62(2):297–306, 1991. URL <a href='https://doi.org/10.1016/0010-4655(91)90102-Q' class='url'><span class='cmtt-12'>https://doi.org/10.1016/0010-4655(91)90102-Q</span></a>.</p>
 <p class='bibitem'><span class='biblabel'><a id='Xliem_molecular_1991'></a><span class='bibsp'>   </span></span>S. Y. Liem, D. Brown, and J. H. R. Clarke. Molecular dynamics simulations on distributed memory machines. <span class='cmti-12'>Comput. Phys. Comm.</span>, 67(2):261–267, 1991. URL <a href='https://doi.org/10.1016/0010-4655(91)90021-C' class='url'><span class='cmtt-12'>https://doi.org/10.1016/0010-4655(91)90021-C</span></a>.</p>
-<p class='bibitem'><span class='biblabel'><a id='Xpinches_large_1991'></a><span class='bibsp'>   </span></span>M. R. S. Pinches, D. J. Tildesley, and W. Smith. Large Scale Molecular Dynamics on Parallel Computers using the Link-cell Algorithm. <span class='cmti-12'>Molecular Simulation</span>, 6(1-3):51–87, 1991. URL <a href='https://doi.org/10.1080/08927029108022139' class='url'><span class='cmtt-12'>https://doi.org/10.1080/08927029108022139</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xpinches_large_1991'></a><span class='bibsp'>   </span></span>M. R. S. Pinches, D. J. Tildesley, and W. Smith. Large scale molecular dynamics on parallel computers using the link-cell algorithm. <span class='cmti-12'>Molecular</span> <span class='cmti-12'>Simulation</span>, 6(1-3):51–87, 1991. URL <a href='https://doi.org/10.1080/08927029108022139' class='url'><span class='cmtt-12'>https://doi.org/10.1080/08927029108022139</span></a>.</p>
 <p class='bibitem'><span class='biblabel'><a id='Xplimpton_fast_1995'></a><span class='bibsp'>   </span></span>S. Plimpton. Fast parallel algorithms for short-range molecular dynamics. <span class='cmti-12'>J. Comput. Phys.</span>, 117(1):1–19, 1995. URL <a href='https://doi.org/10.1006/jcph.1995.1039' class='url'><span class='cmtt-12'>https://doi.org/10.1006/jcph.1995.1039</span></a>.</p>
 </div>

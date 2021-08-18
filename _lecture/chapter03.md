@@ -2,10 +2,11 @@
 layout: default
 title: "Chapter 03"
 parent: Lecture
-date: 2021-07-20
+date: 2021-08-18
 categories: lecture
 author: Lars Pastewka
 nav_order: 03
+---
 ---
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 3</span><br />
@@ -15,7 +16,7 @@ nav_order: 03
 </div>
 <h3 class='sectionHead'><span class='titlemark'>3.1</span> <a id='x1-20003.1'></a>Introduction</h3>
 <!--  l. 10  -->
-<p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=42ad47da-d1c1-48bc-9eda-ad2301538f4f'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=42ad47da-d1c1-48bc-9eda-ad2301538f4f</span></a></p>
+<p class='noindent'><a href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=42ad47da-d1c1-48bc-9eda-ad2301538f4f' class='url'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=42ad47da-d1c1-48bc-9eda-ad2301538f4f</span></a></p>
 <!--  l. 12  -->
 <p class='indent'>The expression for \(E_\text{pot}\left (\{ \vec{r}_{i} \} \right )\) is the <span class='cmti-12'>model for the material</span> that we use in our molecular dynamics calculations. It determines whether we model water, proteins, metals, or any other physical object. Models are typically characterized by their <span class='cmti-12'>accuracy</span>, their <span class='cmti-12'>transferability</span> and the <span class='cmti-12'>computational cost</span> involved. (Computational cost also
 includes the <span class='cmti-12'>computational complexity</span>.) At constant computational cost, there is always a tradeoff between accuracy and transferability. Accuracy and transferability can typically only be improved at the expense of additional computational cost.</p>
@@ -30,7 +31,7 @@ methods (tight-binding, density-functional theory) are usually \(O(N^{3})\) or w
 <p class='noindent'></p>
 <h3 class='sectionHead'><span class='titlemark'>3.2</span> <a id='x1-30003.2'></a>Pair potentials</h3>
 <!--  l. 45  -->
-<p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=35001264-ad07-4873-89f1-ad2301538f75'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=35001264-ad07-4873-89f1-ad2301538f75</span></a></p>
+<p class='noindent'><a href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=35001264-ad07-4873-89f1-ad2301538f75' class='url'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=35001264-ad07-4873-89f1-ad2301538f75</span></a></p>
 <!--  l. 47  -->
 <p class='indent'>We have already encountered the simplest (and oldest) form of an interaction potentials, the pair potential. The total energy for a system interacting in <span class='cmti-12'>pairs</span> can be written quite generally as \begin{equation} E_\text{pot}\left ( \{ \vec{r}_{i} \} \right ) = \frac{1}{2}\sum _{i = 1}^{N}{\sum _{j = 1}^{N}{V\left ( r_{ij} \right ) = \sum _{i &lt; j} V(r_{ij})}} \label{eq:pairpot} \end{equation} where \(r_{ij} = |\vec{r}_{i} - \vec{r}_{j}|\) is the distance
 between atom <span class='cmti-12'>i</span> and atom <span class='cmti-12'>j</span>. \(V(r_{ij})\) is the pair interaction energy or just the pair potential and we assume that the interaction is pair-wise additive. The sum on the right (\(\sum _{i&lt;j}\)) runs over all pairs while sum on the left double counts each pair and therefore needs the factor \(1/2\). We have already seen a combination of the electrostatic potential and Pauli repulsion as an example of a pair-potential earlier.</p>
@@ -56,7 +57,7 @@ fluctuation can thereby break this bond, hence the term nonbonded.</p>
 <p class='noindent'></p>
 <h3 class='sectionHead'><span class='titlemark'>3.3</span> <a id='x1-60003.3'></a>Short-ranged potentials</h3>
 <!--  l. 101  -->
-<p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=16d8770d-f056-45c4-a6c6-ad2301538f27'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=16d8770d-f056-45c4-a6c6-ad2301538f27</span></a></p>
+<p class='noindent'><a href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=16d8770d-f056-45c4-a6c6-ad2301538f27' class='url'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=16d8770d-f056-45c4-a6c6-ad2301538f27</span></a></p>
 <!--  l. 103  -->
 <p class='indent'>Implementing Eq. \eqref{eq:pairpot} naively leads to a complexity of \(O\left ( N^{2} \right )\) because the sum contains \(N^2\) terms. The trick is to cut the interaction range, i.e. set energies and forces to zero for distances larger than a certain cut-off distance \(r_c\). This is possible because the asymptotic behavior \(V\left ( r \right ) \rightarrow 0\) as \(r \rightarrow \infty \). Potentials for which this asymptotic decay is fast enough can be cut-off and are called
 short-ranged. Note that we have already encountered a case in Chap. <span class='cmbx-12'>??</span> for which this is not possible, the Coulomb interaction that has the form \(V\left ( r \right ) \propto 1/r\).</p>
@@ -76,7 +77,7 @@ Hamiltonian \(H\) is not a conserved quantity. The shifted potential fulfills th
 <p class='noindent'>The sum Eq. \eqref{eq:pairpotcut} runs over all neighbors. One important algorithmic step with complexity \(O(N)\) in molecular dynamics codes is to build a <span class='cmti-12'>neighbor list</span>, i.e. find all pairs <span class='cmti-12'>i-j</span> with \(r_{ij} &lt; r_{c}\). This is usually done using a <span class='cmti-12'>domain</span> <span class='cmti-12'>decomposition</span> (see Fig. <a href='#x1-7001r1'>3.1<!--  tex4ht:ref: fig:neighborsearch   --></a>) that
 divides the simulation domain in cells of a certain size and sorts all atoms into one of these cells. The neighbor list can then be constructed by looking for neighbors in neighboring cells only. If the cell size \(b\) is larger than the cutoff radius, \(b&gt;r_c\), then we only need to look exactly the neighboring cells.</p>
 <figure class='figure'><a id='x1-7001r1'></a> <!--  l. 143  -->
-<p class='noindent'><img src='figures/neighbor_list_search.png' alt='PIC' width='390' height='390' /> <a id='x1-7002'></a></p>
+<p class='noindent'><img height='390' width='390' src='figures/neighbor_list_search.png' alt='PIC' /> <a id='x1-7002'></a></p>
 <figcaption class='caption'><span class='id'>Figure 3.1:</span><span class='content'>Illustration of the typical data structure used for an \(O(N)\) neighbor search in a molecular dynamics simulation. For searching the neighbors within a cutoff \(r_c\) of the red atom, we only need to consider the candidate atoms that are in the cell adjacent to the red atom.</span></figcaption>
 <!--  tex4ht:label?: x1-7001r3.4   --></figure>
 <!--  l. 148  -->
