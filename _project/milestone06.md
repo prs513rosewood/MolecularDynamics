@@ -69,10 +69,6 @@ Optional:
 
 * Implement your own neighbor list search
 
-We ask you to provide the following analytical results in your final report:
-
-* Explain your test strategy for the Berendsen thermostat
-
 We ask you to provide and discuss the following figures in your final report:
 
 * Plot of the simulation time as a function of the size (number of atoms) of your atomic system
