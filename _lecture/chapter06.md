@@ -2,11 +2,10 @@
 layout: default
 title: "Chapter 06"
 parent: Lecture
-date: 2021-08-18
+date: 2022-04-20
 categories: lecture
 author: Lars Pastewka
 nav_order: 06
----
 ---
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 6</span><br />
@@ -27,7 +26,7 @@ facilitates programming for massively parallel machines under this programming m
 <h3 class='sectionHead'><span class='titlemark'>6.2</span> <a id='x1-30006.2'></a>Scaling consideration</h3>
 <!--  l. 17  -->
 <p class='noindent'>Software that runs on parallel computers needs to scale. Scaling describes how the time to returning the result changes as the number of available compute units (cores) changes. The simplest model for scaling assumes that our code can be divided into a fraction \(f_s\) that needs to be executed on a single core while a fraction \(f_p\) scales perfectly, i.e. its execute time is \(\propto 1/p\) where \(p\) is the number of available processes or cores. (Note that \(f_s+f_p=1\) since they
-are fractions.) This leads to Amdahl’s law that describes the speedup \(S\) as a function of \(p\): \begin{equation} S = p f_p + f_s p \end{equation}</p>
+are fractions.) This leads to Amdahl’s law that describes the speedup \(S\) as a function of \(p\): \begin {equation} S = p f_p + f_s p \end {equation}</p>
 <!--  l. 22  -->
 <p class='indent'><a href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=95d5d79d-4259-4865-af14-ab9d0099e7cb' class='url'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=95d5d79d-4259-4865-af14-ab9d0099e7cb</span></a></p>
 <!--  l. 24  -->
