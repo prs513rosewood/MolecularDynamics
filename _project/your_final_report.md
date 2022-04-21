@@ -11,7 +11,7 @@ nav_order: 1
 
 ## Documents you need to submit
 
-In order to pass the class, you will need to submit at **the end of the examination period of the summer term 2021 (on September 30, 2021)**:
+In order to pass the class, you will need to submit at **the end of the examination period of the summer term 2022 (on September 30, 2022)**:
 
 * A report, written in English or German, that describes your simulation code and results obtained with it.
 
