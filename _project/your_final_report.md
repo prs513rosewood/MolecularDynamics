@@ -19,7 +19,7 @@ In order to pass the class, you will need to submit at **the end of the examinat
 
 * Instructions on how to run the code for different lattice dimensions, different ω and different domain decomposition grids.
 
-Please make sure to submit at the latest on **September 30, 2021, midnight**. All later submissions will count as fails.
+Please make sure to submit at the latest on **September 30, 2022, midnight**. All later submissions will count as fails.
 
 ## The report
 
