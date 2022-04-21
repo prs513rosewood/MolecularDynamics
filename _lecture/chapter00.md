@@ -15,6 +15,6 @@ The lecture material will guide through the basics of the molecular dynamics sim
 
 * _Molecular dynamics:_ Michael P. Allen, Dominic J. Tildeley, Computer simulations of liquids, Oxford University Press - [link to publisher](https://oxford.universitypressscholarship.com/view/10.1093/oso/9780198803195.001.0001/oso-9780198803195)
 
-* _Statistical mechanics:_ James P. Sethna, Entropy, order parameters, and complexity, Oxford University Press - [link to free PDF](http://pages.physics.cornell.edu/~sethna/StatMech/)
+* _Statistical mechanics:_ James P. Sethna, Entropy, order parameters, and complexity, Oxford University Press - [link to free PDF](https://sethna.lassp.cornell.edu/StatMech/)
 
 * _Interatomic forces:_ Mike Finnis, Interatomic forces in condensed matter, Oxford University Press - [link to publisher](https://oxford.universitypressscholarship.com/view/10.1093/acprof:oso/9780198509776.001.0001/acprof-9780198509776)
