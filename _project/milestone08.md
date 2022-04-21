@@ -1,13 +1,13 @@
 ---
 layout: default
-title:  "Milestone 08 (optional)"
+title:  "Milestone 08"
 parent: Project
 categories: project
 author : Lars Pastewka
 nav_order: 9
 ---
 
-# Milestone 8 (optional) <br/> Parallelization
+# Milestone 8 <br/> Parallelization
 
 ## Learning goals
 
