@@ -6,8 +6,7 @@ layout: home
 ---
 
 This website contains material for a class on molecular dynamics run by the [Simulation][simulation] group at the
-[Department of Microsystems Engineering][imtek] of the [University of Freiburg][unifreiburg]. We will update
-this material as the class progresses throughout the summer term of 2021.
+[Department of Microsystems Engineering][imtek] of the [University of Freiburg][unifreiburg].
 
 We would appreciate feedback should you find an issues with the material posted here. Please use the [issue tracker][issue] on the [github repository][github] for this.
 
