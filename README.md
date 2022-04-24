@@ -18,3 +18,10 @@ The site can be restarted with
 ```bash
 docker restart MD
 ```
+
+## Updating Jekyll
+
+To update the Jekyllversion run:
+```bash
+JEKYLL_VERSION=4.0 docker run --rm -e "JEKYLL_ENV=docker" --name MDLecture --volume="$PWD:/srv/jekyll" -p 4000:4000 -it jekyll/jekyll bundle update github-pages
+```
