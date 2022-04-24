@@ -13,8 +13,8 @@ nav_order: 0
 
 The lecture material will guide through the basics of the molecular dynamics simulation method. It will give you enough information to complete the associated project. The appendix dives deeper in specific topics. As additional reading material, we recommend the following books:
 
-* _Molecular dynamics:_ Michael P. Allen, Dominic J. Tildeley, Computer simulations of liquids, Oxford University Press - [link to publisher](https://oxford.universitypressscholarship.com/view/10.1093/oso/9780198803195.001.0001/oso-9780198803195)
+* _Molecular dynamics:_ Michael P. Allen, Dominic J. Tildeley, Computer simulations of liquids, Oxford University Press - [PDF](https://levich.ccny.cuny.edu/koplik/molecular_simulation/AT2.pdf)
 
-* _Statistical mechanics:_ James P. Sethna, Entropy, order parameters, and complexity, Oxford University Press - [link to free PDF](https://sethna.lassp.cornell.edu/StatMech/)
+* _Interatomic potentials:_ Martin H. Müser, Sergey V. Sukhomlinov, Lars Pastewka, Interatomic potentials: Achievements and challenges - [PDF](https://arxiv.org/abs/2204.09563)
 
-* _Interatomic forces:_ Mike Finnis, Interatomic forces in condensed matter, Oxford University Press - [link to publisher](https://oxford.universitypressscholarship.com/view/10.1093/acprof:oso/9780198509776.001.0001/acprof-9780198509776)
+* _Statistical mechanics:_ James P. Sethna, Entropy, order parameters, and complexity, Oxford University Press - [PDF](https://sethna.lassp.cornell.edu/StatMech/)
