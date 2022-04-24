@@ -12,9 +12,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     MathJax = {
-      tex: {
-        tags: 'ams'
-      }
+        tex: {
+            tags: 'ams',
+            macros: {
+                v: ["{\\vec #1}", 1],
+                t: ["{\\underline #1}", 1],
+                tr: "{\\textrm{tr}\\,}",
+                dif: "{\\textrm{d}}",
+                AA: "{\\textrm{Å}}"
+            }
+        }
     };
     $(document).ready(function(){
         key = 'href';

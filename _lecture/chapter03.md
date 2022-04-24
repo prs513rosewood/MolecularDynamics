@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 03"
 parent: Lecture
-date: 2022-04-21
+date: 2022-04-24
 categories: lecture
 author: Lars Pastewka
 nav_order: 03
