@@ -11,8 +11,10 @@ nav_order: 3
 
 ## Getting access
 
-Accessing bwUniCluster is a multi-step procedure that is described in detail here:
-<https://www.bwhpc-c5.de/wiki/index.php/BwUniCluster_User_Access>. Please follow these steps as described. When being asked why you need access, please mention the “HPC with C++ class at the University of Freiburg.
+Accessing bwUniCluster is a multi-step procedure that is described in detail
+here: <https://wiki.bwhpc.de/e/Registration/bwUniCluster>. Please
+follow these steps as described. When being asked why you need access, please
+mention the "HPC with C++ class at the University of Freiburg".
 
 ## Logging in and transferring data
 
@@ -49,9 +51,8 @@ After logging in to bwUniCluster at `uc2.scc.kit.edu`, you will need to set up y
 Please load the following modules (just execute these commands at the command line):
 
 ```bash
-module load devel/cmake/3.18
-module load compiler/gnu/11.1
-module load mpi/openmpi/4.1
+module load compiler/gnu devel/cmake mpi/openmpi
+module list
 ```
 
 ## Compiling your code
