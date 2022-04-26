@@ -2,14 +2,14 @@
 layout: default
 title: "Chapter 03"
 parent: Lecture
-date: 2022-04-24
+date: 2022-04-26
 categories: lecture
 author: Lars Pastewka
 nav_order: 03
 ---
 ---
 
-<h2 class='chapterHead' id='pair-potentials'><span class='titlemark'>Chapter 3</span><br />
+<h2 class='chapterHead'><span class='titlemark'>Chapter 3</span><br />
 <a id='x1-10003'></a>Pair potentials</h2>
 <div class='framedenv' id='shaded*-1'><!--  l. 4  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Interatomic forces or interatomic potentials determine the material that we want to study. There is a plethora of interatomic potentials of varying accuracy, transferability and computational cost available in the literature. We here discuss simple pair potentials and point out algorithmic considerations.</p>
@@ -20,7 +20,7 @@ nav_order: 03
 <li class='itemize'>Chapter 3 of <a href='https://arxiv.org/abs/2204.09563'>Interatomic potentials: Achievements and challenges</a></li>
 </ul>
 </div>
-<h3 class='sectionHead' id='introduction'><span class='titlemark'>3.1</span> <a id='x1-20003.1'></a>Introduction</h3>
+<h3 class='sectionHead'><span class='titlemark'>3.1</span> <a id='x1-20003.1'></a>Introduction</h3>
 <!--  l. 16  -->
 <p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=42ad47da-d1c1-48bc-9eda-ad2301538f4f'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=42ad47da-d1c1-48bc-9eda-ad2301538f4f</span></a></p>
 <!--  l. 18  -->
@@ -36,7 +36,7 @@ system with twice as many particles takes twice the computing time), but many me
 </ul>
 <!--  l. 48  -->
 <p class='noindent'></p>
-<h3 class='sectionHead' id='pair-potentials1'><span class='titlemark'>3.2</span> <a id='x1-30003.2'></a>Pair potentials</h3>
+<h3 class='sectionHead'><span class='titlemark'>3.2</span> <a id='x1-30003.2'></a>Pair potentials</h3>
 <!--  l. 50  -->
 <p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=35001264-ad07-4873-89f1-ad2301538f75'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=35001264-ad07-4873-89f1-ad2301538f75</span></a></p>
 <!--  l. 52  -->
@@ -47,13 +47,13 @@ between atom <span class='cmti-12'>i</span> and atom <span class='cmti-12'>j</sp
 {equation} where \(\hat {r}_{ik}=\vec {r}_{ik}/r_{ik}\) is the unit vector pointing from atom \(k\) to atom \(i\) and \(\delta _{ik}\) is the <a href='https://en.wikipedia.org/wiki/Kronecker_delta'>Kronecker delta</a>. Note that these forces are symmetric, i.e. the term \(\partial V/\partial r_{ik} \hat {r}_{ik}\) shows up in the expression not only for the force on atom \(k\), but also (with an opposite sign) for the force on atom \(i\). This is <a href='https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion'>Newton’s third law</a>, a consequence of momentum conservation. (The sum over all forces needs to be equal to the applied external forces.) A typical implementation would therefore loop over all <span class='cmti-12'>pairs</span> between atoms, compute this pair term, then add it to the array entries holding the forces for both atoms.</p>
 <!--  l. 90  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead' id='dispersion-forces'><span class='titlemark'>3.2.1</span> <a id='x1-40003.2.1'></a>Dispersion forces</h4>
+<h4 class='subsectionHead'><span class='titlemark'>3.2.1</span> <a id='x1-40003.2.1'></a>Dispersion forces</h4>
 <!--  l. 92  -->
 <p class='noindent'>An important contribution to interatomic and intermolecular interactions is the London dispersion force. This interaction is attractive, and acts between all atoms, even noble gases. Its origin lies in fluctuations of the atomic dipole moment. (This is a quantum mechanical effect, but the simplest model would be an electron orbiting a nucleus with a rotating dipole moment.) This fluctuating dipole <span class='cmti-12'>induces</span> a dipole in a second atom and these interact. The
 interaction decays as \(r^{-6}\) at short distances. London dispersion forces are one of the forces that are often subsumed under the term van-der-Waals interaction.</p>
 <!--  l. 94  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead' id='lennardjones-potential'><span class='titlemark'>3.2.2</span> <a id='x1-50003.2.2'></a>Lennard-Jones potential</h4>
+<h4 class='subsectionHead'><span class='titlemark'>3.2.2</span> <a id='x1-50003.2.2'></a>Lennard-Jones potential</h4>
 <!--  l. 96  -->
 <p class='noindent'>The Lennard-Jones potential combines dispersion forces with an empirical \(r^{- 12}\) model for Pauli repulsion. It is typically used for the interaction of noble atoms or molecules, i.e. systems that have closed electronic shells and therefore do not form covalent bonds. The interactions described by the Lennard-Jones potential are often called nonbonded interactions, because the typical interaction energy is on the order of \(k_B T\) (with room temperature for \(T\)). Thermal
 fluctuation can thereby break this bond, hence the term nonbonded.</p>
@@ -62,7 +62,7 @@ fluctuation can thereby break this bond, hence the term nonbonded.</p>
 3\) Å.</p>
 <!--  l. 104  -->
 <p class='noindent'></p>
-<h3 class='sectionHead' id='shortranged-potentials'><span class='titlemark'>3.3</span> <a id='x1-60003.3'></a>Short-ranged potentials</h3>
+<h3 class='sectionHead'><span class='titlemark'>3.3</span> <a id='x1-60003.3'></a>Short-ranged potentials</h3>
 <!--  l. 106  -->
 <p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=16d8770d-f056-45c4-a6c6-ad2301538f27'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=16d8770d-f056-45c4-a6c6-ad2301538f27</span></a></p>
 <!--  l. 108  -->
@@ -79,12 +79,12 @@ the problem. The discrete sum is convergent, but only conditionally so, i.e. the
 and the integral of the forces, otherwise the Hamiltonian \(H\) is not a conserved quantity. The shifted potential fulfills these requirements, the unshifted one does not.</p>
 <!--  l. 134  -->
 <p class='noindent'></p>
-<h3 class='sectionHead' id='neighbor-list-search'><span class='titlemark'>3.4</span> <a id='x1-70003.4'></a>Neighbor list search</h3>
+<h3 class='sectionHead'><span class='titlemark'>3.4</span> <a id='x1-70003.4'></a>Neighbor list search</h3>
 <!--  l. 136  -->
 <p class='noindent'>The sum Eq. \eqref{eq:pairpotcut} runs over all neighbors. One important algorithmic step with complexity \(O(N)\) in molecular dynamics codes is to build a <span class='cmti-12'>neighbor list</span>, i.e. find all pairs <span class='cmti-12'>i-j</span> with \(r_{ij} &lt; r_{c}\). This is usually done using a <span class='cmti-12'>domain</span> <span class='cmti-12'>decomposition</span> (see Fig. <a href='#x1-7001r1'>3.1<!--  tex4ht:ref: fig:neighborsearch   --></a>) that
 divides the simulation domain in cells of a certain size and sorts all atoms into one of these cells. The neighbor list can then be constructed by looking for neighbors in neighboring cells only. If the cell size \(b\) is larger than the cutoff radius, \(b&gt;r_c\), then we only need to look exactly the neighboring cells.</p>
 <figure class='figure'><!--  l. 146  -->
-<p class='noindent' id='-illustration-of-the-typical-data-structure-used-for-an-on-neighbor-search-in-a-molecular-dynamics-simulation-for-searching-the-neighbors-within-a-cutoff-rc-of-the-red-atom-we-only-need-to-consider-the-candidate-atoms-that-are-in-the-cells-adjacent-to-the-red-atom-'><img alt='PIC' height='390' src='figures/neighbor_list_search.png' width='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
+<p class='noindent'><img src='figures/neighbor_list_search.png' width='390' alt='PIC' height='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
 <figcaption class='caption'><span class='id'>Figure 3.1:</span> <span class='content'>Illustration of the typical data structure used for an \(O(N)\) neighbor search in a molecular dynamics simulation. For searching the neighbors within a cutoff \(r_c\) of the red atom, we only need to consider the candidate atoms that are in the cells adjacent to the red atom.</span></figcaption>
 <!--  tex4ht:label?: x1-7001r3.4   --></figure>
 <!--  l. 151  -->
@@ -94,4 +94,4 @@ that stores the index of the first entry of the cell \((m,n)\). Note that this s
 <!--  l. 153  -->
 <p class='indent'>The neighbor search then proceeds as follows: for atom \(i\), compute the cell \((m_i,n_i)\) in which this atom resides and then loop over all atoms in this cell and in cells \((m_i\pm 1,n_i)\), \((m_i, n_i\pm 1)\) and \((m_i\pm 1, n_i\pm 1)\). In two dimensions, this yields a loop over \(9\) cells, in three-dimensions there the loop runs over \(27\). If the distance between these two atoms is smaller than the cutoff \(r_c\), we add it to the neighbor list. Note that if the cell size
 \(b\) is smaller than \(r_c\), we need to include more cells in the search.</p>
-<h2 class='likechapterHead' id='bibliography'><a id='x1-80003.4'></a>Bibliography</h2>
+<h2 class='likechapterHead'><a id='x1-80003.4'></a>Bibliography</h2>

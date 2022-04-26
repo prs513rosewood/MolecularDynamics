@@ -2,20 +2,20 @@
 layout: default
 title: "Chapter 04"
 parent: Lecture
-date: 2022-04-24
+date: 2022-04-26
 categories: lecture
 author: Lars Pastewka
 nav_order: 04
 ---
 ---
 
-<h2 class='chapterHead' id='temperature-control'><span class='titlemark'>Chapter 4</span><br />
+<h2 class='chapterHead'><span class='titlemark'>Chapter 4</span><br />
 <a id='x1-10004'></a>Temperature control</h2>
-<div class='framedenv' id='shaded*-1'><!--  l. 3  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 3  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Most molecular dynamics calculations are carried out in <span class='cmti-12'>thermal</span> <span class='cmti-12'>equilibrium</span>. Equilibrium is typically maintained by coupling the molecular calculation to a virtual <span class='cmti-12'>heat bath</span>, with which it exchanges energy but no particles. This chapter discusses properties of thermal equilibrium and introduces simple algorithms for heat-bath
 coupling.</p>
 </div>
-<div class='framedenv' id='shaded*-1'><!--  l. 7  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 7  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Additional resources:</span></span></p>
 <ul class='itemize1'>
 <li class='itemize'>Chapters 1-3 of <a href='https://sethna.lassp.cornell.edu/StatMech/'>Sethna, Entropy, Order Parameters, and Complexity</a></li>
@@ -23,8 +23,8 @@ coupling.</p>
 </ul>
 </div>
 <!--  l. 14  -->
-<p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=2adb1988-1575-473f-8b8b-ad230158c41c'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=2adb1988-1575-473f-8b8b-ad230158c41c</span></a></p>
-<h3 class='sectionHead' id='introduction'><span class='titlemark'>4.1</span> <a id='x1-20004.1'></a>Introduction</h3>
+<p class='noindent'><a href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=2adb1988-1575-473f-8b8b-ad230158c41c' class='url'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=2adb1988-1575-473f-8b8b-ad230158c41c</span></a></p>
+<h3 class='sectionHead'><span class='titlemark'>4.1</span> <a id='x1-20004.1'></a>Introduction</h3>
 <!--  l. 18  -->
 <p class='noindent'>In order to talk about temperature control, we need to discuss the properties of thermal equilibrium. This is the realm of <span class='cmti-12'>statistical mechanics</span> or <span class='cmti-12'>statistical</span> <span class='cmti-12'>thermodynamics</span> that is discussed in more detail in Chapter <span class='cmbx-12'>??</span> and Appendix <span class='cmbx-12'>??</span>. A key outcome is that the velocity components are distributed according to a Boltzmann
 distribution. The velocity magnitude is then distributed according to a Maxwell-Boltzmann distribution.</p>
@@ -36,16 +36,16 @@ distribution. The velocity magnitude is then distributed according to a Maxwell-
 and extended system methods are deterministic, i.e. they follow the same path when starting from the same initial state. In this chapter we will only discuss the simple constraint methods. We will come back to more advanced methods for temperature control later in these notes.</p>
 <!--  l. 25  -->
 <p class='noindent'></p>
-<h3 class='sectionHead' id='simple-themostatting-schemes'><span class='titlemark'>4.2</span> <a id='x1-30004.2'></a>Simple themostatting schemes</h3>
+<h3 class='sectionHead'><span class='titlemark'>4.2</span> <a id='x1-30004.2'></a>Simple themostatting schemes</h3>
 <!--  l. 27  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead' id='velocity-rescaling'><span class='titlemark'>4.2.1</span> <a id='x1-40004.2.1'></a>Velocity rescaling</h4>
+<h4 class='subsectionHead'><span class='titlemark'>4.2.1</span> <a id='x1-40004.2.1'></a>Velocity rescaling</h4>
 <!--  l. 29  -->
 <p class='noindent'>The crudest (and simplest) form of fixing the temperature in a molecular dynamics simulation to a value of \(T_0\) is by velocity rescaling. Since the instantaneous temperature is \begin {equation} \frac {3}{2} N k_B T = \sum _i \frac {1}{2} mv_i^2, \end {equation} we obtain a temperature of \(T_0\) if we rescale all velocities by \begin {equation} \label {eq:velocity-rescaling} \vec {v}_i \to \lambda \vec {v}_i\ \text { with } \ \lambda =\sqrt {\frac {T_0}{T}} \end {equation} after
 every time step. This is a very intrusive way of setting the temperature and should not be used in any practical situations, but it is a good illustration of how a simple constraint method works.</p>
 <!--  l. 40  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead' id='berendsen-thermostat'><span class='titlemark'>4.2.2</span> <a id='x1-50004.2.2'></a>Berendsen thermostat</h4>
+<h4 class='subsectionHead'><span class='titlemark'>4.2.2</span> <a id='x1-50004.2.2'></a>Berendsen thermostat</h4>
 <!--  l. 42  -->
 <p class='noindent'>The <a href='#Xberendsen_molecular_1984'>Berendsen et al.</a> (<a href='#Xberendsen_molecular_1984'>1984</a>) thermostat uses a damping or acceleration term to control the temperature. The governing equations of motion of the Berendsen thermostat are \begin {equation} m \dot {\vec {v}}_i = \vec {f}_i + \frac {m}{2\tau } \left ( \frac {T_0}{T} -1 \right ) \vec {v}_i \label {eq:berendsen} \end {equation} where \(\tau \) is a relaxation time constant. The factor in front of the
 velocity is a damping coefficient. The coefficient vanishes for \(T = T_0\), Eq. \eqref{eq:berendsen} then reduces to Newton’s equation of motion. However, it has a positive sign (=speeds up particles) for \(T &lt; T_0\) and has negative sign (=slows down particles) for \(T &gt; T_0\). From Eq. \eqref{eq:berendsen} we can easily derive a differential equation for the evolution of the temperature: \begin {align} 3k_B \frac {dT}{dt} &amp;= \sum _i m \vec {v}_i \cdot \dot {\vec {v}}_i \\ &amp;= \sum
@@ -62,7 +62,7 @@ _i \left [ \vec {v}_i \cdot \vec {f}_i + \frac {1}{2\tau } \left ( \frac {T_0}{T
 additional requirement \(\tau \gg \Delta t\) (where \(\Delta t\) is the time step), otherwise equation Eq. \eqref{eq:berendsen-temperature-evolution} will not be sampled properly numerically. The velocity rescaling thermostat discussed above is bad because it is very strong, but also because it violates \(\tau \gg \Delta t\).</p>
 <!--  l. 82  -->
 <p class='noindent'></p>
-<h3 class='sectionHead' id='equilibrating-a-molecular-simulation'><span class='titlemark'>4.3</span> <a id='x1-60004.3'></a>Equilibrating a molecular simulation</h3>
+<h3 class='sectionHead'><span class='titlemark'>4.3</span> <a id='x1-60004.3'></a>Equilibrating a molecular simulation</h3>
 <!--  l. 84  -->
 <p class='noindent'>A “happy” molecular dynamics simulation will nicely run at constant temperature. Simulations are only this happy once they are <span class='cmti-12'>equilibrated</span> and this equilibration implies that the positions \(\{\vec {r}_i\}\) are such that the system resides somewhere near a (potentially local) minimum in the potential energy landscape. When we set up a new simulation, we have to guess a set of \(\{\vec {r}_i\}\) that are often far away from this minimum. (For crystalline
 solids this guess is simple, since we typically know the crystal structure that we are interested in. For liquids, the guess is more difficult since the overall structure is disordered.) Since the forces \(\{\vec {f}_i\}\) point towards the minimum, the system will evolve in this direction and the potential energy \(E_\text {pot}\) will decrease over time, \(d E_\text {pot}/dt &lt; 0\). Equation \eqref{eq:berendsen-temperature-evolution} tells us, that this leads to an increase in temperature since
@@ -72,7 +72,7 @@ solids this guess is simple, since we typically know the crystal structure that 
 \)). Once the system has equilibrated, the value of \(\tau \) can be adjusted to a more reasonable relaxation time that does not disturb the calculation too much. Good values for \(\tau \) are between \(1\) ps and \(10\) ps.</p>
 <!--  l. 88  -->
 <p class='indent'>Note that if we <span class='cmti-12'>continuously</span> pump energy into our system, for example because we deform it externally, then Eq. \eqref{eq:berendsen-temperature-evolution} acquires a non-zero source term, \(S &gt; 0\). Assuming \(S\) is constant over time, the final temperature is shifted to \(T_0\,' = T_0 + S\tau \). This temperature offset gets smaller with increasing coupling strength \(1/\tau \).</p>
-<h2 class='likechapterHead' id='bibliography'><a id='x1-70004.3'></a>Bibliography</h2>
+<h2 class='likechapterHead'><a id='x1-70004.3'></a>Bibliography</h2>
 <div class='thebibliography'>
-<p class='bibitem'><span class='biblabel'><a id='Xberendsen_molecular_1984'></a><span class='bibsp'>   </span></span>H. J. C. Berendsen, J. P. M. Postma, W. F. van Gunsteren, A. DiNola, and J. R. Haak. Molecular dynamics with coupling to an external bath. <span class='cmti-12'>J. Chem. Phys.</span>, 81(8):3684–3690, 1984. URL <a class='url' href='https://doi.org/10.1063/1.448118'><span class='cmtt-12'>https://doi.org/10.1063/1.448118</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xberendsen_molecular_1984'></a><span class='bibsp'>   </span></span>H. J. C. Berendsen, J. P. M. Postma, W. F. van Gunsteren, A. DiNola, and J. R. Haak. Molecular dynamics with coupling to an external bath. <span class='cmti-12'>J. Chem. Phys.</span>, 81(8):3684–3690, 1984. URL <a href='https://doi.org/10.1063/1.448118' class='url'><span class='cmtt-12'>https://doi.org/10.1063/1.448118</span></a>.</p>
 </div>
