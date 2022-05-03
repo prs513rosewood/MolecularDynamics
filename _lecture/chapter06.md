@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 06"
 parent: Lecture
-date: 2022-04-26
+date: 2022-05-03
 categories: lecture
 author: Lars Pastewka
 nav_order: 06
@@ -11,7 +11,7 @@ nav_order: 06
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 6</span><br />
 <a id='x1-10006'></a>Parallel computers and the Message Passing Interface</h2>
-<div id='shaded*-1' class='framedenv'><!--  l. 3  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 3  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> This chapter sets the stage for discussing parallelization of the molecular dynamics simulation method introduced in the previous chapters. We first need to talk about parallel hardware architectures and how to program for them. The specific programming model that we will employ is known under the term <span class='cmti-12'>Single Program Multiple Data</span>. The Message Passing Interface (MPI) is a library that
 facilitates programming for massively parallel machines under this programming model.</p>
 </div>

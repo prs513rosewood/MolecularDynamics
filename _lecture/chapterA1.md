@@ -2,14 +2,14 @@
 layout: default
 title: "Appendix A1"
 parent: Lecture
-date: 2022-04-26
+date: 2022-05-03
 categories: lecture
 author: Lars Pastewka
 nav_order: A1
 ---
 ---
 
-<h2 class='chapterHead'><span class='titlemark'>Chapter 1</span><br />
+<h2 class='chapterHead'><span class='titlemark'>Appendix 1</span><br />
 <a id='x1-10001'></a>Dynamical systems</h2>
 <h3 class='sectionHead'><span class='titlemark'>1.1</span> <a id='x1-20001.1'></a>Hamilton’s equations of motion</h3>
 <!--  l. 6  -->

@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 03"
 parent: Lecture
-date: 2022-04-26
+date: 2022-05-03
 categories: lecture
 author: Lars Pastewka
 nav_order: 03
@@ -84,7 +84,7 @@ and the integral of the forces, otherwise the Hamiltonian \(H\) is not a conserv
 <p class='noindent'>The sum Eq. \eqref{eq:pairpotcut} runs over all neighbors. One important algorithmic step with complexity \(O(N)\) in molecular dynamics codes is to build a <span class='cmti-12'>neighbor list</span>, i.e. find all pairs <span class='cmti-12'>i-j</span> with \(r_{ij} &lt; r_{c}\). This is usually done using a <span class='cmti-12'>domain</span> <span class='cmti-12'>decomposition</span> (see Fig. <a href='#x1-7001r1'>3.1<!--  tex4ht:ref: fig:neighborsearch   --></a>) that
 divides the simulation domain in cells of a certain size and sorts all atoms into one of these cells. The neighbor list can then be constructed by looking for neighbors in neighboring cells only. If the cell size \(b\) is larger than the cutoff radius, \(b&gt;r_c\), then we only need to look exactly the neighboring cells.</p>
 <figure class='figure'><!--  l. 146  -->
-<p class='noindent'><img src='figures/neighbor_list_search.png' width='390' alt='PIC' height='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
+<p class='noindent'><img width='390' alt='PIC' src='figures/neighbor_list_search.png' height='390' /> <a id='x1-7001r1'></a> <a id='x1-7002'></a></p>
 <figcaption class='caption'><span class='id'>Figure 3.1:</span> <span class='content'>Illustration of the typical data structure used for an \(O(N)\) neighbor search in a molecular dynamics simulation. For searching the neighbors within a cutoff \(r_c\) of the red atom, we only need to consider the candidate atoms that are in the cells adjacent to the red atom.</span></figcaption>
 <!--  tex4ht:label?: x1-7001r3.4   --></figure>
 <!--  l. 151  -->

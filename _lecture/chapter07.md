@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 07"
 parent: Lecture
-date: 2022-04-26
+date: 2022-05-03
 categories: lecture
 author: Lars Pastewka
 nav_order: 07
@@ -11,7 +11,7 @@ nav_order: 07
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 7</span><br />
 <a id='x1-10007'></a>Domain decomposition</h2>
-<div class='framedenv' id='shaded*-1'><!--  l. 3  -->
+<div id='shaded*-1' class='framedenv'><!--  l. 3  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Parallelization in molecular dynamics typically occurs through <span class='cmti-12'>domain</span> <span class='cmti-12'>decomposition</span>. The simulation domain is divided into subdomains, each of which runs within an MPI process. This distributes the workload among different compute units. Communications occurs only at the interface of the subdomain, either to exchange atoms between subdomains or to communicate
 <span class='cmti-12'>ghost atoms</span> that are required for the computation of correct forces in short-range interatomic potentials.</p>
 </div>
@@ -48,7 +48,7 @@ because a force in the EAM potential is affected by an atom that sits twice the 
 <!--  l. 37  -->
 <p class='indent'>The basic communication pattern involves two <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>MPI_Sendrecv</span></span></span> commands per Cartesian direction. The atoms that are send (either exchanged or as ghost atoms) must be serialized into a send buffer. Given that serialization has occured into the buffers <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>send_left</span></span></span> and <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>send_right</span></span></span>, the communication pattern looks as follows:</p>
 <!--  l. 38  -->
-<div class='lstlisting' id='listing-1'><span class='label'><a id='x1-5001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>MPI_Sendrecv(&amp;send_left, left_, &amp;recv_right, right_, comm_)}; </span><br />
+<div id='listing-1' class='lstlisting'><span class='label'><a id='x1-5001r1'></a><span class='cmr-6'>1</span></span><span class='cmtt-10'>MPI_Sendrecv(&amp;send_left, left_, &amp;recv_right, right_, comm_)}; </span><br />
 <span class='label'><a id='x1-5002r2'></a><span class='cmr-6'>2</span></span><span class='cmtt-10'>MPI_Sendrecv(&amp;send_right, right_, &amp;recv_left, left_, comm_)};</span></div>
 <!--  l. 42  -->
 <p class='indent'>Here <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>comm_</span></span></span> contains the MPI communicator and <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>left_</span></span></span> and <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>right_</span></span></span> the MPI ranks of the processes that host the subdomain to the left and the right, respectively, of the current subdomain. The buffers <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>recv_left</span></span></span> and <span class='obeylines-h'><span class='verb'><span class='cmtt-12'>recv_right</span></span></span> hold the serialized atomic information received from the left and right, respectively. This information needs to be deserialized into the respective atom data type.</p>

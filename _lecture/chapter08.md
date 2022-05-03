@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 08"
 parent: Lecture
-date: 2022-04-26
+date: 2022-05-03
 categories: lecture
 author: Lars Pastewka
 nav_order: 08
@@ -11,7 +11,7 @@ nav_order: 08
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 8</span><br />
 <a id='x1-10008'></a>Periodicity and pressure</h2>
-<div id='shaded*-1' class='framedenv'><!--  l. 3  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 3  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> Now that we have introduced the notion of the simulation domain, we can introduce <span class='cmti-12'>periodicity</span>. In a periodic domain, atoms on the right interact with atoms on the left. Periodic domains are commonly used to represent bulk solid or fluid materials and eliminate the effect of interfaces or surfaces. They are sometimes referred to as <span class='cmti-12'>representative volume elements
 (RVEs)</span>. The state of the RVE depends on its volume (or the full domain matrix) and we can introduce the conjugate variable, the pressure (or stress tensor).</p>
 </div>

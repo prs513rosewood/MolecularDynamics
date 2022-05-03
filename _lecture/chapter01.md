@@ -2,7 +2,7 @@
 layout: default
 title: "Chapter 01"
 parent: Lecture
-date: 2022-04-26
+date: 2022-05-03
 categories: lecture
 author: Lars Pastewka
 nav_order: 01
@@ -11,10 +11,10 @@ nav_order: 01
 
 <h2 class='chapterHead'><span class='titlemark'>Chapter 1</span><br />
 <a id='x1-10001'></a>Introduction</h2>
-<div id='shaded*-1' class='framedenv'><!--  l. 4  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 4  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Context:</span></span> We start by introducing the concept of the potential energy and the interatomic force. Those are the central ingredients to the molecular dynamics simulation method.</p>
 </div>
-<div id='shaded*-1' class='framedenv'><!--  l. 8  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 8  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Additional resources:</span></span></p>
 <ul class='itemize1'>
 <li class='itemize'>Chapter 1 of Allen &amp; Tildesley, Computer Simulation of Liquids</li>
@@ -31,12 +31,12 @@ computationally-efficient models). Of course, this boundary moves towards larger
 <!--  l. 23  -->
 <p class='indent'>Nowadays, we can even observe matter at atomic scales and “see” individual atoms. The <a href='https://www.sfb-transregio103.de/'>collaborative research center 103</a> has produced an extremely instructive video on the structure of specific type of alloys, dubbed “superalloy”, that is used in e.g. turbine blades. Enjoy the ride from the blade to the atom. This class is about modeling matter at the smallest scales that you see in this video.</p>
 <!--  l. 25  -->
-<p class='indent'><a class='url' href='https://www.youtube.com/embed/wYHch5QIWTQ'><span class='cmtt-12'>https://www.youtube.com/embed/wYHch5QIWTQ</span></a></p>
+<p class='indent'><a href='https://www.youtube.com/embed/wYHch5QIWTQ' class='url'><span class='cmtt-12'>https://www.youtube.com/embed/wYHch5QIWTQ</span></a></p>
 <!--  l. 27  -->
 <p class='noindent'></p>
 <h3 class='sectionHead'><span class='titlemark'>1.2</span> <a id='x1-30001.2'></a>Interatomic forces and the potential energy</h3>
 <!--  l. 29  -->
-<p class='noindent'><a class='url' href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=a12a8064-84e7-47f6-80ab-ad15014bae8a'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=a12a8064-84e7-47f6-80ab-ad15014bae8a</span></a></p>
+<p class='noindent'><a href='https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=a12a8064-84e7-47f6-80ab-ad15014bae8a' class='url'><span class='cmtt-12'>https://uni-freiburg.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=a12a8064-84e7-47f6-80ab-ad15014bae8a</span></a></p>
 <!--  l. 31  -->
 <p class='indent'>Atoms interact via forces. As Feynman put it in his famous lectures on physics, the fundamental truth about man’s understanding of the physical world is “that all things are made of atoms – little particles that move around in perpetual motion, attracting each other when they are a little distance apart, but repelling upon being squeezed into one another” <a href='#XFeynman1964Book'>Feynman et al.</a> (<a href='#XFeynman1964Book'>1964</a>). Indeed this statement summarizes
 the essence of the molecular dynamics simulation method.</p>
@@ -58,7 +58,7 @@ also encountered our first atomic-scale model for a real material, called the <s
 <p class='indent'>The most famous pair-potential is likely the <span class='cmti-12'>Lennard-Jones</span> potential. (Unlike Born and Mayer, Lennard-Jones is a single person.) Its pair interaction energy is given by \begin {equation} V(r_{ij}) = 4\varepsilon \left [\left (\frac {\sigma }{r}\right )^{12} - \left (\frac {\sigma }{r}\right )^6\right ]. \end {equation} The repulsive term \(\propto r^{-12}\) is one of the models for Pauli repulsion discussed above. The attractive term \(\propto r^{-6}\) arises
 from <span class='cmti-12'>London dispersion interactions</span>. Dispersion forces exist between all atoms, even uncharged molecules or noble gases. They are widely employed for the nonbonded portion of what are called <span class='cmti-12'>valence</span> <span class='cmti-12'>force-fields</span>. Simple Lennard-Jones systems are often used to study generic phenomena found in real materials, e.g. the glass transition or plasticity of amorphous materials. However, there are limitations to pair potentials,
 and more sophisticated potential energy models have been developed over the past decades to address shortcomings of simple potentials. In particular, the assumption of <span class='cmti-12'>pair additive</span> intrinsic to the equations of this chapter is often not valid. We will discuss how to lift these limitations in Chapter <span class='cmbx-12'>??</span>.</p>
-<div id='shaded*-1' class='framedenv'><!--  l. 77  -->
+<div class='framedenv' id='shaded*-1'><!--  l. 77  -->
 <p class='noindent'><span class='underline'><span class='cmbx-12'>Note:</span></span> A repulsive term of the form \(r^{-12}\) is advantageous from a simulation point of view, since it is faster to compute than an exponential. This has helped popularize the Lennard-Jones potential in the early days of molecular dynamics simulations.</p>
 </div>
 <!--  l. 81  -->
@@ -73,8 +73,8 @@ If this reference situation is assigned the energy \(0\), then the potential ene
 <h2 class='likechapterHead'><a id='x1-40001.2'></a>Bibliography</h2>
 <div class='thebibliography'>
 <p class='bibitem'><span class='biblabel'><a id='XEckhardt2013-oh'></a><span class='bibsp'>   </span></span>W. Eckhardt, A. Heinecke, R. Bader, M. Brehm, N. Hammer, H. Huber, H.-G. Kleinhenz, J. Vrabec, H. Hasse, M. Horsch, M. Bernreuther, C. W. Glass, C. Niethammer, A. Bode, and H.-J. Bungartz. 591 TFLOPS multi-trillion particles simulation on SuperMUC. In <span class='cmti-12'>Supercomputing</span>, pages 1–12. Springer
-Berlin Heidelberg, 2013. URL <a class='url' href='https://doi.org/10.1007/978-3-642-38750-0_1'><span class='cmtt-12'>https://doi.org/10.1007/978-3-642-38750-0_1</span></a>.</p>
+Berlin Heidelberg, 2013. URL <a href='https://doi.org/10.1007/978-3-642-38750-0_1' class='url'><span class='cmtt-12'>https://doi.org/10.1007/978-3-642-38750-0_1</span></a>.</p>
 <p class='bibitem'><span class='biblabel'><a id='XFeynman1964Book'></a><span class='bibsp'>   </span></span>R. P. Feynman, R. B. Leighton, and M. Sands. <span class='cmti-12'>The Feynman Lectures</span> <span class='cmti-12'>on Physics</span>. Addison-Wesley, New York, 1964.</p>
 <p class='bibitem'><span class='biblabel'><a id='XTchipev2019-fl'></a><span class='bibsp'>   </span></span>N. Tchipev, S. Seckler, M. Heinen, J. Vrabec, F. Gratl, M. Horsch, M. Bernreuther, C. W. Glass, C. Niethammer, N. Hammer, B. Krischok, M. Resch, D. Kranzlmüller, H. Hasse, H.-J. Bungartz, and P. Neumann. TweTriS: Twenty trillion-atom simulation. <span class='cmti-12'>Int. J. High Perform. Comput. Appl.</span>,
-33(5):838–854, Sept. 2019. URL <a class='url' href='https://doi.org/10.1177/1094342018819741'><span class='cmtt-12'>https://doi.org/10.1177/1094342018819741</span></a>.</p>
+33(5):838–854, Sept. 2019. URL <a href='https://doi.org/10.1177/1094342018819741' class='url'><span class='cmtt-12'>https://doi.org/10.1177/1094342018819741</span></a>.</p>
 </div>

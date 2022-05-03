@@ -2,14 +2,14 @@
 layout: default
 title: "Appendix A2"
 parent: Lecture
-date: 2022-04-26
+date: 2022-05-03
 categories: lecture
 author: Lars Pastewka
 nav_order: A2
 ---
 ---
 
-<h2 class='chapterHead'><span class='titlemark'>Chapter 2</span><br />
+<h2 class='chapterHead'><span class='titlemark'>Appendix 2</span><br />
 <a id='x1-10002'></a>Phase space, statistics and thermodynamics</h2>
 <!--  l. 4  -->
 <p class='noindent'>Statistical mechanics describes a physical system given we know little about its microscopic details. At a first glance, this appears the converse of what we do in molecular dynamics. In molecular dynamics calculations, we have to specify an initial condition, the positions \(\v {r}_i\) and momenta \(\v {p}_i\) (this chapter will use momenta \(\v {p}_i = m_i \v {v}_i\) instead of velocities \(\v {v}_i\)). These initial conditions define the state of the system <span class='cmti-12'>exactly</span>, which means we know everything there is to know about our molecular system. Note that a single state, as specified by \(\{\v {r}_i,\v {p}_i\}\) is also called a microstate in the context of statistical mechanics. All microscopic degrees of freedom are specified for a microstate.</p>
@@ -99,7 +99,7 @@ It is straightforward to show (see Appendix <a href='#x1-140002.9'>2.9<!--  tex
 probability distribution for each particle: \begin {equation} f(p_1;T) = \frac {1}{\sqrt {2\pi m k_B T}} \exp \left ( -\frac {p_1^2}{2mk_BT} \right ) \end {equation} The function \(f_3(p_1;E)\) simply constant over an interval of \(p_1\). \(f_4\) then peaks at \(p_1 = 0\), i.e. finding a particle with zero velocity has a maximum likelihood. The function the approaches a Gaussian in the thermodynamic limit \(n \to \infty \). The progression of the marginal distribution with \(n\) is shown in
 Fig. <a href='#x1-6001r1'>2.1<!--  tex4ht:ref: fig:idealgas   --></a>.</p>
 <figure class='figure'><!--  l. 190  -->
-<p class='noindent'><img height='390' alt='PIC' width='390' src='figures/image47.png' /> <a id='x1-6001r1'></a> <a id='x1-6002'></a></p>
+<p class='noindent'><img src='figures/image47.png' height='390' width='390' alt='PIC' /> <a id='x1-6001r1'></a> <a id='x1-6002'></a></p>
 <figcaption class='caption'><span class='id'>Figure 2.1:</span> <span class='content'>Marginal distribution function for the momentum of a single particle in the ideal gas model for different degrees of freedom.</span></figcaption>
 <!--  tex4ht:label?: x1-6001r2.3   --></figure>
 <!--  l. 195  -->
