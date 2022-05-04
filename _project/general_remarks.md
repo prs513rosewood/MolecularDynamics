@@ -20,15 +20,17 @@ You should have some experience with a programming languages, ideally C or C++.
 C++ tutorials can be found
 [here](https://hsf-training.github.io/hsf-training-cpp-webpage/01-introduction/index.html)
 or [here](https://www.w3schools.com/cpp/), and there are many more available
-online. For a more technical but exhaustive reference on the language and the
-standard library, [cppreference](https://en.cppreference.com) should be your
-main resource. Please familarize yourself with the basics of C++ (flow control,
-variables, loops) etc. before embarking in the milestones. Note that many
-generic features of imperative programming languages are quite similar and carry
-over to each other. Even if you are unfamiliar with C++, it should be
-straightforward to learn basic C++ features quickly. Advanced features of C++
-can be complicated and confusing but we will comment on those throughout the
-milestone when we require them.
+online. The [C++ Core
+Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) are an
+excellent resource for best practices in C++. For a more technical but
+exhaustive reference on the language and the standard library,
+[cppreference](https://en.cppreference.com) should be your main resource. Please
+familarize yourself with the basics of C++ (flow control, variables, loops) etc.
+before embarking in the milestones. Note that many generic features of
+imperative programming languages are quite similar and carry over to each other.
+Even if you are unfamiliar with C++, it should be straightforward to learn basic
+C++ features quickly. Advanced features of C++ can be complicated and confusing
+but we will comment on those throughout the milestone when we require them.
 
 ## What you need to pass the class
 
