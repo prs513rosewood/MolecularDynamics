@@ -78,11 +78,17 @@ Next we need to provide the *function signature* in the header file `square.hh`:
 
 ```cpp
 // square.hh
+#ifndef SQUARE_HH
+#define SQUARE_HH
 
 double square(double x);
+
+#endif
 ```
 
-Finally, we use the function in `main()`:
+Note the use of an *include guard* (the couple `#ifndef/#define`), which
+prevents the content of the file to be duplicated if it is included twice, which
+causes compile errors. Finally, we use the function in `main()`:
 
 ```cpp
 // main.cpp
