@@ -148,7 +148,7 @@ Two kinds of functions *must* be implemented in header files:
    create a function call but instead put the function implementation
    *in-place*. This is useful for performance reasons, but means the compiler
    must have access to the implementation, which must be in the header.
-2. Functions with signatures that must be deduced by the compiler. This include
+2. Functions with signatures that must be deduced by the compiler. These include
    function templates and functions with `auto` or `decltype(auto)` as a return
    type. The compiler needs the full knowledge of the function to deduce the
    information it is missing. Implementation must therefore be in the header.
@@ -157,3 +157,6 @@ Note that regular functions that would be normally implemented in `.cpp` files
 can be implemented in header files *if and only if* they are marked as `inline`,
 otherwise the compiler will create multiple symbols for the same function and
 linking will fail.
+
+We will use both inline functions and template classes/functions, but the
+implementations will be provided in the right files
