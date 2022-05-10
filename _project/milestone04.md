@@ -67,7 +67,7 @@ header, e.g. `types.h`. You can then simply include them in `atoms.h` by placing
 
 Implement the Lennard-Jones potential. Note that you will need to derive the _analytical_ gradient of the total energy
 
-$$\vec{f}_k = \nabla_k E$$
+$$\vec{f}_k = -\nabla_k E$$
 
 before you can implement the analytical forces. The final expression should take the form
 
