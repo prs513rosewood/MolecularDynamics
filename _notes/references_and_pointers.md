@@ -29,7 +29,8 @@ variables are passed by value. Function arguments that are passed by reference
 are not copied: the variable available in the function *refers* to the variable
 that was passed to the function.
 
-Let us look at a C++ function that takes its arguments *by-value*.
+Let us look at a C++ function that takes its arguments *by-value* ([interactive
+link](https://godbolt.org/z/9jo6vb9Pv)).
 
 ```cpp
 #include <iostream>
@@ -55,7 +56,8 @@ value of y outside function: 2
 ```
 
 This means that the value of `y` was copied into the function argument `x`. Now
-here is the same code, but the argument of `increment()` passed by reference.
+here is the same code, but the argument of `increment()` passed by reference
+([interactive link](https://godbolt.org/z/PGxebEodG)).
 
 ```cpp
 #include <iostream>
@@ -96,7 +98,8 @@ outside the function. This has two common use cases:
 
 When one is in the second use case (copy needs to be avoided) but not in the
 first case (arguments do not need, or should not, be modified), one can use a
-*constant reference* argument.
+*constant reference* argument ([interactive
+link](https://godbolt.org/z/EEf5n1GGo)).
 
 ```cpp
 #include <iostream>
@@ -128,7 +131,8 @@ This step is called **dereferencing**. Syntactically, this is done with the `*`
 operator: if `x` is a pointer (i.e. a variable containing an address), then `*x`
 is the *dereferenced* value, that is the value contained at the memory address
 `x`. Here is a code sample that does the exact same thing as the `increment`
-function above with a reference argument:
+function above with a reference argument ([interactive
+link](https://godbolt.org/z/xePc11oKo):
 
 ```cpp
 #include <iostream>
@@ -198,7 +202,8 @@ the need to avoid copy overhead or to have a single `atoms` object that is
 shared between other objects.
 
 References are declared just like any other variable, with a notable difference:
-**references must always be initialized on declaration**. Here's an example:
+**references must always be initialized on declaration**. Here's an example
+([interactive link](https://godbolt.org/z/5MsEhbs7z)):
 
 ```cpp
 #include <iostream>
@@ -221,7 +226,8 @@ and will cause a compiler error.
 
 Similarly, if member variables are references, they **must** be initialized in the
 [constructor initializer
-list](https://en.cppreference.com/w/cpp/language/constructor), see below:
+list](https://en.cppreference.com/w/cpp/language/constructor), see below
+([interactive link](https://godbolt.org/z/YbrqM5Wqj)):
 
 ```cpp
 #include <iostream>
@@ -273,7 +279,7 @@ standard library provides two **smart pointer** classes:
 [`std::shared_ptr`](https://en.cppreference.com/w/cpp/memory/shared_ptr). These
 classes correctly manage ownership and should be preferred over references for
 member variables that refer to objects outside the object scope (like the `Foo`
-example above).
+example above; [interactive link](https://godbolt.org/z/vcMKGW1xM)).
 
 ```cpp
 #include <memory>
