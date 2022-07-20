@@ -26,7 +26,12 @@ Starting with this milestone, we will make use of the [Message Passing Interface
 
 ### Build system
 
-The skeleton repository that we provided for you already contained the configuration for MPI. The toplevel `CMakeLists.txt` contains a statement `find_package(MPI REQUIRED)` that enables MPI for your project. This means all your code is compiled with the MPI compiler wrapper `mpicc`, `mpicxx` or `mpic++` that takes care of linking you program to the correct MPI libraries. You can still run your program (`milestone08`) in a normal fashion (as you have done in the past milestones); this is equivalent to running on a single process via `mpirun -n 1 ./milestone08`.
+The skeleton repository that we provided for you needs to augmented with the configuration for MPI. The toplevel `CMakeLists.txt` needs the following statements:
+```m4
+find_package(MPI REQUIRED)
+include_directories(SYSTEM ${MPI_INCLUDE_PATH})
+```
+Add these after the `add_external_package` command that configures `Eigen3`. This will then enable MPI for your project. This means from now on all your code is compiled with the MPI compiler wrapper `mpicc`, `mpicxx` or `mpic++` that takes care of linking you program to the correct MPI libraries. You can still run your program (`milestone08`) in a normal fashion (as you have done in the past milestones); this is equivalent to running on a single process via `mpirun -n 1 ./milestone08`.
 
 ### Running MPI codes
 

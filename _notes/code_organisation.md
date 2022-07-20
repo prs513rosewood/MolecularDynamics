@@ -4,7 +4,7 @@ title:  "Organizing Code in C++"
 parent: Notes
 categories: notes
 author : Lucas Frérot
-nav_order: 1
+nav_order: 2
 ---
 
 # Organizing Code in C++

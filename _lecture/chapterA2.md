@@ -1,16 +1,16 @@
 ---
 layout: default
-title: "Appendix A2"
+title: " A2"
 parent: Lecture
-date: 2022-05-03
+date: 2022-06-15
 categories: lecture
 author: Lars Pastewka
 nav_order: A2
 ---
 ---
 
-<h2 class='chapterHead'><span class='titlemark'>Appendix 2</span><br />
-<a id='x1-10002'></a>Phase space, statistics and thermodynamics</h2>
+<h2 class='chapterHead' id='phase-space-statistics-and-thermodynamics'><span class='titlemark'>Chapter 10</span><br />
+<a id='x1-100010'></a>Phase space, statistics and thermodynamics</h2>
 <!--  l. 4  -->
 <p class='noindent'>Statistical mechanics describes a physical system given we know little about its microscopic details. At a first glance, this appears the converse of what we do in molecular dynamics. In molecular dynamics calculations, we have to specify an initial condition, the positions \(\v {r}_i\) and momenta \(\v {p}_i\) (this chapter will use momenta \(\v {p}_i = m_i \v {v}_i\) instead of velocities \(\v {v}_i\)). These initial conditions define the state of the system <span class='cmti-12'>exactly</span>, which means we know everything there is to know about our molecular system. Note that a single state, as specified by \(\{\v {r}_i,\v {p}_i\}\) is also called a microstate in the context of statistical mechanics. All microscopic degrees of freedom are specified for a microstate.</p>
 <!--  l. 6  -->
@@ -22,7 +22,7 @@ This is sometime referred to as coarse-graining.</p>
 <!--  l. 10  -->
 <p class='indent'>Note that we have computed \(P(V)\) for a solid in the previous chapter. This was possible because the calculation was carried out at a temperature of zero. Then, there is no thermal motion and for a single crystal we know the positions (and velocities, they are zeor) of all atoms exactly. Hence there is only a single microstate and we can carry out the calculation by just considering this state without averaging. In most cases, however, we need to compute averages. We will start our
 discussion of statistical mechanics with details on how averages are carried out.</p>
-<h3 class='sectionHead'><span class='titlemark'>2.1</span> <a id='x1-20002.1'></a>Phase space and phase space averages</h3>
+<h3 class='sectionHead' id='phase-space-and-phase-space-averages'><span class='titlemark'>10.1</span> <a id='x1-200010.1'></a>Phase space and phase space averages</h3>
 <!--  l. 14  -->
 <p class='noindent'>The positions \(\v {r}_i\) and momenta \(\v {p}_i\) of all atoms define a microstate. This microstate is typically characterized by a \(6N\) (in 3D) dimensional vector \(\v {\Gamma }\) that defines a point in <span class='cmti-12'>phase space</span>. Imagine we now have an observable \(O(\v {\Gamma })\). The observable gives a certain property as a function of the point in phase space, i.e. as a function of the positions and momenta of all atoms. We have already encountered three such
 “observables”, the potential energy \(E_\text {pot}\), the kinetic energy \(E_\text {kin}\) and the total energy \(H = E_\text {kin} + E_\text {pot}\). Other examples are the lattice constant \(a\) of a crystal, for example as obtained from scattering experiments or from averaging over the individual bond-lengths of our crystal. Note that the potential energy and lattice constant depend on just position and the kinetic energy on just velocities, so each is constant in large portions of the full phase
@@ -34,7 +34,7 @@ space.</p>
 <p class='indent'>and are called <span class='cmti-12'>ensemble averages</span>. From the knowledge of the full phase space density, we can also compute the variance of fluctuations of this quantity around the average, \begin {equation} \langle \Delta O^2 \rangle = \langle O^2 \rangle - \langle O \rangle ^2 \end {equation} which are a measure for the uncertainty of the quantity. The trick is now to choose the phase space density \(\rho (\v {\Gamma })\) properly.</p>
 <!--  l. 27  -->
 <p class='noindent'></p>
-<h3 class='sectionHead'><span class='titlemark'>2.2</span> <a id='x1-30002.2'></a>Few microstates</h3>
+<h3 class='sectionHead' id='few-microstates'><span class='titlemark'>10.2</span> <a id='x1-300010.2'></a>Few microstates</h3>
 <!--  l. 28  -->
 <p class='noindent'>For illustrative purposes, we will start by discussing the phase-space density for just a few microstates. We can express just a single microstate – let us call it \(A\) with positions \(\v {r}_i^A(t)\) and momenta \(\v {p}_i^A(t)\) – in this density: \begin {equation} \rho (\{ \v {r}_i\};\{ \v {p}_i\};t) = \prod _i \delta (\v {r}_i - \v {r}_i^A(t)) \delta (\v {p}_i - \v {p}_i^A(t)) \end {equation} Since \(\int dx\, \delta (x-x_0)f(x) = f(x_0)\), or rather \(\int dx\, \delta (x-x_0) =
 1\) we have \(\int d^{6N} \Gamma \rho (\v {\Gamma }) = 1\), i.e. the phase space density is a <span class='cmti-12'>density</span>. Of course, this constructed example does not really express any probability since we have just one microstate. Note that this phase space “density” depends on time \(t\) explicitly since the microstate evolves according to Hamilton’s equations of motion!</p>
@@ -45,7 +45,7 @@ space.</p>
 <p class='indent'>Rather than using two states, we are in most practical situations interested in an infinite number of states. We are also typically interested in equilibrium. By definition, equilibrium is a steady state and hence the time dependence disappears. Therefore, for all cases discussed in the following \(\rho \) will be independent of \(t\).</p>
 <!--  l. 45  -->
 <p class='noindent'></p>
-<h3 class='sectionHead'><span class='titlemark'>2.3</span> <a id='x1-40002.3'></a>The microcanonical ensemble, equal a-priori probabilities and entropy</h3>
+<h3 class='sectionHead' id='the-microcanonical-ensemble-equal-apriori-probabilities-and-entropy-'><span class='titlemark'>10.3</span> <a id='x1-400010.3'></a>The microcanonical ensemble, equal a-priori probabilities and entropy</h3>
 <!--  l. 47  -->
 <p class='noindent'>Equation \eqref{eq:twostates} is the simplest example of an <span class='cmti-12'>ensemble</span> of microstates, in this case the two states \(A\) and \(B\) that we explicitly specified. Rather than explicitly expressing the microstates through their positions and momenta, we can also ask what the ensemble of state is that belongs to a certain (macroscopic) observable. This ensemble consists of all states that are compatible with this observable. The simplest one is the ensemble
 of microstates belonging to a certain value of the total energy (or Hamiltonian) \(H\), which is a conserved quantity of the microscopic motion. This ensemble is called the <span class='cmti-12'>microcanonical</span> or sometimes the <span class='cmti-12'>NVE</span> (for constant particle number \(N\), constant volume \(V\) and constant energy \(E\)) ensemble.</p>
@@ -57,7 +57,7 @@ probabilities. This is the fundamental postulate of the microcanonical ensemble,
 <p class='indent'>Equation \eqref{eq:rhoeq1} can be written alternatively as \begin {equation} \rho ^\text {eq}(\v {\Gamma };E) = \frac {1}{\Omega (E)}\delta \left (H(\Gamma ) - E\right ), \end {equation} where now the \(\delta \)-function selects the surface of constant total energy \(E\). The superscript <span class='cmti-12'>eq</span> will be dropped in what follows, unless we want to make explicitly clear the distinction between equilibrium and nonequilibrium situations.</p>
 <!--  l. 73  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead'><span class='titlemark'>2.3.1</span> <a id='x1-50002.3.1'></a>Entropy</h4>
+<h4 class='subsectionHead' id='entropy'><span class='titlemark'>10.3.1</span> <a id='x1-500010.3.1'></a>Entropy</h4>
 <!--  l. 75  -->
 <p class='noindent'>A central concept in statistical mechanics is the entropy of a system. The general (nonequilibrium) entropy quantifies the number of microstates for a given phase-space density. It is <span class='cmti-12'>defined</span> as \begin {equation} S^\text {noneq}[\rho ] = -k_B\int d^{6N} \Gamma \rho \ln (\rho ), \label {eq:noneqentropy} \end {equation} where \(k_B\) is the Boltzmann constant. Note that the factor \(k_B\) has the role to turn temperatures from units of energy into units of
 \(K\); this will be discussed below. There is no fundamental physical reason to have \(k_B\) in Eq. \eqref{eq:noneqentropy}. Equation \eqref{eq:noneqentropy} is called the Shannon entropy in information theoretical contexts. Its construction is <span class='cmti-12'>designed</span> to have the following properties:</p>
@@ -76,7 +76,7 @@ The combined system lives in the combined space \(\v {\Gamma } = (\v {\Gamma }_A
 <p class='indent'>Note that in the microcanonical ensemble the macrostate is characterized by the total energy \(E\). In general, we can use any type of constraint, representing our <span class='cmti-12'>knowledge</span> about the system, as a macrostate. The entropy then depends on the observer.</p>
 <!--  l. 114  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead'><span class='titlemark'>2.3.2</span> <a id='x1-60002.3.2'></a>The ideal gas</h4>
+<h4 class='subsectionHead' id='the-ideal-gas'><span class='titlemark'>10.3.2</span> <a id='x1-600010.3.2'></a>The ideal gas</h4>
 <!--  l. 116  -->
 <p class='noindent'>The ideal gas is the simplest meaningful system that we can treat with these statistical methods. It also turns out to be one of the few systems that can be solved analytically. The Hamiltonian (total energy) of the ideal gas is \begin {equation} H(\{\v {r}_i\};\{\v {p}_i\}) = \sum _i \frac {\v {p}_i^2}{2m} \end {equation} i.e. there is just kinetic energy. For the sake of simplicity, the positional degrees of freedom \(\v {r}_i\) will be ignored in the following.</p>
 <!--  l. 122  -->
@@ -91,26 +91,26 @@ normalized, \begin {align} \int dp_1 dp_2 \rho _2^\text {eq}(p_1,p_2;E) &amp;= \
 <p class='indent'>where we have used \(\delta (x^2-a^2) = \frac {1}{2|a|}[\delta (x+a)+\delta (x-a)]\). Note that \(f_2(p_1;E)\) is normalized properly \begin {equation} \int dp_1 \, f_2(p_1) = \frac {1}{\pi } \int _{-\sqrt {2mE}} ^{\sqrt {2mE}} dp_1 \frac {1}{\sqrt {2E-p_1^2}} = \frac {1}{\pi } \int _{-1}^1 dx\, \frac {1}{\sqrt {1-x^2}} = 1. \end {equation}</p>
 <!--  l. 155  -->
 <p class='indent'>This construction is not particularly useful for two degrees of freedom, but it is for many degrees of freedom. The equilibrium phase space density for an ideal gas of \(n\) degrees of freedom (usually \(n = 3N\) where \(N\) is the number of particles) is \begin {equation} \rho _n^\text {eq}(\{p_i\};E) = \frac {1}{\Omega (E)} \delta \left ( \sum _i p_i^2 - 2mE \right ) \end {equation} with \begin {equation} \label {eqn: phase_space_vol} \Omega (E) = \frac {\pi ^{n/2}}{\Gamma (n/2)}
-(2mE)^{n/2-1} \end {equation} being the total volume of the phase space. (Here \(\Gamma (x)\) is the Gamma function.) This is the surface area of a sphere of radius \(\sqrt {2mE}\) in \(n\) dimensions and the full expression is derived in Appendix <a href='#x1-120002.7'>2.7<!--  tex4ht:ref: app:normalization   --></a>!</p>
+(2mE)^{n/2-1} \end {equation} being the total volume of the phase space. (Here \(\Gamma (x)\) is the Gamma function.) This is the surface area of a sphere of radius \(\sqrt {2mE}\) in \(n\) dimensions and the full expression is derived in Appendix <a href='#x1-120001.7'>1.7<!--  tex4ht:ref: app:normalization   --></a>!</p>
 <!--  l. 166  -->
 <p class='indent'>If we now integrate out all degrees of freedom \(p_2 ... p_N\) except for \(p_1\), we get the marginal distribution function \begin {equation} \label {eqn: marginal_distr_fun} f_n(p_1;E) = \int dp_2\ldots dp_n\, \rho ^\text {eq}_n (\{p_i\};E) = \frac {\Gamma \left (\frac {n}{2} \right )/ \Gamma \left (\frac {n}{2} -\frac {1}{2} \right )}{\sqrt {2\pi mE}} \left ( 1-\frac {p_1^2}{2mE} \right )^{\frac {n}{2} - \frac {3}{2}} \end {equation} For n = 2 this gives
-Eq. \eqref{eq:marginaltwopart} and the full derivation of Eq. \eqref{eqn: marginal˙distr˙fun} is given in Appendix <a href='#x1-130002.8'>2.8<!--  tex4ht:ref: app:integratingout   --></a>. For illustration purposes, let us look at the expressions for \(n = 3\), and \(n = 4\). We find \begin {equation} f_3(p_1;E) = \frac {1}{\sqrt {8mE}} \theta (p_1^2 - 2mE) \end {equation} and \begin {equation} f_4(p_1;E) = \frac {2}{\pi } \frac {1}{\sqrt {2mE}} \sqrt {1- \frac {p_1^2}{2mE}}. \end {equation}
-It is straightforward to show (see Appendix <a href='#x1-140002.9'>2.9<!--  tex4ht:ref: app:thermodynamiclimit   --></a>, that in the thermodynamic limit \(N \to \infty \) (for a three dimensional space with \(n = 3N\)), Eq. \eqref{eqn: marginal˙distr˙fun} becomes \begin {equation} f(p_1;E) = \frac {1}{\sqrt {2\pi m (2E/3(N-1))}} \exp \left ( -\frac {p_1^2}{2m} \frac {3(N-1)}{2E} \right ) \end {equation} Now \(E/(N-1)\) is the kinetic energy per particle, i.e. \(2E/3(N - 1) = k_B T\). This is the
+Eq. \eqref{eq:marginaltwopart} and the full derivation of Eq. \eqref{eqn: marginal˙distr˙fun} is given in Appendix <a href='#x1-130001.8'>1.8<!--  tex4ht:ref: app:integratingout   --></a>. For illustration purposes, let us look at the expressions for \(n = 3\), and \(n = 4\). We find \begin {equation} f_3(p_1;E) = \frac {1}{\sqrt {8mE}} \theta (p_1^2 - 2mE) \end {equation} and \begin {equation} f_4(p_1;E) = \frac {2}{\pi } \frac {1}{\sqrt {2mE}} \sqrt {1- \frac {p_1^2}{2mE}}. \end {equation}
+It is straightforward to show (see Appendix <a href='#x1-140001.9'>1.9<!--  tex4ht:ref: app:thermodynamiclimit   --></a>, that in the thermodynamic limit \(N \to \infty \) (for a three dimensional space with \(n = 3N\)), Eq. \eqref{eqn: marginal˙distr˙fun} becomes \begin {equation} f(p_1;E) = \frac {1}{\sqrt {2\pi m (2E/3(N-1))}} \exp \left ( -\frac {p_1^2}{2m} \frac {3(N-1)}{2E} \right ) \end {equation} Now \(E/(N-1)\) is the kinetic energy per particle, i.e. \(2E/3(N - 1) = k_B T\). This is the
 probability distribution for each particle: \begin {equation} f(p_1;T) = \frac {1}{\sqrt {2\pi m k_B T}} \exp \left ( -\frac {p_1^2}{2mk_BT} \right ) \end {equation} The function \(f_3(p_1;E)\) simply constant over an interval of \(p_1\). \(f_4\) then peaks at \(p_1 = 0\), i.e. finding a particle with zero velocity has a maximum likelihood. The function the approaches a Gaussian in the thermodynamic limit \(n \to \infty \). The progression of the marginal distribution with \(n\) is shown in
-Fig. <a href='#x1-6001r1'>2.1<!--  tex4ht:ref: fig:idealgas   --></a>.</p>
+Fig. <a href='#x1-6001r1'>1.1<!--  tex4ht:ref: fig:idealgas   --></a>.</p>
 <figure class='figure'><!--  l. 190  -->
-<p class='noindent'><img src='figures/image47.png' height='390' width='390' alt='PIC' /> <a id='x1-6001r1'></a> <a id='x1-6002'></a></p>
-<figcaption class='caption'><span class='id'>Figure 2.1:</span> <span class='content'>Marginal distribution function for the momentum of a single particle in the ideal gas model for different degrees of freedom.</span></figcaption>
-<!--  tex4ht:label?: x1-6001r2.3   --></figure>
+<p class='noindent' id='-marginal-distribution-function-for-the-momentum-of-a-single-particle-in-the-ideal-gas-model-for-different-degrees-of-freedom-'><img alt='PIC' height='390' src='figures/image47.png' width='390' /> <a id='x1-6001r1'></a> <a id='x1-6002'></a></p>
+<figcaption class='caption'><span class='id'>Figure 10.1:</span> <span class='content'>Marginal distribution function for the momentum of a single particle in the ideal gas model for different degrees of freedom.</span></figcaption>
+<!--  tex4ht:label?: x1-6001r10.3   --></figure>
 <!--  l. 195  -->
 <p class='indent'>Note that the entropy for the marginal distribution function is given by \begin {equation} S(E) = -k\int dp_1\, f(p_1;E) \ln \left (f(p_1;E)\right ) \end {equation} The estimate Eq. \eqref{eqn: phase˙space˙vol} is not fully correct. First, it is missing the phase space volume of the positional degrees of free \(\v {r}_i\), but this integral is trivial to carry out and yield just \(V^N\) (where \(V\) is the volume).</p>
 <!--  l. 201  -->
 <p class='indent'>The correct expression also needs to account for indistinguishability of the particles and includes a factor \(h^{3N} N!\) (\(N!\) is the number of possibilities \(N\) particles can be permuted and \(h\) is the Planck constant). This factor is called the Gibbs factor and has its origin in quantum statistical mechanics. It can be thought of as describing the quantization of the phase space volume. The correct number of states for the ideal gas is then \begin {equation} \Omega (E) = V^N
 \frac {\sqrt {2\pi m E/h^2}^{3N}}{N! (3N/2)!} \end {equation}</p>
-<h3 class='sectionHead'><span class='titlemark'>2.4</span> <a id='x1-70002.4'></a>The canonical ensemble</h3>
+<h3 class='sectionHead' id='the-canonical-ensemble'><span class='titlemark'>10.4</span> <a id='x1-700010.4'></a>The canonical ensemble</h3>
 <!--  l. 208  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead'><span class='titlemark'>2.4.1</span> <a id='x1-80002.4.1'></a>Temperature, pressure, chemical potential</h4>
+<h4 class='subsectionHead' id='temperature-pressure-chemical-potential'><span class='titlemark'>10.4.1</span> <a id='x1-800010.4.1'></a>Temperature, pressure, chemical potential</h4>
 <!--  l. 209  -->
 <p class='noindent'>Assume two isolated subsystems with energy \(E_A\) and \(E_B\) (total energy \(E=E_A+E_B\)), volume \(V_A\) and \(V_B\) (total volume \(V = V_A + V_B\)) and particle numbers \(N_A\) and \(N_B\) (total particle number \(N = N_A + N_B\)). All of these quantities are <span class='cmti-12'>extensive</span> quantities, i.e. they scale with system size.</p>
 <!--  l. 211  -->
@@ -121,7 +121,7 @@ _B}{T_B}\ \text { with }\ \frac {\mu _A}{T_A} = \frac {\mu _A}{T_A} \end {multli
 <p class='indent'>Taking the entropy for the ideal gas above, we find for the temperature of the ideal gas \begin {equation} \frac {1}{T} = \frac {\partial S}{\partial E} = k \frac {\partial }{\partial E} \ln \Omega (E) = k \frac {3N}{2E} \end {equation} i.e. \(kT=2E/3N\).</p>
 <!--  l. 230  -->
 <p class='noindent'></p>
-<h4 class='subsectionHead'><span class='titlemark'>2.4.2</span> <a id='x1-90002.4.2'></a>The heat bath</h4>
+<h4 class='subsectionHead' id='the-heat-bath'><span class='titlemark'>10.4.2</span> <a id='x1-900010.4.2'></a>The heat bath</h4>
 <!--  l. 231  -->
 <p class='noindent'>Imagine a system \(A\) in contact with a much larger system \(B\), i.e. \(N_A \ll N_B\) and \(E_A \ll E_B\). Similarly to the ideal gas example above, we can integrate out all degrees of freedom of system \(B\). Indeed since \(B\) is just a heat bath, we can simply assume that it is a heat bath that is an ideal gas. It is then straightforward to show, that the marginal distribution function then becomes</p>
 <!--  l. 235  -->
@@ -142,13 +142,13 @@ then \begin {multline} f(\v {p}_1) = Z^{-1} \exp \left ( -\frac {1}{kT} \frac {\
 the canonical ensemble.</p>
 <!--  l. 286  -->
 <p class='noindent'></p>
-<h3 class='sectionHead'><span class='titlemark'>2.5</span> <a id='x1-100002.5'></a>The grand-canonical ensemble</h3>
+<h3 class='sectionHead' id='the-grandcanonical-ensemble'><span class='titlemark'>10.5</span> <a id='x1-1000010.5'></a>The grand-canonical ensemble</h3>
 <!--  l. 287  -->
 <p class='noindent'>The grand canonical ensemble allows exchange of particles in addition to exchange of energy. A possible derivation follow along the line of the one given above for the canonical ensemble, but allows for changes in number of particles \begin {equation} f(E_A,N_A) = \frac {1}{\mathcal {Z}} \exp \left ( - \frac {E_A-\mu N_A}{kT_B} \right ) \end {equation} Here \(\mathcal {Z}\) is called the grand-canonical partition function and \(\mu \) is the chemical potential from Eq. \eqref{eqn:
 eq˙entropy}.</p>
 <!--  l. 293  -->
 <p class='noindent'></p>
-<h3 class='sectionHead'><span class='titlemark'>2.6</span> <a id='x1-110002.6'></a>Ergodicity</h3>
+<h3 class='sectionHead' id='ergodicity'><span class='titlemark'>10.6</span> <a id='x1-1100010.6'></a>Ergodicity</h3>
 <!--  l. 294  -->
 <p class='noindent'>Ergodicity: “ The trajectory of almost every point in phase space passes arbitrarily close to every other point on the surface of constant energy.” [1] Note that two trajectories in phase space cannot cross, unless it is a periodic orbit.</p>
 <!--  l. 298  -->
@@ -158,7 +158,7 @@ eq˙entropy}.</p>
 even from single snapshots. Since all particles are indistinguishable, we can just use the momenta of all particles \(\v {p}_i\) as the random variables to construct \(f(p_1)\).</p>
 <!--  l. 310  -->
 <p class='noindent'></p>
-<h3 class='sectionHead'><span class='titlemark'>2.7</span> <a id='x1-120002.7'></a>Normalization of the \(n\)-dimensional phase-space density</h3>
+<h3 class='sectionHead' id='normalization-of-the-ndimensional-phasespace-density'><span class='titlemark'>10.7</span> <a id='x1-1200010.7'></a>Normalization of the \(n\)-dimensional phase-space density</h3>
 <!--  l. 313  -->
 <p class='noindent'>The normalization for \(n\) dimensions involves \(n\)-dimensional integrals. We have \begin {equation} \rho ^{eq} (\{p_i\};E) = \frac {1}{\Omega (E)} \int d^np\, \delta \left ( \sum _i p_i^2 - 2mE \right ), \end {equation} and, because of the normalization of the \(\int d^n\, \rho ^{eq}(\{p_i\};E) \equiv 1\), \begin {align} \begin {aligned} \Omega (E) &amp;= \int d^np\, \delta \left ( \sum _i \frac {p_i^2}{2m} -E \right ) \\ &amp;= S_n \int _0^\infty dp\, p^{n-1} \delta (p^2-2mE) \\
 &amp;= S_n\int _0^\infty dp \frac {p^{n-1}}{2\sqrt {2mE}} \left ( \delta (p+\sqrt {2mE}) - \delta (p-\sqrt {2mE}) \right )\\ &amp;= \frac {1}{2} S_n \sqrt {2mE}^{n-2} \end {aligned} \end {align}</p>
@@ -173,16 +173,43 @@ even from single snapshots. Since all particles are indistinguishable, we can ju
 <p class='indent'>We therefore find the final expression for the phase-space volume \begin {equation} \Omega (E) = \frac {\pi ^{n/2}}{\Gamma (n/2)} (2mE)^{n/2-1} \end {equation}</p>
 <!--  l. 356  -->
 <p class='noindent'></p>
-<h3 class='sectionHead'><span class='titlemark'>2.8</span> <a id='x1-130002.8'></a>Integrating out \(n - 1\) degrees of freedom</h3>
+<h3 class='sectionHead' id='integrating-out-n-degrees-of-freedom'><span class='titlemark'>10.8</span> <a id='x1-1300010.8'></a>Integrating out \(n - 1\) degrees of freedom</h3>
 <!--  l. 359  -->
 <p class='noindent'>We follow the above procedure, but integrate out \(n - 1\) degrees of freedom. This gives the marginal distribution for finding particle 1 with momentum \(p_1\), \begin {align} \begin {aligned} f_n(p_1;E) &amp;= \int dp_2 \cdots dp_n \rho ^{eq} (\{p_i\};E) \\ &amp;= \frac {1}{\Omega (E)} \int d^{n-1} p \delta \left ( \sum _i p_i^2 -2mE \right ) \\ &amp;= \frac {S_{n-1}}{\Omega (E)} \int dp\, p^{n-2} \delta (p_1^2+p^2-2mE)\\ &amp;= \frac {S_{n-1}}{\Omega (E)} \int _0^\infty dp \frac
 {p^{n-2}}{2\sqrt {2mE-p_1^2}} \left [ \delta \left ( p + \sqrt {2mE - p_1^2} \right ) +\delta \left ( p - \sqrt {2mE - p_1^2} \right ) \right ]\\ &amp;= \frac {1}{2} \frac {S_{n-1}}{\Omega (E)} \sqrt {2mE-p_1^2}^{n-3}\\ &amp;= \frac {S_{n-1}}{S_n} \frac {\sqrt {2mE-p_1^2}^{n-3}}{\sqrt {2mE}^{n-2}} \\ &amp;= \frac {1}{\sqrt {2\pi m E}} \frac {\Gamma (\frac {n}{2})}{\Gamma \left ( \frac {n}{2} - \frac {1}{2} \right )} \left ( 1-\frac {p_1^2}{2mE} \right ) ^{\frac {n}{2} - \frac {3}{2}} \end {aligned} \end
 {align}</p>
 <!--  l. 372  -->
 <p class='noindent'></p>
-<h3 class='sectionHead'><span class='titlemark'>2.9</span> <a id='x1-140002.9'></a>The thermodynamic limit: Integrating out \(3N \to \infty \) degrees of freedom</h3>
+<h3 class='sectionHead' id='the-thermodynamic-limit-integrating-out-n-degrees-of-freedom'><span class='titlemark'>10.9</span> <a id='x1-1400010.9'></a>The thermodynamic limit: Integrating out \(3N \to \infty \) degrees of freedom</h3>
 <!--  l. 375  -->
 <p class='noindent'>We have until now only considered \(n\) degrees of freedom. For \(N\) particles moving in three dimensions, \(n = 3N\). The limit of large particle numbers, \(N \to \infty \), is called the thermodynamic limit. The marginal distribution function for \(N\) particles is \begin {equation} f_{3N}(p_1;E) = \frac {\Gamma \left ( \frac {3N}{2} \right ) / \Gamma \left ( \frac {3N}{2} - \frac {1}{2} \right )}{\sqrt {2\pi mE}} \left ( 1- \frac {p_1^2}{2mE} \right ) ^{\frac {3}{2}(N-1)} \end
 {equation} WE now use the identity \(\lim _{n \to \infty } (1+x/n)^n = e^x\) and \(\Gamma \left ( \frac {n}{2} \right )/ \Gamma \left ( \frac {n}{2} - \frac {1}{2} \right ) \approx \sqrt {(n-3)/2}\) for large \(n\) to obtain (in the thermodynamic limit) \begin {equation} \label {eqn: marg_distr_therm} f(p_1;E) = \sqrt {\frac {3(N-1)}{4\pi m E}} e^{-\frac {p_1^2}{2m} \frac {3(n-1)}{2E}} \end {equation} Note that the total energy \(E\) is an extensive quantity, \(E \to \infty \) as \(N \to \infty \).
 However, the only quantity that shows up in the Eq. \eqref{eqn: marg˙distr˙therm} is \(E/(N-1)\). With the temperature \(3k_BT/2 = E/(N-1)\), hence \begin {equation} f(p_1;T) = \frac {1}{\sqrt {4\pi m k_B T}} e^{-\frac {p_1^2}{2mk_B T}} \end {equation} Note that \(3k_B T/2 = E/(N - 1)\) rather than \(3k_B T/2 = E/N\) because the movement of the center of mass of all particles does not contribute to the temperature.</p>
-<h2 class='likechapterHead'><a id='x1-150002.9'></a>Bibliography</h2>
+<h2 class='likechapterHead' id='bibliography'><a id='x1-1500010.9'></a>Bibliography</h2>
+<div class='thebibliography'>
+<p class='bibitem'><span class='biblabel'><a id='Xberendsen_molecular_1984'></a><span class='bibsp'>   </span></span>H. J. C. Berendsen, J. P. M. Postma, W. F. van Gunsteren, A. DiNola, and J. R. Haak. Molecular dynamics with coupling to an external bath. <span class='cmti-12'>J. Chem. Phys.</span>, 81(8):3684–3690, 1984. URL <a class='url' href='https://doi.org/10.1063/1.448118'><span class='cmtt-12'>https://doi.org/10.1063/1.448118</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xbrown_domain_1993'></a><span class='bibsp'>   </span></span>D. Brown, J. H. R. Clarke, M. Okuda, and T. Yamazaki. A domain decomposition parallelization strategy for molecular dynamics simulations on distributed memory machines. <span class='cmti-12'>Comput. Phys. Comm.</span>, 74(1):67–80, 1993. URL <a class='url' href='https://doi.org/10.1016/0010-4655(93)90107-N'><span class='cmtt-12'>https://doi.org/10.1016/0010-4655(93)90107-N</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xbruge_concurrent_1990'></a><span class='bibsp'>   </span></span>F. Brugè and S. L. Fornili. Concurrent molecular dynamics simulation of spinodal phase transition on transputer arrays. <span class='cmti-12'>Comput. Phys. Comm.</span>, 60(1):31–38, 1990. URL <a class='url' href='https://doi.org/10.1016/0010-4655(90)90076-D'><span class='cmtt-12'>https://doi.org/10.1016/0010-4655(90)90076-D</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xchynoweth_simulation_1991'></a><span class='bibsp'>   </span></span>S. Chynoweth, U. C. Klomp, and L. E. Scales. Simulation of organic liquids using pseudo-pairwise interatomic forces on a toroidal transputer array. <span class='cmti-12'>Comput. Phys. Comm.</span>, 62(2):297–306, 1991. URL <a class='url' href='https://doi.org/10.1016/0010-4655(91)90102-Q'><span class='cmtt-12'>https://doi.org/10.1016/0010-4655(91)90102-Q</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xcleri_tight-binding_1993'></a><span class='bibsp'>   </span></span>F. Cleri and V. Rosato. Tight-binding potentials for transition metals and alloys. <span class='cmti-12'>Phys. Rev. B</span>, 48(1):22–33, 1993. URL <a class='url' href='https://doi.org/10.1103/PhysRevB.48.22'><span class='cmtt-12'>https://doi.org/10.1103/PhysRevB.48.22</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xdaw_semiempirical_1983'></a><span class='bibsp'>   </span></span>M. S. Daw and M. I. Baskes. Semiempirical, quantum mechanical calculation of hydrogen embrittlement in metals. <span class='cmti-12'>Phys. Rev. Lett.</span>, 50(17):1285–1288, 1983. URL <a class='url' href='https://doi.org/10.1103/PhysRevLett.50.1285'><span class='cmtt-12'>https://doi.org/10.1103/PhysRevLett.50.1285</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='XEckhardt2013-oh'></a><span class='bibsp'>   </span></span>W. Eckhardt, A. Heinecke, R. Bader, M. Brehm, N. Hammer, H. Huber, H.-G. Kleinhenz, J. Vrabec, H. Hasse, M. Horsch, M. Bernreuther, C. W. Glass, C. Niethammer, A. Bode, and H.-J. Bungartz. 591 TFLOPS multi-trillion particles simulation on SuperMUC. In <span class='cmti-12'>Supercomputing</span>, pages 1–12. Springer
+Berlin Heidelberg, 2013. URL <a class='url' href='https://doi.org/10.1007/978-3-642-38750-0_1'><span class='cmtt-12'>https://doi.org/10.1007/978-3-642-38750-0_1</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xercolessi_interatomic_1994'></a><span class='bibsp'>   </span></span>F. Ercolessi and J. B. Adams. Interatomic Potentials from First-Principles Calculations: The Force-Matching Method. <span class='cmti-12'>EPL</span>, 26(8): 583–588, 1994. URL <a class='url' href='https://doi.org/10.1209/0295-5075/26/8/005'><span class='cmtt-12'>https://doi.org/10.1209/0295-5075/26/8/005</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xferrante_diatomic_1983'></a><span class='bibsp'>   </span></span>J. Ferrante, J. Smith, and J. Rose. Diatomic Molecules and Metallic Adhesion, Cohesion, and Chemisorption: A Single Binding-Energy Relation. <span class='cmti-12'>Phys.</span> <span class='cmti-12'>Rev. Lett.</span>, 50(18):1385–1386, 1983. doi: 10.1103/PhysRevLett.50.1385. URL <a class='url' href='http://www.ncbi.nlm.nih.gov/pubmed/23357448'><span class='cmtt-12'>http://www.ncbi.nlm.nih.gov/pubmed/23357448</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='XFeynman1964Book'></a><span class='bibsp'>   </span></span>R. P. Feynman, R. B. Leighton, and M. Sands. <span class='cmti-12'>The Feynman Lectures</span> <span class='cmti-12'>on Physics</span>. Addison-Wesley, New York, 1964.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xfinnis_simple_1984'></a><span class='bibsp'>   </span></span>M. W. Finnis and J. E. Sinclair. A simple empirical N-body potential for transition metals. <span class='cmti-12'>Phil. Mag. A</span>, 50(1):45–55, 1984. URL <a class='url' href='https://doi.org/10.1080/01418618408244210'><span class='cmtt-12'>https://doi.org/10.1080/01418618408244210</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xfoiles_embedded-atom-method_1986'></a><span class='bibsp'>   </span></span>S. M. Foiles, M. I. Baskes, and M. S. Daw. Embedded-atom-method functions for the fcc metals Cu, Ag, Au, Ni, Pd, Pt, and their alloys. <span class='cmti-12'>Phys. Rev. B</span>, 33(12):7983–7991, 1986. URL <a class='url' href='https://doi.org/10.1103/PhysRevB.33.7983'><span class='cmtt-12'>https://doi.org/10.1103/PhysRevB.33.7983</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xgrochola_fitting_2005'></a><span class='bibsp'>   </span></span>G. Grochola, S. P. Russo, and I. K. Snook. On fitting a gold embedded atom method potential using the force matching method. <span class='cmti-12'>J. Chem. Phys.</span>, 123(20):204719, 2005. URL <a class='url' href='https://doi.org/10.1063/1.2124667'><span class='cmtt-12'>https://doi.org/10.1063/1.2124667</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xgupta_lattice_1981'></a><span class='bibsp'>   </span></span>R. P. Gupta. Lattice relaxation at a metal surface. <span class='cmti-12'>Phys. Rev. B</span>, 23(12): 6265–6270, 1981. URL <a class='url' href='https://doi.org/10.1103/PhysRevB.23.6265'><span class='cmtt-12'>https://doi.org/10.1103/PhysRevB.23.6265</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xliem_molecular_1991'></a><span class='bibsp'>   </span></span>S. Y. Liem, D. Brown, and J. H. R. Clarke. Molecular dynamics simulations on distributed memory machines. <span class='cmti-12'>Comput. Phys. Comm.</span>, 67(2):261–267, 1991. URL <a class='url' href='https://doi.org/10.1016/0010-4655(91)90021-C'><span class='cmtt-12'>https://doi.org/10.1016/0010-4655(91)90021-C</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xpinches_large_1991'></a><span class='bibsp'>   </span></span>M. R. S. Pinches, D. J. Tildesley, and W. Smith. Large scale molecular dynamics on parallel computers using the link-cell algorithm. <span class='cmti-12'>Molecular</span> <span class='cmti-12'>Simulation</span>, 6(1-3):51–87, 1991. URL <a class='url' href='https://doi.org/10.1080/08927029108022139'><span class='cmtt-12'>https://doi.org/10.1080/08927029108022139</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xplimpton_fast_1995'></a><span class='bibsp'>   </span></span>S. Plimpton. Fast parallel algorithms for short-range molecular dynamics. <span class='cmti-12'>J. Comput. Phys.</span>, 117(1):1–19, 1995. URL <a class='url' href='https://doi.org/10.1006/jcph.1995.1039'><span class='cmtt-12'>https://doi.org/10.1006/jcph.1995.1039</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xrose_universal_1984'></a><span class='bibsp'>   </span></span>J. Rose, J. Smith, F. Guinea, and J. Ferrante. Universal features of the equation of state of metals. <span class='cmti-12'>Phys. Rev. B</span>, 29(6):2963–2969, 1984. URL <a class='url' href='https://doi.org/10.1103/PhysRevB.29.2963'><span class='cmtt-12'>https://doi.org/10.1103/PhysRevB.29.2963</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xsukhomlinov_constraints_2016'></a><span class='bibsp'>   </span></span>S. V. Sukhomlinov and M. H. Müser. Constraints on phase stability, defect energies, and elastic constants of metals described by EAM-type potentials. <span class='cmti-12'>J. Phys.: Condens. Matter</span>, 28(39):395701, 2016. URL <a class='url' href='https://doi.org/10.1088/0953-8984/28/39/395701'><span class='cmtt-12'>https://doi.org/10.1088/0953-8984/28/39/395701</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='XTchipev2019-fl'></a><span class='bibsp'>   </span></span>N. Tchipev, S. Seckler, M. Heinen, J. Vrabec, F. Gratl, M. Horsch, M. Bernreuther, C. W. Glass, C. Niethammer, N. Hammer, B. Krischok, M. Resch, D. Kranzlmüller, H. Hasse, H.-J. Bungartz, and P. Neumann. TweTriS: Twenty trillion-atom simulation. <span class='cmti-12'>Int. J. High Perform. Comput. Appl.</span>,
+33(5):838–854, Sept. 2019. URL <a class='url' href='https://doi.org/10.1177/1094342018819741'><span class='cmtt-12'>https://doi.org/10.1177/1094342018819741</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='XThompson2022-qg'></a><span class='bibsp'>   </span></span>A. P. Thompson, H. M. Aktulga, R. Berger, D. S. Bolintineanu, W. M. Brown, P. S. Crozier, P. J. in <span class='tcrm-1200'>'</span>t Veld, A. Kohlmeyer, S. G. Moore, T. D. Nguyen, R. Shan, M. J. Stevens, J. Tranchida, C. Trott, and S. J. Plimpton. LAMMPS - a flexible simulation tool for particle-based
+materials modeling at the atomic, meso, and continuum scales. <span class='cmti-12'>Comput. Phys. Comm.</span>, 271:108171, 2022. URL <a class='url' href='https://doi.org/10.1016/j.cpc.2021.108171'><span class='cmtt-12'>https://doi.org/10.1016/j.cpc.2021.108171</span></a>.</p>
+<p class='bibitem'><span class='biblabel'><a id='Xvitek_pair_1996'></a><span class='bibsp'>   </span></span>V. Vitek. Pair potentials in atomistic computer simulations. <span class='cmti-12'>MRS Bull.</span>, 21(2):20–23, 1996. URL <a class='url' href='https://doi.org/10.1557/S088376940004625X'><span class='cmtt-12'>https://doi.org/10.1557/S088376940004625X</span></a>.</p>
+</div>
